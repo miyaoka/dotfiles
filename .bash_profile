@@ -5,7 +5,10 @@ alias t='tig'
 alias g='git'
 alias v='c $(ghq root)/$(ghq list | peco)'
 alias q='ghq'
-alias qg='ghq get'
+function qg (){
+  echo "test, $1"
+  ghq get "https://github.com/$@.git"
+}
 alias ql='ghq list'
 
 alias n='npm'
