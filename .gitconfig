@@ -1,0 +1,78 @@
+[user]
+	name = Masaya Kazama
+	email = miyan@t-p.jp
+	username = miyaoka
+[core]
+	excludesfile = ~/.gitignore_global
+[ghq]
+  root = ~/src
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = ~/.stCommitMsg
+[alias]
+  l = log --date=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
+  ll = log --stat --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cr %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+  lg = log --graph --date=short --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn%Cred%d %Creset%s'
+  lm = log --merges --pretty=format:'%C(yellow)%h %Cgreen%ci %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+  b = branch
+  ba = branch -a
+  co = checkout
+  com = checkout master
+  cob = checkout -b
+  cop = "!f () { git checkout $1; git pull; };f"
+  a = add
+  aa = !git add -A && git s
+  aaa = !git aa && git wip
+  c = commit
+  cm = commit -m
+  cam = commit -a -m
+  wip = commit -m 'WIP'
+  can = commit --amend --no-edit
+  caan = commit -a --amend --no-edit
+  amend = commit --amend -C HEAD
+  d = diff
+  dc = diff --cached
+  dn = diff --name-only
+  dw = diff --color-words
+  um = !git --no-pager diff --name-only --diff-filter=U
+  ft = fetch
+  ftp = fetch --prune
+  pl = pull
+  ps = push
+  info = remote show origin
+  s = status --short --branch
+  st = status
+  r = reset
+  rs = reset --soft
+  rsh = reset --soft HEAD
+  rh = reset --hard
+  rhh = reset --hard HEAD
+  rl = reflog show -n 20
+  rb = rebase
+  rbi = rebase -i
+  rbh = rebase HEAD
+  rbo = rebase --onto
+  sync = !git checkout master && git pull origin master && git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v '*')
+  ignore = "!f() { echo $1 >> \"${GIT_PREFIX}.gitignore\"; }; f"
+  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
+#  cb = "!f () { git checkout $1; git pull; git branch --merged|egrep -v '\\*|develop|master'|xargs git branch -d; };f"
+#  cball = !git cb master && git cb beta && git cb develop
+  # delete-merged-branch
+  dmb = "!f () { git branch --merged $1 | egrep -v "$1$" | xargs -I% git branch -d %; }; f"
+  # delete-merged-branch-remote
+  dmbr = "!f () { git branch -r --merged $1 | sed -e 's% *origin/%%' | egrep -v "$1$" | xargs -I% git push --delete origin %; }; f"
+  # current branch name
+  cbn = rev-parse --abbrev-ref HEAD
+  # refresh
+  rfs = "!f () { git cop $1; git dmb $1; git dmbr $1; };f"
+  # refresh all
+  rfsa = "!f () { git fetch --prune; git rfs master; git rfs beta; git rfs develop; };f"
+  # refresh current
+  rfsc = "!f () { git fetch --prune; git cbn | xargs git rfs; };f"
+[push]
+	default = matching
