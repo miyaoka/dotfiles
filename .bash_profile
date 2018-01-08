@@ -1,9 +1,9 @@
 alias ll='ls -al'
 
 alias c='code'
+alias cc='c $(ghq root)/$(ghq list | peco)'
 alias t='tig'
 alias g='git'
-alias v='c $(ghq root)/$(ghq list | peco)'
 alias q='ghq'
 function qg (){
   echo "test, $1"
