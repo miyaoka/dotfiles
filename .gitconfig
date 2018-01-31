@@ -26,6 +26,7 @@
   cob = checkout -b
   cop = "!f () { git checkout $1; git pull; };f"
   a = add
+  ap = add -p
   aa = !git add -A && git s
   aaa = !git aa && git wip
   c = commit
