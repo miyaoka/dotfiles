@@ -69,11 +69,9 @@
   dmbr = "!f () { git branch -r --merged $1 | sed -e 's% *origin/%%' | egrep -v "$1$" | xargs -I% git push --delete origin %; }; f"
   # current branch name
   cbn = rev-parse --abbrev-ref HEAD
-  # refresh
-  rfs = "!f () { git cop $1; git dmb $1; git dmbr $1; };f"
-  # refresh all
-  rfsa = "!f () { git fetch --prune; git rfs master; git rfs beta; git rfs develop; };f"
+  # refresh (default: master)
+  rf = "!f () { git cop ${1:-master}; git dmb ${1:-master}; git dmbr ${1:-master}; };f"
   # refresh current
-  rfsc = "!f () { git fetch --prune; git cbn | xargs git rfs; };f"
+  rfc = "!f () { git fetch --prune; git cbn | xargs git rf; };f"
 [push]
 	default = matching
