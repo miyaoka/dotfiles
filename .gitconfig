@@ -70,7 +70,7 @@
   # current branch name
   cbn = rev-parse --abbrev-ref HEAD
   # refresh (default: master)
-  rf = "!f () { git cop ${1:-master}; git dmb ${1:-master}; git dmbr ${1:-master}; };f"
+  rf = "!f () { git fetch --prune; git cop ${1:-master}; git dmb ${1:-master}; git dmbr ${1:-master}; };f"
   # refresh current
   rfc = "!f () { git fetch --prune; git cbn | xargs git rf; };f"
 [push]
