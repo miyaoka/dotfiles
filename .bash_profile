@@ -1,3 +1,12 @@
+export PATH=/usr/local:$PATH
+export PATH="$HOME/.yarn/bin:$PATH"
+export PATH="$HOME/.anyenv/bin:$PATH"
+export EDITOR=code
+
+eval "$(direnv hook bash)"
+
+alias ssh='~/Dropbox/config/bin/ssh-host-color'
+
 alias ll='ls -al'
 
 alias c='code'
@@ -27,10 +36,6 @@ alias ygl='yarn global ls'
 alias yga='yarn global add'
 alias ygr='yarn global remove'
 
-export PATH=/usr/local:$PATH
-export PATH="$HOME/.yarn/bin:$PATH"
-
-export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
 
 # get current branch in git repo
