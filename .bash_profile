@@ -1,6 +1,8 @@
+export GOPATH=$HOME/go
 export PATH=/usr/local:$PATH
 export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
+export PATH=$GOPATH/bin:$PATH
 export EDITOR=code
 
 eval "$(direnv hook bash)"
