@@ -25,7 +25,7 @@
   com = checkout master
   cob = checkout -b
   cop = "!f () { git checkout $1; git pull; };f"
-  coi = !git checkout $(git branch | peco | awk '{ print $NF }')
+  coi = !git branch | peco | awk '{ print $NF }' | xargs git checkout
   a = add
   ap = add -p
   aa = !git add -A && git s

@@ -13,7 +13,7 @@ alias ssh='~/Dropbox/config/bin/ssh-host-color'
 alias ll='ls -al'
 
 alias c='code'
-alias cc='c $(ghq root)/$(ghq list | peco)'
+alias cc='ghq list | peco | xargs -I {} code $(ghq root)/{}'
 alias t='tig'
 alias g='git'
 alias q='ghq'
