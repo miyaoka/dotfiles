@@ -74,4 +74,4 @@
   # refresh current
   rfc = "!f () { git fetch --prune; git cbn | xargs git rf; };f"
 [push]
-	default = matching
+	default = simple
