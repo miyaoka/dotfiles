@@ -29,7 +29,7 @@ set vertical-split = yes
 # set vertical-split = auto
 
 # utf-8 文字で画面描画する (~でトグル)
-set line-graphics = default
+set line-graphics = utf-8
 
 # タブサイズ
 set tab-size = 4
