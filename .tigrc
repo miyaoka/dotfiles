@@ -68,7 +68,7 @@ set refresh-mode = auto
 # diff-view で境界が見やすくなるように変更
 color  diff-header       default magenta
 color  diff-chunk        black   white
-
+color  date        white  default
 
 
 ########
