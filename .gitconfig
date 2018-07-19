@@ -32,8 +32,8 @@
   aaa = !git aa && git wip
   c = commit
   cm = commit -m
-  cam = commit -a -m
   wip = commit -m 'WIP'
+  cam = commit --amend -m
   can = commit --amend --no-edit
   caan = commit -a --amend --no-edit
   amend = commit --amend -C HEAD
