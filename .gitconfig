@@ -46,6 +46,7 @@
   ftp = fetch --prune
   pl = pull
   ps = push
+  psc = push origin head -u
   info = remote show origin
   s = status --short --branch
   st = status
@@ -54,6 +55,7 @@
   rsh = reset --soft HEAD
   rh = reset --hard
   rhh = reset --hard HEAD
+  r1 = reset @^1
   rl = reflog show -n 20
   rb = rebase
   rbi = rebase -i
