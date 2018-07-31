@@ -130,3 +130,8 @@ function prompt_pwd {
 }
 
 export PS1="[\A] \[\e[32m\]\`prompt_pwd\`\[\e[m\]\[\e[35m\]\`parse_git_branch\`\[\e[m\] > "
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/miyaoka/google-cloud-sdk/path.bash.inc' ]; then source '/Users/miyaoka/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/miyaoka/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/miyaoka/google-cloud-sdk/completion.bash.inc'; fi
