@@ -1,7 +1,7 @@
 export GOPATH=$HOME/go
 export PATH=/usr/local:$PATH
 export PATH="$HOME/.yarn/bin:$PATH"
-export PATH="$HOME/.anyenv/bin:$PATH"
+export PATH="$HOME/.ndenv/bin:$PATH"
 export PATH=$GOPATH/bin:$PATH
 export EDITOR=code
 
@@ -39,7 +39,7 @@ alias ygl='yarn global ls'
 alias yga='yarn global add'
 alias ygr='yarn global remove'
 
-eval "$(anyenv init -)"
+eval "$(ndenv init -)"
 
 peco-history() {
   local NUM=$(history | wc -l)
