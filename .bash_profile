@@ -1,10 +1,9 @@
 export GOPATH=$HOME/go
 export PATH=/usr/local:$PATH
-export PATH="$HOME/.yarn/bin:$PATH"
 export PATH=$GOPATH/bin:$PATH
 export EDITOR=code
 
-eval "$(direnv hook bash)"
+# eval "$(direnv hook bash)"
 
 alias h='peco-history'
 alias ssh='~/Dropbox/config/bin/ssh-host-color'
@@ -132,3 +131,5 @@ if [ -f '/Users/miyaoka/google-cloud-sdk/path.bash.inc' ]; then source '/Users/m
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/miyaoka/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/miyaoka/google-cloud-sdk/completion.bash.inc'; fi
+
+if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
