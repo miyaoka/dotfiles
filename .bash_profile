@@ -14,6 +14,7 @@ alias c='code'
 alias cc='ghq list | peco | xargs -I {} code $(ghq root)/{}'
 alias t='tig'
 alias g='git'
+alias d='docker-compose'
 alias q='ghq'
 function qg (){
   echo "test, $1"
