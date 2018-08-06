@@ -37,6 +37,8 @@ alias ygb='yarn global bin'
 alias ygl='yarn global ls'
 alias yga='yarn global add'
 alias ygr='yarn global remove'
+alias ys='yarn serve'
+alias yd='yarn dev'
 
 peco-history() {
   local NUM=$(history | wc -l)
