@@ -11,7 +11,7 @@ alias ssh='~/Dropbox/config/bin/ssh-host-color'
 alias ll='ls -al'
 
 alias c='code'
-alias cc='ghq list | peco | xargs -I {} code $(ghq root)/{}'
+alias cc="find $(ghq root)/*/*/* -type d -prune | sed -e 's#'$(ghq root)'/##' | peco | xargs -I {} code $(ghq root)/{}"
 alias t='tig'
 alias g='git'
 alias d='docker-compose'
