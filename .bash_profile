@@ -39,6 +39,7 @@ alias yga='yarn global add'
 alias ygr='yarn global remove'
 alias ys='yarn serve'
 alias yd='yarn dev'
+alias yui='yarn upgrade-interactive'
 
 peco-history() {
   local NUM=$(history | wc -l)
