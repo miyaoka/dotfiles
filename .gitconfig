@@ -4,6 +4,7 @@
 	username = miyaoka
 [core]
 	excludesfile = ~/.gitignore_global
+	editor = code -w
 [ghq]
   root = ~/src
 [difftool "sourcetree"]
@@ -32,6 +33,7 @@
   aa = !git add -A && git s
   aaa = !git aa && git wip
   c = commit
+  cv = commit -v
   cm = commit -m
   wip = commit -m 'WIP'
   cam = commit --amend -m
