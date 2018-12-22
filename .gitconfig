@@ -27,7 +27,7 @@
   cob = checkout -b
   cop = "!f () { git checkout $1; git pull; };f"
   coi = !git b --sort=-authordate | peco | awk '{ print $NF }' | xargs git co
-  cor = !git b --sort=-authordate -a | peco --query 'remotes/ ' | head -n 1 | sed "s/^\\*\\s*//" | sed 's/remotes\\/[^\\/]*\\/\\(\\S*\\)/\\1 \\0/' | xargs git cob
+  cor = !git ftp && git b --sort=-authordate -a | peco --query 'remotes/ ' | head -n 1 | sed "s/^\\*\\s*//" | sed 's/remotes\\/[^\\/]*\\/\\(\\S*\\)/\\1 \\0/' | xargs git cob
   a = add
   ap = add -p
   aa = !git add -A && git s
