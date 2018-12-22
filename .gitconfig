@@ -3,7 +3,7 @@
 	email = miyan@t-p.jp
 	username = miyaoka
 [core]
-	excludesfile = /Users/miyaoka/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [ghq]
   root = ~/src
 [difftool "sourcetree"]
@@ -55,6 +55,8 @@
   rs = reset --soft
   rsh = reset --soft HEAD
   rh = reset --hard
+  # reset hard to origin
+  rho = !git cbn | sed 's/\\.*/origin\\/\\0/' | xargs git rh
   rhh = reset --hard HEAD
   r1 = reset @^1
   rl = reflog show -n 20
