@@ -41,6 +41,8 @@ alias ys='yarn serve'
 alias yd='yarn dev'
 alias yui='yarn upgrade-interactive'
 
+alias dc='docker-compose'
+
 peco-history() {
   local NUM=$(history | wc -l)
   local FIRST=$((-1*(NUM-1)))
