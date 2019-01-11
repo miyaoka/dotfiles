@@ -30,7 +30,7 @@
   # pecoでローカルブランチ切り替え
   coi = !git b --sort=-authordate | peco | awk '{ print $NF }' | xargs git co
   # pecoでリモートブランチチェックアウト
-  cor = !git ftp && git b --sort=-authordate -a | peco --query 'remotes/ ' | head -n 1 | sed "s/^\\*\\s*//" | sed 's/remotes\\/[^\\/]*\\/\\(\\S*\\)/\\1 \\0/' | xargs git cob
+  cor = !git ftp && git b --sort=-authordate -a | peco --query 'remotes/ ' | head -n 1 | sed "s/^\\*\\s*//" | sed -E 's/remotes\\/[^\\/]*\\/(.*)/\\1 &/' | xargs git cob
   a = add
   ap = add -p
   aa = !git add -A && git s
