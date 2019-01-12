@@ -6,15 +6,15 @@ export EDITOR=code
 # eval "$(direnv hook bash)"
 
 alias h='peco-history'
-alias ssh='~/Dropbox/config/bin/ssh-host-color'
+#alias ssh='~/Dropbox/config/bin/ssh-host-color'
 
 alias ll='ls -al'
 
 alias c='code'
-alias cc="find $(ghq root)/*/*/* -type d -prune -exec ls -ld --time-style='+%Y%m%d%H%M%S' {} \; | sort -rk6 | sed -e 's#'.*$(ghq root)'/##' | peco | xargs -I {} code $(ghq root)/{}"
+alias cc='ghq list | peco | xargs -I {} code $(ghq root)/{}'
+alias cc2="find $(ghq root)/*/*/* -type d -prune -exec ls -ld --time-style='+%Y%m%d%H%M%S' {} \; | sort -rk6 | sed -e 's#'.*$(ghq root)'/##' | peco | xargs -I {} code $(ghq root)/{}"
 alias t='tig'
 alias g='git'
-alias d='docker-compose'
 alias q='ghq'
 function qg (){
   echo "test, $1"
@@ -139,3 +139,6 @@ if [ -f '/Users/miyaoka/google-cloud-sdk/path.bash.inc' ]; then source '/Users/m
 if [ -f '/Users/miyaoka/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/miyaoka/google-cloud-sdk/completion.bash.inc'; fi
 
 if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

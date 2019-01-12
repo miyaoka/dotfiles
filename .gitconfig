@@ -61,7 +61,7 @@
   rsh = reset --soft HEAD
   rh = reset --hard
   # reset hard to origin
-  rho = !git cbn | sed 's/\\.*/origin\\/\\0/' | xargs git rh
+  rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs git rh
   rhh = reset --hard HEAD
   r1 = reset @^1
   rl = reflog show -n 20
