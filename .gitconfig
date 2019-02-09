@@ -55,7 +55,11 @@
   psc = push origin head -u
   info = remote show origin
   s = status --short --branch
-  st = status
+  # st = status
+  st = stash
+  stp = stash pop
+  stl = stash list
+  sta = stash apply
   r = reset
   rs = reset --soft
   rsh = reset --soft HEAD
