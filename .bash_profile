@@ -43,6 +43,9 @@ alias yui='yarn upgrade-interactive'
 
 alias dc='docker-compose'
 
+# capture screen with cursor after 5 sec.
+alias cap='screencapture -C -P -r -T5'
+
 peco-history() {
   local NUM=$(history | wc -l)
   local FIRST=$((-1*(NUM-1)))
