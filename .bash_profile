@@ -42,6 +42,7 @@ alias yd='yarn dev'
 alias yui='yarn upgrade-interactive'
 
 alias dc='docker-compose'
+alias sv='serve'
 
 # capture screen with cursor after 5 sec.
 alias cap='screencapture -C -P -r -T5'
