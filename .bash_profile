@@ -43,6 +43,7 @@ alias yui='yarn upgrade-interactive'
 
 alias dc='docker-compose'
 alias sv='serve'
+alias pa='php artisan'
 
 # capture screen with cursor after 5 sec.
 alias cap='screencapture -C -P -r -T5'
