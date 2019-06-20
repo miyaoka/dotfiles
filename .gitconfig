@@ -5,6 +5,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	editor = code -w
+	ignorecase = false
 [ghq]
   root = ~/src
 [difftool "sourcetree"]
