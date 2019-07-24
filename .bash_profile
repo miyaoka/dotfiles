@@ -2,6 +2,8 @@ export GOPATH=$HOME/go
 export PATH=/usr/local:$PATH
 export PATH=$GOPATH/bin:$PATH
 export EDITOR=code
+# export PATH=$HOME/Library/Python/2.7/bin:$PATH
+# export NRFSDK15_ROOT=~/nRF5_SDK_15.0.0_a53641a
 
 # eval "$(direnv hook bash)"
 
