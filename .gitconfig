@@ -10,7 +10,7 @@
   root = ~/src
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
@@ -34,6 +34,7 @@
   ap = add -p
   aa = !git add -A && git s
   aaa = !git aa && git wip
+  aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psc
   c = commit
   cv = commit -v
   cm = commit -m
