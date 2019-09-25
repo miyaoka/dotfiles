@@ -47,6 +47,9 @@ alias dc='docker-compose'
 alias sv='serve'
 alias pa='php artisan'
 
+alias le='lerna exec --'
+alias ly='lerna exec -- yarn'
+
 # capture screen with cursor after 5 sec.
 alias cap='screencapture -C -P -r -T5'
 
