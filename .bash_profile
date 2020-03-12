@@ -13,6 +13,7 @@ alias h='peco-history'
 alias ll='ls -al'
 
 alias c='code'
+alias ci='code-insiders'
 alias cc='ghq list | peco | xargs -I {} code $(ghq root)/{}'
 alias cc2="find $(ghq root)/*/*/* -type d -prune -exec ls -ld --time-style='+%Y%m%d%H%M%S' {} \; | sort -rk6 | sed -e 's#'.*$(ghq root)'/##' | peco | xargs -I {} code $(ghq root)/{}"
 alias t='tig'
