@@ -56,13 +56,14 @@ alias ly='lerna exec -- yarn'
 
 # capture screen with cursor after 5 sec.
 alias cap='screencapture -C -P -r -T5'
+alias owa='say -v kyoko おわったおわったおわやまおわたろう'
 
 peco-history() {
   local NUM=$(history | wc -l)
   local FIRST=$((-1*(NUM-1)))
 
   if [ $FIRST -eq 0 ] ; then
-    # Remove the last entry, "peco-history"
+    # Remove the last entry, "peco-history"n
     history -d $((HISTCMD-1))
     echo "No history" >&2
     return
