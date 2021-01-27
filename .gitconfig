@@ -40,7 +40,7 @@
   a = add
   ap = add -p
   aa = !git add -A && git s
-  aaa = !git aa && git wip
+  aaa = !git aa && git cm 'WIP'
   aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psc
   c = commit
   cv = commit -v
