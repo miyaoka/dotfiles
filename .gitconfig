@@ -36,7 +36,7 @@
   # ローカルブランチ切り替え
   coi = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git co # sed 's/\\*//' | awk '{ print $1 }' |
   # リモートブランチチェックアウト
-  cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs git cot
+  cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -i sh -c 'git cot {} || git co {}'
   staged = !git diff --name-only --cached
   unstaged = !git ls-files -m -o --exclude-standard
   a = !git unstaged | fzf -m --preview 'git diff --color=always {}' | xargs git add && git s
@@ -81,21 +81,9 @@
   rbi = rebase -i
   rbh = rebase HEAD
   rbo = rebase --onto
-  # sync = !git checkout master && git pull origin master && git fetch -p origin && git branch -d $(git branch --merged | grep -v master | grep -v '*')
-  # ignore = "!f() { echo $1 >> \"${GIT_PREFIX}.gitignore\"; }; f"
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
-#  cb = "!f () { git checkout $1; git pull; git branch --merged|egrep -v '\\*|develop|master'|xargs git branch -d; };f"
-#  cball = !git cb master && git cb beta && git cb develop
-  # delete-merged-branch
   dmb = !git branch --merged | egrep -v '\\*|master|main' | xargs git branch -d
-  # delete-merged-branch-remote
-  # dmbr = "!f () { git branch -r --merged $1 | sed -e 's% *origin/%%' | egrep -v "$1$" | xargs -I% git push --delete origin %; }; f"
-  # current branch name
   cbn = branch --show-current # rev-parse --abbrev-ref HEAD
-  # 指定ブランチにマージ済みのブランチは削除する: refresh (default: master)
-  # rf = "!f () { git fetch --prune; git cop ${1:-master}; git dmb ${1:-master}; git dmbr ${1:-master}; };f"
-  # カレントブランチにマージ済みのブランチは削除する: refresh current
-  # rfc = "!f () { git fetch --prune; git cbn | xargs git rf; };f"
 [push]
 	default = simple
 [credential]
