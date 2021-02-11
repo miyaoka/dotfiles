@@ -25,7 +25,7 @@ setopt hist_ignore_all_dups
 setopt share_history
 
 # fzf
-export FZF_DEFAULT_OPTS='--border --color=fg+:11 --reverse --exit-0 --multi'
+export FZF_DEFAULT_OPTS='--border --color=fg+:11 --reverse --exit-0'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 function ff() {
