@@ -24,3 +24,8 @@ modified = "[M*$count](yellow) "
 staged = '[A*$count](green) '
 renamed = "»"
 deleted = "D*$count "
+
+[time]
+disabled = false
+format = '🕙[$time](green) '
+time_format = "%R"
