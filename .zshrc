@@ -26,9 +26,10 @@ setopt share_history
 
 # fzf
 export FZF_DEFAULT_OPTS='--border --color=fg+:11 --reverse --exit-0 --multi'
-function select-history() {
-  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
-  CURSOR=$#BUFFER
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+function ff() {
+  local dir
+  dir=$(find ${1:-.} -maxdepth 4 -mindepth 1 -type d ! -path '*/.*' -a ! -path '*/node_modules/*' | fzf)
+  cd "$dir"
 }
-zle -N select-history
-bindkey '^r' select-history
