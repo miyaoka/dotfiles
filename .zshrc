@@ -21,6 +21,8 @@ export STARSHIP_CONFIG=~/.starship.toml
 eval "$(starship init zsh)"
 
 # history
+export HISTFILE=~/.zsh_history
+export SAVEHIST=1000
 setopt hist_ignore_all_dups
 setopt share_history
 
