@@ -1,0 +1,26 @@
+[package]
+disabled = true
+
+[directory]
+fish_style_pwd_dir_length = 1
+
+[nodejs]
+disabled = true
+
+[git_branch]
+format = "[<$branch>]($style) "
+symbol = "🌱 "
+
+[git_status]
+style="red"
+format = '([$all_status$ahead_behind]($style) )'
+conflicted = "❌ "
+ahead = "👆$count"
+behind = "👇$count"
+diverged = "👆${ahead_count}👇${behind_count}"
+untracked = "??x$count "
+stashed = ""
+modified = "[Mx$count](yellow) "
+staged = '[Ax$count](green) '
+renamed = "»"
+deleted = "Dx$count "
