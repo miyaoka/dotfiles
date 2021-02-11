@@ -37,8 +37,10 @@
   coi = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git co # sed 's/\\*//' | awk '{ print $1 }' |
   # リモートブランチチェックアウト
   cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs git cot
-  a = add
-  ap = add -p
+  staged = !git diff --name-only --cached
+  unstaged = !git ls-files -m -o --exclude-standard
+  a = !git unstaged | fzf -m --preview 'git diff --color=always {}' | xargs git add
+  ap = !git add -p $(git unstaged | fzf -m --preview 'git diff --color=always {}')
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'
   aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psc
@@ -67,9 +69,8 @@
   stp = stash pop
   stl = stash list
   sta = stash apply
-  r = reset
-  rs = reset --soft
-  rsh = reset --soft HEAD
+  r = !git staged | fzf -m --preview 'git diff --color=always HEAD {}' | xargs git reset
+  ra = reset
   rh = reset --hard
   # reset hard to origin
   rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs git rh
@@ -101,3 +102,5 @@
 	helper = cache
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main
