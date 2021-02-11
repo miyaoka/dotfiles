@@ -1,7 +1,10 @@
-eval $(/opt/homebrew/bin/brew shellenv)
+# eval $(/opt/homebrew/bin/brew shellenv)
 
 alias ll='ls -alG'
 alias ..='cd ..'
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 alias c='code'
 alias cc='ghq list | fzf | xargs -I {} code $(ghq root)/{}'
 alias g='git'
