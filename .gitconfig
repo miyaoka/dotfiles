@@ -36,7 +36,7 @@
   # ローカルブランチ切り替え
   coi = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git co # sed 's/\\*//' | awk '{ print $1 }' |
   # リモートブランチチェックアウト
-  cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -i sh -c 'git cot {} || echo {} | sed -e "s%[^/]*/%%" | xargs git co && git pl'
+  cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -I{} sh -c 'git cot {} || echo {} | sed -e "s%[^/]*/%%" | xargs git co'
   staged = !git diff --name-only --cached
   unstaged = !git ls-files -m -o --exclude-standard
   a = !git unstaged | fzf -m --preview 'git diff --color=always {}' | xargs git add && git s
