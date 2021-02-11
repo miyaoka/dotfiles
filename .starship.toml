@@ -8,7 +8,7 @@ fish_style_pwd_dir_length = 1
 disabled = true
 
 [git_branch]
-format = "[<$branch>]($style) "
+format = "[$branch]($style) "
 symbol = "🌱 "
 
 [git_status]
