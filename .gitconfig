@@ -39,7 +39,7 @@
   cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs git cot
   staged = !git diff --name-only --cached
   unstaged = !git ls-files -m -o --exclude-standard
-  a = !git unstaged | fzf -m --preview 'git diff --color=always {}' | xargs git add
+  a = !git unstaged | fzf -m --preview 'git diff --color=always {}' | xargs git add && git s
   ap = !git add -p $(git unstaged | fzf -m --preview 'git diff --color=always {}')
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'

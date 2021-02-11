@@ -1,6 +1,6 @@
 eval $(/opt/homebrew/bin/brew shellenv)
 
-alias ll='ls -al'
+alias ll='ls -alG'
 alias ..='cd ..'
 alias c='code'
 alias cc='ghq list | fzf | xargs -I {} code $(ghq root)/{}'
