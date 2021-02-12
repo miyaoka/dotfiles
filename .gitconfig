@@ -8,18 +8,11 @@
 	ignorecase = false
 [ghq]
   root = ~/src
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [alias]
   l = log --date=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
   ll = !git l --stat
   lg = !git l --graph
   lm = !git l --merges
-
   # デフォルトで新しい順にする
   b = branch --sort=-authordate
   # 日付付きでリスト
@@ -27,7 +20,6 @@
   br = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/remotes | sed 's/refs\\/remotes\\///' | grep -v 'origin/HEAD'
   bld = !git bl | fzf | awk '{ print $NF }' | xargs git branch -D
   brd = !git br | fzf | awk '{ print $NF }' | xargs git branch -D
-
   co = checkout
   cob = checkout -b
   cot = checkout -t
@@ -35,10 +27,10 @@
   col = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git co
   # リモートブランチチェックアウト
   cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -I{} sh -c 'git cot {} || echo {} | sed -e "s%[^/]*/%%" | xargs git co'
-  staged = !git diff --name-only --cached
-  unstaged = !git ls-files -m -o --exclude-standard
-  a = !git unstaged | fzf -m --preview 'git diff --color=always {}' | xargs git add && git s
-  ap = !git add -p $(git unstaged | fzf -m --preview 'git diff --color=always {}')
+  staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
+  unstaged = !git ls-files -m -o --exclude-standard | fzf -m --preview 'git diff --color=always {}'
+  a = !git unstaged | xargs git add && git s
+  ap = !git add -p $(git unstaged)
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'
   aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
@@ -49,8 +41,6 @@
   can = commit --amend --no-edit
   d = diff
   dc = diff --cached
-  dn = diff --name-only
-  dw = diff --color-words
   um = !git --no-pager diff --name-only --diff-filter=U
   ft = fetch
   ftp = fetch --prune
@@ -63,8 +53,9 @@
   stp = stash pop
   stl = stash list
   sta = stash apply
-  r = !git staged | fzf -m --preview 'git diff --color=always HEAD {}' | xargs git reset
+  r = !git staged | xargs git reset
   ra = reset
+  rw = !git unstaged | xargs git co && git s
   rh = reset --hard
   # reset hard to origin
   rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs git rh

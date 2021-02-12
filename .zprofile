@@ -1,4 +1,4 @@
-# eval $(/opt/homebrew/bin/brew shellenv)
+eval $(/opt/homebrew/bin/brew shellenv)
 
 alias ll='ls -alG'
 alias ..='cd ..'
