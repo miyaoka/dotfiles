@@ -16,25 +16,23 @@
 	trustExitCode = true
 [alias]
   l = log --date=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
-  ll = log --stat --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cr %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
-  lg = log --graph --date=short --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn%Cred%d %Creset%s'
-  lm = log --merges --pretty=format:'%C(yellow)%h %Cgreen%ci %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+  ll = !git l --stat
+  lg = !git l --graph
+  lm = !git l --merges
+
   # デフォルトで新しい順にする
   b = branch --sort=-authordate
-
   # 日付付きでリスト
   bl = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/heads | sed 's/refs\\/heads\\///'
   br = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/remotes | sed 's/refs\\/remotes\\///' | grep -v 'origin/HEAD'
-
   bld = !git bl | fzf | awk '{ print $NF }' | xargs git branch -D
   brd = !git br | fzf | awk '{ print $NF }' | xargs git branch -D
-
 
   co = checkout
   cob = checkout -b
   cot = checkout -t
   # ローカルブランチ切り替え
-  col = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git co # sed 's/\\*//' | awk '{ print $1 }' |
+  col = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git co
   # リモートブランチチェックアウト
   cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -I{} sh -c 'git cot {} || echo {} | sed -e "s%[^/]*/%%" | xargs git co'
   staged = !git diff --name-only --cached
@@ -43,15 +41,12 @@
   ap = !git add -p $(git unstaged | fzf -m --preview 'git diff --color=always {}')
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'
-  aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psc
+  aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
   c = commit
   cv = commit -v
   cm = commit -m
-  # wip = commit -m 'WIP'
   cam = commit --amend -m
   can = commit --amend --no-edit
-  # caan = commit -a --amend --no-edit
-  # amend = commit --amend -C HEAD
   d = diff
   dc = diff --cached
   dn = diff --name-only
@@ -61,10 +56,9 @@
   ftp = fetch --prune
   pl = pull
   ps = push
-  psu = push origin head -u
+  psu = push -u origin HEAD
   info = remote show origin
   s = status --short --branch
-  # st = status
   st = stash
   stp = stash pop
   stl = stash list
