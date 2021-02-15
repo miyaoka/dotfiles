@@ -9,11 +9,10 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias c='code'
-alias cc='ghq list | fzf | xargs -I {} code $(ghq root)/{}'
+alias cc='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} code $(ghq root)/{}'
 alias g='git'
 alias q='ghq'
 function qg (){
-  local repo
   repo=$(echo ${1} | sed s%https://github.com/%%)
   echo "git clone: ${repo}"
   ghq get "https://github.com/${repo}.git"
