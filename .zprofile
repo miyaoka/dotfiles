@@ -1,4 +1,7 @@
-eval $(/opt/homebrew/bin/brew shellenv)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # for M1 mac
+  eval $(/opt/homebrew/bin/brew shellenv)
+fi
 
 alias ll='ls -alG'
 alias ..='cd ..'
