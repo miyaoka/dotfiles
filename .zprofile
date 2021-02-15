@@ -13,8 +13,7 @@ alias cc='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xar
 alias g='git'
 alias q='ghq'
 function qg (){
-  repo=$(echo ${1} | sed s%https://github.com/%%)
-  echo "git clone: ${repo}"
+  local repo=$(echo ${1} | sed s%https://github.com/%%)
   ghq get "https://github.com/${repo}.git"
 }
 alias ql='ghq list'
