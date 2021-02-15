@@ -54,6 +54,7 @@
   stl = stash list
   sta = stash apply
   r = !git staged | xargs git reset
+  rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
   ra = reset
   rw = !git unstaged | xargs git co && git s
   rh = reset --hard
