@@ -9,7 +9,7 @@
 [ghq]
   root = ~/src
 [alias]
-  l = log --date=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
+  l = log --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
   ll = !git l --stat
   lg = !git l --graph
   lm = !git l --merges
