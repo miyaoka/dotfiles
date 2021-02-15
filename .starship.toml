@@ -27,5 +27,5 @@ deleted = "D*$count "
 
 [time]
 disabled = false
-format = '🕙[$time](green) '
+format = '[\[$time\]](green) '
 time_format = "%R"
