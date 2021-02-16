@@ -35,3 +35,7 @@ function ff() {
   dir=$(find ${1:-.} -maxdepth 4 -mindepth 1 -type d ! -path '*/.*' -a ! -path '*/node_modules/*' | fzf)
   cd "$dir"
 }
+
+if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
+  alias open=explorer.exe
+fi
