@@ -13,17 +13,17 @@ symbol = "🌱 "
 
 [git_status]
 style="red"
-format = '([$all_status$ahead_behind]($style) )'
+format = '([$ahead_behind$all_status]($style) )'
 conflicted = "❌ "
-ahead = "👆[$count](green)"
-behind = "👇$count"
-diverged = "👆[${ahead_count}](green)👇${behind_count}"
-untracked = "??*$count "
+ahead = "👆[${count}](green) "
+behind = "👇$count "
+diverged = "👆[${ahead_count}](green)👇${behind_count} "
+untracked = "[?$count](purple) "
 stashed = ""
-modified = "[M*$count](yellow) "
-staged = '[A*$count](green) '
+modified = "[*$count](yellow) "
+staged = '[+$count](green) '
 renamed = "»"
-deleted = "D*$count "
+deleted = "-$count "
 
 [time]
 disabled = false
