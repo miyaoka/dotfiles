@@ -17,6 +17,8 @@ enter_directory() {
 export PROMPT_COMMAND=enter_directory
 precmd() { eval "$PROMPT_COMMAND" }
 
+# yarn
+export PATH="$PATH:`yarn global bin`"
 
 # starship
 export STARSHIP_CONFIG=~/.starship.toml
