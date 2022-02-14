@@ -39,6 +39,7 @@
   cm = commit -m
   cam = commit --amend -m
   can = commit --amend --no-edit
+  cl = clean
   d = diff
   dc = diff --cached
   um = !git --no-pager diff --name-only --diff-filter=U
