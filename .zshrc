@@ -1,3 +1,6 @@
+# brew
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -12,9 +15,8 @@ enter_directory() {
   [[ -f ".nvmrc" ]] && nvm use
 }
 export PROMPT_COMMAND=enter_directory
+precmd() { eval "$PROMPT_COMMAND" }
 
-# yarn
-export PATH="$PATH:`yarn global bin`"
 
 # starship
 export STARSHIP_CONFIG=~/.starship.toml
