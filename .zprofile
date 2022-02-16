@@ -40,4 +40,4 @@ alias ys='yarn serve'
 alias yb='yarn build'
 alias yrn='cat package.json | jq -r ".scripts | keys[]" | fzf | xargs yarn'
 
-alias hs='http-server'
+alias ss='serve -s'
