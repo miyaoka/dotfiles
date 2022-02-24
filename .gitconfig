@@ -54,6 +54,8 @@
   stp = stash pop
   stl = stash list
   sta = stash apply
+  sw = switch
+  sww = switch -
   r = !git staged | xargs git reset
   rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
   ra = reset
