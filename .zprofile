@@ -34,6 +34,7 @@ alias ygr='yarn global remove'
 alias yw='yarn why'
 alias yu='yarn upgrade'
 alias yui='yarn upgrade-interactive'
+alias yuil='yarn upgrade-interactive --latest'
 
 alias yd='yarn dev'
 alias ys='yarn serve'
