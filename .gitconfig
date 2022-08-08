@@ -23,10 +23,6 @@
   co = checkout
   cob = checkout -b
   cot = checkout -t
-  # ローカルブランチ切り替え
-  col = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git co
-  # リモートブランチチェックアウト
-  cor = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -I{} sh -c 'git cot {} || echo {} | sed -e "s%[^/]*/%%" | xargs git co'
   staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
   unstaged = !git ls-files -m -o --exclude-standard | fzf -m --preview 'git diff --color=always {}'
   a = !git unstaged | xargs git add && git s
@@ -56,6 +52,11 @@
   sta = stash apply
   sw = switch
   sww = switch -
+  swc = switch -c
+    # ローカルブランチ切り替え
+  swl = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git sw
+  # リモートブランチチェックアウト
+  swr = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -I{} sh -c 'git cot {} || echo {} | sed -e "s%[^/]*/%%" | xargs git sw'
   r = !git staged | xargs git reset
   rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
   ra = reset
