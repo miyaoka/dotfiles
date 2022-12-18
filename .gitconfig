@@ -44,6 +44,8 @@
   pl = pull
   ps = push
   psu = push -u origin HEAD
+  # https://onk.hatenablog.jp/entry/2022/12/18/000000
+  psf = push -f --force-with-lease --force-if-includes
   info = remote show origin
   s = status --short --branch
   st = stash
@@ -84,3 +86,8 @@
 	rebase = false
 [init]
 	defaultBranch = main
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
