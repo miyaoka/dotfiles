@@ -5,7 +5,8 @@ disabled = true
 fish_style_pwd_dir_length = 1
 
 [nodejs]
-disabled = true
+disabled = false
+format = "[⬢ $version](bold green) "
 
 [git_branch]
 format = "[$branch]($style) "
