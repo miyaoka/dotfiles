@@ -2,20 +2,20 @@
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 
 # nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# run `nvm use` automatically
-enter_directory() {
-  if [[ $PWD == $PREV_PWD ]]; then
-    return
-  fi
+# # run `nvm use` automatically
+# enter_directory() {
+#   if [[ $PWD == $PREV_PWD ]]; then
+#     return
+#   fi
 
-  PREV_PWD=$PWD
-  [[ -f ".nvmrc" ]] && nvm use
-}
-export PROMPT_COMMAND=enter_directory
-precmd() { eval "$PROMPT_COMMAND" }
+#   PREV_PWD=$PWD
+#   [[ -f ".nvmrc" ]] && nvm use
+# }
+# export PROMPT_COMMAND=enter_directory
+# precmd() { eval "$PROMPT_COMMAND" }
 
 # yarn
 export PATH="$PATH:`yarn global bin`"
@@ -90,4 +90,21 @@ alias ys='yarn serve'
 alias yb='yarn build'
 alias yrn='cat package.json | jq -r ".scripts | keys[]" | fzf | xargs yarn'
 
+alias p='pnpm'
+alias pi='pnpm i'
+alias pa='pnpm add'
+alias pad='pnpm add -D'
+alias pr='pnpm remove'
+alias pw='pnpm why'
+alias pui='pnpm up -i'
+alias pr='pnpm run'
+alias pd='pnpm run dev'
+
 alias ss='serve -s'
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/home/miyaoka/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
