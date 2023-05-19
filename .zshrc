@@ -69,6 +69,24 @@ function qg (){
 }
 alias ql='ghq list'
 
+# https://sancho.dev/blog/better-yarn-npm-run
+function ys (){
+  if cat package.json > /dev/null 2>&1; then
+    scripts=$(cat package.json | jq .scripts | sed '1d;$d' | fzf)
+ 
+    if [[ -n $scripts ]]; then
+      script_name=$(echo $scripts | awk -F ': ' '{gsub(/(\s|")/, "", $1); print $1}')
+      echo $script_name
+      print -s "yarn run "$script_name;
+      yarn run $script_name
+    else
+      echo "Exit: You haven't selected any script"
+    fi
+else
+    echo "Error: There's no package.json"
+fi
+}
+
 alias n='npm'
 alias nr='npm run'
 alias ni='npm i'
@@ -89,9 +107,8 @@ alias yuil='yarn upgrade-interactive --latest'
 
 alias yd='yarn dev'
 alias ydo='yarn dev --open'
-alias ys='yarn serve'
 alias yb='yarn build'
-alias yrn='cat package.json | jq -r ".scripts | keys[]" | fzf | xargs yarn'
+# alias ys='cat package.json | jq -r ".scripts | keys[]" | fzf | xargs yarn'
 
 alias p='pnpm'
 alias pi='pnpm i'
