@@ -29,4 +29,4 @@ deleted = "-$count "
 [time]
 disabled = false
 format = '[\[$time\]](green) '
-time_format = "%R"
+time_format = "%m-%d %T"
