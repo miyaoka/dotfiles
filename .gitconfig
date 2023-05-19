@@ -35,6 +35,7 @@
   cm = commit -m
   cam = commit --amend -m
   can = commit --amend --no-edit
+  cav = commit --amend -v
   cl = clean
   d = diff
   dc = diff --cached
@@ -91,3 +92,5 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[merge]
+	conflictStyle = diff3

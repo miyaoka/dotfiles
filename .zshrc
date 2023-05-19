@@ -44,7 +44,8 @@ if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
   alias open=explorer.exe
 fi
 
-cal
+# 起動時にカレンダー表示
+cal -3
 
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -59,6 +60,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias c='code'
 alias cc='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} code $(ghq root)/{}'
+alias ccc='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} code -r $(ghq root)/{}'
 alias g='git'
 alias q='ghq'
 function qg (){
@@ -86,6 +88,7 @@ alias yui='yarn upgrade-interactive'
 alias yuil='yarn upgrade-interactive --latest'
 
 alias yd='yarn dev'
+alias ydo='yarn dev --open'
 alias ys='yarn serve'
 alias yb='yarn build'
 alias yrn='cat package.json | jq -r ".scripts | keys[]" | fzf | xargs yarn'
@@ -97,8 +100,8 @@ alias pad='pnpm add -D'
 alias pr='pnpm remove'
 alias pw='pnpm why'
 alias pui='pnpm up -i'
-alias pr='pnpm run'
 alias pd='pnpm run dev'
+alias pdo='pnpm run dev --open'
 
 alias ss='serve -s'
 export VOLTA_HOME="$HOME/.volta"
@@ -106,5 +109,8 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 
 # pnpm
 export PNPM_HOME="/home/miyaoka/.local/share/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 # pnpm end
