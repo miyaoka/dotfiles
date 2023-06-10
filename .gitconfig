@@ -30,6 +30,11 @@
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'
   aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
+
+  # aicommits
+  ac = !git dcn && aic
+  aac = !git aa && git dcn && aic
+
   c = commit
   cv = commit -v
   cm = commit -m
@@ -39,6 +44,7 @@
   cl = clean
   d = diff
   dc = diff --cached
+  dcn = !git --no-pager diff --cached
   um = !git --no-pager diff --name-only --diff-filter=U
   ft = fetch
   ftp = fetch --prune
