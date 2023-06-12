@@ -49,7 +49,7 @@ if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
 fi
 
 # 起動時にカレンダー表示
-cal -y
+cal
 
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
