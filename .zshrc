@@ -125,6 +125,10 @@ alias pd='pnpm run dev'
 alias pdo='pnpm run dev --open'
 
 alias ss='serve -s'
+
+# https://prettier.io/docs/en/watching-files.html
+alias prw='echo prettier watching... && npx onchange "**/*" -- npx prettier --write --ignore-unknown {{changed}}'
+
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
