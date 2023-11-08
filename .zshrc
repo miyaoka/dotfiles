@@ -91,11 +91,11 @@ else
 fi
 }
 
-alias n='npm'
-alias nr='npm run'
-alias ni='npm i'
-alias nid='npm i -D'
-alias nu='npm un'
+# alias n='npm'
+# alias nr='npm run'
+# alias ni='npm i'
+# alias nid='npm i -D'
+# alias nu='npm un'
 
 alias y='yarn'
 alias ya='yarn add'

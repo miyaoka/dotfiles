@@ -3,6 +3,7 @@ disabled = true
 
 [directory]
 fish_style_pwd_dir_length = 1
+repo_root_style = 'yellow bold'
 
 [nodejs]
 disabled = false
@@ -27,6 +28,6 @@ renamed = "»"
 deleted = "-$count "
 
 [time]
-disabled = false
+disabled = true
 format = '[\[$time\]](green) '
 time_format = "%m-%d %T"
