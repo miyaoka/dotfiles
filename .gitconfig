@@ -61,6 +61,8 @@
   sta = stash apply
   sw = switch
   sww = switch -
+  swm = switch main
+  swd = switch dev
   swc = switch -c
     # ローカルブランチ切り替え
   swl = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git sw
