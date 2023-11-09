@@ -1,6 +1,11 @@
 [package]
 disabled = true
 
+[battery]
+full_symbol = '🔋'
+charging_symbol = '💫'
+discharging_symbol = '💀'
+
 [directory]
 fish_style_pwd_dir_length = 1
 repo_root_style = 'yellow bold'
