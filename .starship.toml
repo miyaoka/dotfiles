@@ -6,6 +6,10 @@ full_symbol = '🔋'
 charging_symbol = '💫'
 discharging_symbol = '💀'
 
+[[battery.display]]
+threshold = 100
+style = 'yellow'
+
 [directory]
 fish_style_pwd_dir_length = 1
 repo_root_style = 'yellow bold'
