@@ -19,7 +19,7 @@
   bl = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/heads | sed 's/refs\\/heads\\///'
   br = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/remotes | sed 's/refs\\/remotes\\///' | grep -v 'origin/HEAD'
   bld = !git bl | fzf | awk '{ print $NF }' | xargs git branch -D
-  brd = !git br | fzf | awk '{ print $NF }' | xargs git branch -D
+  brd = !git br | fzf | awk '{ print $NF }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs git push -d 
   co = checkout
   cob = checkout -b
   cot = checkout -t
