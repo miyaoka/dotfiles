@@ -18,8 +18,12 @@
   # 日付付きでリスト
   bl = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/heads | sed 's/refs\\/heads\\///'
   br = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/remotes | sed 's/refs\\/remotes\\///' | grep -v 'origin/HEAD'
-  bld = !git bl | fzf | awk '{ print $NF }' | xargs git branch -D
-  brd = !git br | fzf | awk '{ print $NF }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs git push -d 
+  # delete merged branch
+  dmb = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs git branch -d
+  # delete local branch
+  dlb = !git bl | fzf --header '[delete local branch]' | awk '{ print $NF }' | xargs git branch -D
+  # delete remote branch
+  drb = !git br | fzf --header '[delete reteme branch]' | awk '{ print $NF }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs git push -d 
   co = checkout
   cob = checkout -b
   cot = checkout -t
@@ -64,16 +68,16 @@
   swm = switch main
   swd = switch dev
   swc = switch -c
-    # ローカルブランチ切り替え
+  # switch local branch
   swl = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git sw
-  # リモートブランチチェックアウト
+  # switch remote branch
   swr = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -I{} sh -c 'git cot {} || echo {} | sed -e "s%[^/]*/%%" | xargs git sw'
   r = !git staged | xargs git reset
   rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
   ra = reset
   rw = !git unstaged | xargs git co && git s
   rh = reset --hard
-  # reset hard to origin
+  # reset-hard to origin
   rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs git rh
   rhh = reset --hard HEAD
   rr = reset @^1
@@ -85,7 +89,6 @@
   rbh = rebase HEAD
   rbo = rebase --onto
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
-  dmb = !git branch --merged | egrep -v '\\*|master|main' | xargs git branch -d
   cbn = branch --show-current # rev-parse --abbrev-ref HEAD
 [push]
 	default = simple
