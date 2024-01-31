@@ -71,7 +71,7 @@
   # switch local branch
   swl = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git sw
   # switch remote branch
-  swr = !git ftp && git br | fzf --no-sort | awk '{ print $NF }' | xargs -I{} sh -c 'git cot {} || echo {} | sed -e "s%[^/]*/%%" | xargs git sw'
+  swr = !git br | fzf --no-sort | awk '{ print $NF }' | sed -e "s%[^/]*/%%" | xargs git sw
   r = !git staged | xargs git reset
   rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
   ra = reset
