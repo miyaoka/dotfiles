@@ -65,9 +65,11 @@
   sta = stash apply
   sw = switch
   sww = switch -
+  swc = switch -c
   swm = switch main
   swd = switch dev
-  swc = switch -c
+  # 最近switchした順のbranchから選択
+  swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
   # switch local branch
   swl = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git sw
   # switch remote branch
