@@ -16,8 +16,9 @@
   # デフォルトで新しい順にする
   b = branch --sort=-authordate
   # 日付付きでリスト
-  bl = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/heads | sed 's/refs\\/heads\\///'
-  br = !git for-each-ref --sort=-authordate --format='%(authordate:short) %(refname)' refs/remotes | sed 's/refs\\/remotes\\///' | grep -v 'origin/HEAD'
+  refs = !git for-each-ref --sort=-committerdate --format='%(authordate:short) %(color:yellow)%(refname:short)%(color:reset) %(color:green)[%(authorname)]%(color:reset) %(subject)'
+  bl = !git refs refs/heads
+  br = !git refs refs/remotes
   # delete merged branch
   dmb = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs git branch -d
   # delete local branch
@@ -71,9 +72,9 @@
   # 最近switchした順のbranchから選択
   swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
   # switch local branch
-  swl = !git bl | fzf --no-sort | awk '{ print $NF }' | xargs git sw
+  swl = !git bl | fzf | awk '{ print $2 }' | xargs git sw
   # switch remote branch
-  swr = !git br | fzf --no-sort | awk '{ print $NF }' | sed -e "s%[^/]*/%%" | xargs git sw
+  swr = !git br | grep -v 'origin/HEAD' | fzf --tiebreak=begin | awk '{ print $2 }' | sed -e "s%[^/]*/%%" | xargs git sw
   r = !git staged | xargs git reset
   rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
   ra = reset
