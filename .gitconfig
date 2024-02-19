@@ -71,10 +71,11 @@
   swd = switch dev
   # 最近switchした順のbranchから選択
   swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
+  swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs git sw
   # switch local branch
-  swl = !git bl | fzf | awk '{ print $2 }' | xargs git sw
+  swl = !git bl | git swf
   # switch remote branch
-  swr = !git br | grep -v 'origin/HEAD' | fzf --tiebreak=begin | awk '{ print $2 }' | sed -e "s%[^/]*/%%" | xargs git sw
+  swr = !git br | grep -v 'HEAD' | git swf
   r = !git staged | xargs git reset
   rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
   ra = reset
