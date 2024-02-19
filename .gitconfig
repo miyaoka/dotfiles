@@ -18,7 +18,7 @@
   # 日付付きでリスト
   refs = !git for-each-ref --sort=-committerdate --format='%(authordate:short) %(color:yellow)%(refname:short)%(color:reset) %(color:green)[%(authorname)]%(color:reset) %(subject)'
   bl = !git refs refs/heads
-  br = !git refs refs/remotes
+  br = !git refs refs/remotes | sed 's/origin\\///'
   # delete merged branch
   dmb = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs git branch -d
   # delete local branch
@@ -109,3 +109,5 @@
 	process = git-lfs filter-process
 [merge]
 	conflictStyle = diff3
+[rerere]
+	enabled = true
