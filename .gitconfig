@@ -22,9 +22,9 @@
   # delete merged branch
   dmb = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs git branch -d
   # delete local branch
-  dlb = !git bl | fzf --header '[delete local branch]' | awk '{ print $NF }' | xargs git branch -D
+  dlb = !git bl | fzf --header '[delete local branch]' | awk '{ print $2 }' | xargs git branch -D
   # delete remote branch
-  drb = !git br | fzf --header '[delete reteme branch]' | awk '{ print $NF }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs git push -d 
+  drb = !git br | fzf --header '[delete reteme branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs git push -d 
   co = checkout
   cob = checkout -b
   cot = checkout -t
