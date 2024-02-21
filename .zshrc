@@ -1,5 +1,6 @@
 # brew
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+export BROWSER=wslview
 
 # nvm
 # export NVM_DIR="$HOME/.nvm"
