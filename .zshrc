@@ -73,7 +73,6 @@ function qg (){
   ghq get "https://github.com/${repo}.git"
 }
 alias ql='ghq list'
-
 # https://sancho.dev/blog/better-yarn-npm-run
 function ys (){
   if cat package.json > /dev/null 2>&1; then
@@ -91,6 +90,12 @@ else
     echo "Error: There's no package.json"
 fi
 }
+
+alias gb='gh browse'
+alias gp='gh pr list'
+alias gpf='gh pr list | fzf | awk "{ print \$1 }"'
+alias gpw="gpf | xargs gh pr view --web"
+alias gpc="gpf | xargs gh pr checkout"
 
 # alias n='npm'
 # alias nr='npm run'
