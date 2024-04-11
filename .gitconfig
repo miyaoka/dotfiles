@@ -96,11 +96,11 @@
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
   cbn = branch --show-current # rev-parse --abbrev-ref HEAD
 [push]
-	default = simple
+	default = current
 [credential]
 	helper = cache
 [pull]
-	rebase = false
+	rebase = true
 [init]
 	defaultBranch = main
 [filter "lfs"]
