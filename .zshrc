@@ -140,6 +140,8 @@ alias ss='serve -s'
 # https://prettier.io/docs/en/watching-files.html
 alias prw='echo prettier watching... && npx onchange "**/*" -- npx prettier --write --ignore-unknown {{changed}}'
 
+alias degit="tiged"
+
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
