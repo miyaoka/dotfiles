@@ -133,6 +133,7 @@ alias pw='pnpm why'
 alias pui='pnpm up -i'
 alias pd='pnpm run dev'
 alias pdo='pnpm run dev --open'
+alias pb='pnpm run build'
 alias psu='pnpm self-update'
 
 alias ss='serve -s'
