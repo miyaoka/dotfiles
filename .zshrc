@@ -91,15 +91,16 @@ else
 fi
 }
 
-alias gb='gh browse'
-alias gp='gh pr list'
+alias ghb='gh browse'
+alias gho='gh browse'
+alias ghp='gh pr list'
 # author: me
-alias gpm='gh pr list -A @me'
+alias ghpm='gh pr list -A @me'
 # review-requested: me
-alias gpmr='gh pr list --search "review-requested:@me"'
-alias gpf='gh pr list | fzf | awk "{ print \$1 }"'
-alias gpw="gpf | xargs gh pr view --web"
-alias gpc="gpf | xargs gh pr checkout"
+alias ghpmr='gh pr list --search "review-requested:@me"'
+alias ghpf='gh pr list | fzf | awk "{ print \$1 }"'
+alias ghpw="gpf | xargs gh pr view --web"
+alias ghpc="gpf | xargs gh pr checkout"
 
 # alias n='npm'
 # alias nr='npm run'
@@ -135,8 +136,7 @@ alias pd='pnpm run dev'
 alias pdo='pnpm run dev --open'
 alias pb='pnpm run build'
 alias psu='pnpm self-update'
-
-alias ss='serve -s'
+alias nii='ni -i'
 
 # https://prettier.io/docs/en/watching-files.html
 alias prw='echo prettier watching... && npx onchange "**/*" -- npx prettier --write --ignore-unknown {{changed}}'
