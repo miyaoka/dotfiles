@@ -37,6 +37,6 @@ renamed = "»"
 deleted = "-$count "
 
 [time]
-disabled = true
+disabled = false
 format = '[\[$time\]](green) '
-time_format = "%m-%d %T"
+time_format = "%R"
