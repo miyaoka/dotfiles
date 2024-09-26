@@ -70,8 +70,9 @@
   sww = switch -
   swc = switch -c
   swm = switch main
-  # devのremote最新にしてマージ済みブランチ削除
-  swd = !git ftp && git switch dev && git rho && git dmb
+  swd = switch dev
+  # remote最新にしてマージ済みブランチ削除
+  up = !git ftp && git rho && git dmb
   # 最近switchした順のbranchから選択
   swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
   swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs git sw
