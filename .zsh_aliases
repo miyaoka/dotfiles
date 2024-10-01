@@ -1,0 +1,67 @@
+# general
+alias ll='ls -alG'
+alias ..='cd ..'
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+# git
+alias g='git'
+
+# ghq
+function qg (){
+  local repo=$(echo ${1} | sed s%https://github.com/%%)
+  ghq get "https://github.com/${repo}.git"
+}
+
+# clone
+alias degit="tiged"
+
+# gh
+alias ghb='gh browse'
+alias gho='gh browse'
+alias ghp='gh pr list'
+## author: me
+alias ghpm='gh pr list -A @me'
+## review-requested: me
+alias ghpmr='gh pr list --search "review-requested:@me"'
+alias ghpf='gh pr list | fzf | awk "{ print \$1 }"'
+alias ghpw="gpf | xargs gh pr view --web"
+alias ghpc="gpf | xargs gh pr checkout"
+
+# yarn
+alias y='yarn'
+alias ya='yarn add'
+alias yad='yarn add -D'
+alias yr='yarn remove'
+alias yg='yarn global'
+alias yga='yarn global add'
+alias ygr='yarn global remove'
+alias yw='yarn why'
+alias yu='yarn upgrade'
+alias yui='yarn upgrade-interactive'
+alias yuil='yarn upgrade-interactive --latest'
+
+alias yd='yarn dev'
+alias ydo='yarn dev --open'
+alias yb='yarn build'
+
+# pnpm
+alias p='pnpm'
+alias pi='pnpm i'
+alias pa='pnpm add'
+alias pad='pnpm add -D'
+alias pr='pnpm remove'
+alias pw='pnpm why'
+alias pui='pnpm up -i'
+alias pd='pnpm run dev'
+alias pdo='pnpm run dev --open'
+alias pb='pnpm run build'
+alias psu='pnpm self-update'
+alias nii='ni -i'
+
+# editor
+alias c='code'
+alias cr='cursor'
+alias cc='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} code $(ghq root)/{}'
+alias ccr='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} cursor $(ghq root)/{}'
