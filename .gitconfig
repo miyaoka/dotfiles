@@ -9,10 +9,14 @@
 [ghq]
   root = ~/src
 [alias]
-  l = log --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
-  ll = !git l --stat
-  lg = !git l --graph
-  lm = !git l --merges
+  # add
+  a = !git unstaged | xargs git add && git s
+  ap = !git add -p $(git unstaged)
+  aa = !git add -A && git s
+  aaa = !git aa && git cm 'WIP'
+  aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
+
+  # branch
   # デフォルトで新しい順にする
   b = branch --sort=-authordate
   # 日付付きでリスト
@@ -27,63 +31,58 @@
   brd = !git br | fzf --header '[delete reteme branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs git push -d origin
   # delete merged branch
   bmd = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs git branch -d
-  staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
-  unstaged = !git ls-files -m -o --exclude-standard | fzf -m --preview 'git diff --color=always {}'
-  a = !git unstaged | xargs git add && git s
-  ap = !git add -p $(git unstaged)
-  aa = !git add -A && git s
-  aaa = !git aa && git cm 'WIP'
-  aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
 
+  # clean
+  cl = clean
+  cld = clean -d
+  # clf = clean -f
+  # cldf = clean -df
+
+  # commit
   c = commit
   cv = commit -v
   cm = commit -m
   cam = commit --amend -m
   can = commit --amend --no-edit
   cav = commit --amend -v
-  cl = clean
+
+  # diff
   d = diff
   dc = diff --cached
   dcn = !git --no-pager diff --cached
   um = !git --no-pager diff --name-only --diff-filter=U
+
+  # fetch
   ft = fetch
   ftp = fetch --prune
-  pl = pull
+
+  # log
+  l = log --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
+  ll = !git l --stat
+  lg = !git l --graph
+  lm = !git l --merges
+
+  # push
   ps = push
   psu = push -u origin HEAD
   # https://onk.hatenablog.jp/entry/2022/12/18/000000
   psf = push -f --force-with-lease --force-if-includes
-  info = remote show origin
-  s = status --short --branch
-  st = stash
-  stp = stash pop
-  stl = stash list
-  sta = stash apply
-  sw = switch
-  sww = switch -
-  # 最近switchした順のbranchから選択
-  swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
-  swc = switch -c
-  swm = switch main
-  swd = switch dev
-  # remote最新にしてマージ済みブランチ削除
-  up = !git ftp && git rho && git dmb
-  mm = !git swm && git up
-  swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs git sw
-  # switch local branch
-  swl = !git bl | git swf
-  # switch remote branch
-  swr = !git br | grep -v 'HEAD' | git swf
+
+  # reset
   r = !git staged | xargs git reset
-  rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
+  # reset all
   ra = reset
+  # reset working file
   rw = !git unstaged | xargs git co && git s
   rh = reset --hard
   # reset-hard to origin
   rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs git rh
   rhh = reset --hard HEAD
   rr = reset @^1
-  rl = reflog show -n 20
+  # reset to target commit
+  rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
+
+  # rebase
   rb = rebase
   rba = rebase --abort
   rbc = rebase --continue
@@ -91,8 +90,42 @@
   rbii = rebase -i HEAD~10  
   rbh = rebase HEAD
   rbo = rebase --onto
+
+  # stash
+  s = status --short --branch
+  st = stash
+  stp = stash pop
+  stl = stash list
+  sta = stash apply
+
+  # switch
+  sw = switch
+  sww = switch -
+  # 最近switchした順のbranchから選択
+  swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
+  swc = switch -c
+  swm = switch main
+  swd = switch dev
+  swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs git sw
+  # switch local branch
+  swl = !git bl | git swf
+  # switch remote branch
+  swr = !git br | grep -v 'HEAD' | git swf
+  # remote最新にしてマージ済みブランチ削除
+  up = !git ftp && git rho && git dmb
+  mm = !git swm && git up
+
+
+  # other
+  pl = pull
+  rl = reflog show -n 20
+
+  # util  
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
   cbn = branch --show-current # rev-parse --abbrev-ref HEAD
+  staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
+  unstaged = !git ls-files -m -o --exclude-standard | fzf -m --preview 'git diff --color=always {}'
+  info = remote show origin
 [push]
 	default = current
 [credential]
