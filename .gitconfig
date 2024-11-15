@@ -27,9 +27,6 @@
   dbr = !git br | fzf --header '[delete reteme branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs git push -d origin
   # prune local branch
   blp = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
-  co = checkout
-  cob = checkout -b
-  cot = checkout -t
   staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
   unstaged = !git ls-files -m -o --exclude-standard | fzf -m --preview 'git diff --color=always {}'
   a = !git unstaged | xargs git add && git s
@@ -37,10 +34,6 @@
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'
   aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
-
-  # aicommits
-  ac = !git dcn && aic
-  aac = !git aa && git dcn && aic
 
   c = commit
   cv = commit -v
@@ -68,14 +61,14 @@
   sta = stash apply
   sw = switch
   sww = switch -
+  # 最近switchした順のbranchから選択
+  swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
   swc = switch -c
   swm = switch main
   swd = switch dev
   # remote最新にしてマージ済みブランチ削除
   up = !git ftp && git rho && git dmb
   mm = !git swm && git up
-  # 最近switchした順のbranchから選択
-  swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
   swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs git sw
   # switch local branch
   swl = !git bl | git swf
