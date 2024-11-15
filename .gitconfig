@@ -88,6 +88,7 @@
   rba = rebase --abort
   rbc = rebase --continue
   rbi = rebase -i
+  rbii = rebase -i HEAD~10  
   rbh = rebase HEAD
   rbo = rebase --onto
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
