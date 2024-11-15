@@ -93,7 +93,6 @@
   rbo = rebase --onto
 
   # stash
-  s = status --short --branch
   st = stash
   stp = stash pop
   stl = stash list
@@ -118,6 +117,7 @@
 
 
   # other
+  s = status --short --branch
   pl = pull
   rl = reflog show -n 20
 
