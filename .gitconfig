@@ -50,6 +50,7 @@
   d = diff
   dc = diff --cached
   dcn = !git --no-pager diff --cached
+  dn = diff --name-only
   um = !git --no-pager diff --name-only --diff-filter=U
 
   # fetch
@@ -72,8 +73,8 @@
   r = !git staged | xargs git reset
   # reset all
   ra = reset
-  # reset working file
-  rw = !git unstaged | xargs git co && git s
+  # reset modified file
+  rc = !git modified | xargs git checkout && git s
   rh = reset --hard
   # reset-hard to origin
   rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs git rh
@@ -125,6 +126,7 @@
   cbn = branch --show-current # rev-parse --abbrev-ref HEAD
   staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
   unstaged = !git ls-files -m -o --exclude-standard | fzf -m --preview 'git diff --color=always {}'
+  modified = !git diff --name-only | fzf -m --preview 'git diff --color=always HEAD {}'
   info = remote show origin
 [push]
 	default = current
