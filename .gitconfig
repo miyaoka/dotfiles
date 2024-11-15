@@ -14,7 +14,7 @@
   ap = !git add -p $(git unstaged)
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'
-  aaaa = !git cob "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
+  aaaa = !git swc "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
 
   # branch
   # デフォルトで新しい順にする
