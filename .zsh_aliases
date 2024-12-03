@@ -26,8 +26,8 @@ alias ghpm='gh pr list -A @me'
 ## review-requested: me
 alias ghpmr='gh pr list --search "review-requested:@me"'
 alias ghpf='gh pr list | fzf | awk "{ print \$1 }"'
-alias ghpw="gpf | xargs gh pr view --web"
-alias ghpc="gpf | xargs gh pr checkout"
+alias ghpw="ghpf | xargs gh pr view --web"
+alias ghpc="ghpf | xargs gh pr checkout"
 
 # yarn
 alias y='yarn'
