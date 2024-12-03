@@ -14,11 +14,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # vscodeとcursorのエディタを分ける
-if [ "$EDITOR" = "code" ]; then
-    git config --global core.editor "code -w"
-else
-    git config --global core.editor "cursor -w"
-fi
+# if [ "$EDITOR" = "code" ]; then
+#     git config --global core.editor "code -w"
+# else
+#     git config --global core.editor "cursor -w"
+# fi
 
 # 起動時にカレンダー表示
 cal
