@@ -110,7 +110,7 @@
   # switch remote branch
   swr = !git br | grep -v 'HEAD' | git swf
   # remote最新にしてマージ済みブランチ削除
-  up = !git ftp && git rho && git dmb
+  up = !git ftp && git rho && git bmd
   mm = !git swm && git up
 
 
