@@ -58,6 +58,12 @@ alias pd='pnpm run dev'
 alias pdo='pnpm run dev --open'
 alias pb='pnpm run build'
 alias psu='pnpm self-update'
+alias pui='pnpm up -i'
+alias puil='pnpm up -i --latest'
+alias pau='pnpm audit'
+alias pou='pnpm outdated'
+
+# ni
 alias nii='ni -i'
 
 # editor
