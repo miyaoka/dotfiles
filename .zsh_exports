@@ -23,10 +23,6 @@ setopt share_history          # 全てのセッションで履歴を共有する
 export FZF_DEFAULT_OPTS='--border --height 70% --color=fg+:11 --reverse --exit-0'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# volta
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
 # pnpm
 export PNPM_HOME="/home/miyaoka/.local/share/pnpm"
 case ":$PATH:" in

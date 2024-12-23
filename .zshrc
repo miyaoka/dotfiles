@@ -13,6 +13,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   eval $(/opt/homebrew/bin/brew shellenv)
 fi
 
+# mise
+eval "$(~/.local/bin/mise activate zsh)"
+
 # vscodeとcursorのエディタを分ける
 # if [ "$EDITOR" = "code" ]; then
 #     git config --global core.editor "code -w"
