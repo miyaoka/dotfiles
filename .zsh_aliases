@@ -71,3 +71,9 @@ alias c='code'
 alias cr='cursor'
 alias cc='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} code $(ghq root)/{}'
 alias ccr='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} cursor $(ghq root)/{}'
+
+# mise
+alias m='mise'
+alias mu='mise up'
+alias ml='mise ls'
+alias msu='mise self-update'
