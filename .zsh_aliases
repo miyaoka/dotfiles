@@ -77,3 +77,7 @@ alias m='mise'
 alias mu='mise up'
 alias ml='mise ls'
 alias msu='mise self-update'
+
+# rm
+alias rmn='rm -rf node_modules'
+alias rmnn='rm -rf **/node_modules'
