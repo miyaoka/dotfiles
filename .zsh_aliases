@@ -62,6 +62,7 @@ alias pui='pnpm up -i'
 alias puil='pnpm up -i --latest'
 alias pau='pnpm audit'
 alias pou='pnpm outdated'
+alias pnpx='pnpm dlx'
 
 # ni
 alias nii='ni -i'
