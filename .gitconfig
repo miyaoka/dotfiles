@@ -6,6 +6,23 @@
 	excludesfile = ~/.gitignore_global
 	editor = code -w
 	ignorecase = false
+[push]
+	default = current
+[credential]
+	helper = cache
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[merge]
+	conflictStyle = diff3
+[rerere]
+	enabled = true
 [ghq]
   root = ~/src
 [alias]
@@ -127,20 +144,4 @@
   modified = !git diff --name-only | fzf -m --preview 'git diff --color=always HEAD {}'
   untracked = !git ls-files --others --exclude-standard | fzf -m
   info = remote show origin
-[push]
-	default = current
-[credential]
-	helper = cache
-[pull]
-	rebase = true
-[init]
-	defaultBranch = main
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-[merge]
-	conflictStyle = diff3
-[rerere]
-	enabled = true
+
