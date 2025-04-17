@@ -20,7 +20,7 @@ setopt hist_save_no_dups      # 履歴ファイルに書き出す際、新しい
 setopt share_history          # 全てのセッションで履歴を共有する
 
 # fzf
-export FZF_DEFAULT_OPTS='--border --height 70% --color=fg+:11 --reverse --exit-0'
+export FZF_DEFAULT_OPTS='--border --height 70% --color=fg+:11 --reverse --exit-0 --exact  --ignore-case'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # pnpm
