@@ -157,11 +157,10 @@
   rl = reflog show -n 20
 
   # util  
-  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
+  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort | fzf
   cbn = branch --show-current # rev-parse --abbrev-ref HEAD
   staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
   unstaged = !git ls-files -m -o --exclude-standard | fzf -m --preview 'git diff --color=always {}'
   modified = !git diff --name-only | fzf -m --preview 'git diff --color=always HEAD {}'
   untracked = !git ls-files --others --exclude-standard | fzf -m
   info = remote show origin
-
