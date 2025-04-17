@@ -135,16 +135,15 @@
   sta = stash apply
 
   # switch
-  sw = switch
   sww = switch -
   # 最近switchした順のbranchから選択
   swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
   swc = switch -c
   swm = switch main
   swd = switch dev
-  swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs git sw
+  swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs git switch
   # switch local branch
-  swl = !git bl | git swf
+  sw = !git bl | git swf
   # switch remote branch
   swr = !git br | grep -v 'HEAD' | git swf
   # remote最新にしてマージ済みブランチ削除
