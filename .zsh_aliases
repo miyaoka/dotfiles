@@ -82,3 +82,8 @@ alias msu='mise self-update'
 # rm
 alias rmn='rm -rf node_modules'
 alias rmnn='rm -rf **/node_modules'
+
+# deno
+alias d='deno'
+alias dt='deno task'
+alias dr='deno run'
