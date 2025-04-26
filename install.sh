@@ -1,7 +1,23 @@
 #!/bin/sh
 wd=$(pwd)
-ln -sf ${wd}/.gitconfig ~/.gitconfig
-ln -sf ${wd}/.zshrc ~/.zshrc
-ln -sf ${wd}/.zsh_aliases ~/.zsh_aliases
-ln -sf ${wd}/.zsh_exports ~/.zsh_exports
-ln -sf ${wd}/.starship.toml ~/.starship.toml
+
+# シンボリックリンクを作成
+
+## zshenvはrootにしか置けない
+ln -sf ${wd}/.zshenv ~/.zshenv
+
+## ~/.config下に配置 
+
+### git
+mkdir -p ~/.config/git
+ln -sf ${wd}/.gitconfig ~/.config/git/config
+ln -sf ${wd}/.gitignore ~/.config/git/ignore
+
+### zsh
+mkdir -p ~/.config/zsh
+ln -sf ${wd}/.zshrc ~/.config/zsh/.zshrc
+ln -sf ${wd}/.zsh_aliases ~/.config/zsh/.zsh_aliases
+ln -sf ${wd}/.zsh_exports ~/.config/zsh/.zsh_exports
+
+### starship
+ln -sf ${wd}/.starship.toml ~/.config/.starship.toml

@@ -1,11 +1,11 @@
 # エイリアスの読み込み
-if [ -f ~/.zsh_aliases ]; then
-    source ~/.zsh_aliases
+if [ -f ~/.config/zsh/.zsh_aliases ]; then
+    source ~/.config/zsh/.zsh_aliases
 fi
 
 # 環境変数の読み込み
-if [ -f ~/.zsh_exports ]; then
-    source ~/.zsh_exports
+if [ -f ~/.config/zsh/.zsh_exports ]; then
+    source ~/.config/zsh/.zsh_exports
 fi
 
 # for M1 mac
