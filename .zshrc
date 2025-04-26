@@ -32,5 +32,3 @@ killp() {
 #     git config --global core.editor "cursor -w"
 # fi
 
-# 起動時にカレンダー表示
-cal
