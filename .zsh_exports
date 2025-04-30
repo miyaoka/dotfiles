@@ -2,11 +2,8 @@
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 export BROWSER=wslview
 
-# yarn
-export PATH="$PATH:`yarn global bin`"
-
 # starship
-export STARSHIP_CONFIG=~/.config/starship.toml
+export STARSHIP_CONFIG=~/.config/.starship.toml
 eval "$(starship init zsh)"
 
 # history
@@ -33,4 +30,3 @@ esac
 
 # Add deno completions to search path
 if [[ ":$FPATH:" != *":/home/miyaoka/completions:"* ]]; then export FPATH="/home/miyaoka/completions:$FPATH"; fi
-. "/home/miyaoka/.deno/env"
