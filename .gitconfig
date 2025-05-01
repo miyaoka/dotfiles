@@ -48,7 +48,7 @@
 # alias
 [alias]
   # add
-  a = !git unstaged | xargs git add && git s
+  a = !git unstaged | xargs -r git add && git s
   ap = !git add -p $(git unstaged)
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'
@@ -64,11 +64,11 @@
   # prune local branch
   blp = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
   # delete local branch
-  bld = !git bl | fzf --header '[delete local branch]' | awk '{ print $2 }' | xargs git branch -D
+  bld = !git bl | fzf --header '[delete local branch]' | awk '{ print $2 }' | xargs -r git branch -D
   # delete remote branch
-  brd = !git br | fzf --header '[delete reteme branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs git push -d origin
+  brd = !git br | fzf --header '[delete reteme branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs -r git push -d origin
   # delete merged branch
-  bmd = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs git branch -d
+  bmd = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs -r git branch -d
 
   # clean
   cl = !git untracked | xargs -r git clean -f
@@ -106,18 +106,18 @@
   psf = push -f --force-with-lease --force-if-includes
 
   # reset
-  r = !git staged | xargs git reset
+  r = !git staged | xargs -r git reset
   # reset all
   ra = reset
   # reset modified file
-  rc = !git modified | xargs git checkout && git s
+  rc = !git modified | xargs -r git checkout && git s
   rh = reset --hard
   # reset-hard to origin
-  rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs git rh
+  rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs -r git rh
   rhh = reset --hard HEAD
   rr = reset @^1
   # reset to target commit
-  rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs git diff --color=always' | awk '{ print $1 }' | xargs git reset && git s
+  rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs -r git diff --color=always' | awk '{ print $1 }' | xargs -r git reset && git s
 
   # rebase
   rb = rebase
@@ -137,11 +137,11 @@
   # switch
   sww = switch -
   # 最近switchした順のbranchから選択
-  swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs git switch
+  swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs -r git switch
   swc = switch -c
   swm = switch main
   swd = switch dev
-  swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs git switch
+  swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs -r git switch
   # switch local branch
   sw = !git bl | git swf
   # switch remote branch
