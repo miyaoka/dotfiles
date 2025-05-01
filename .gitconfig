@@ -71,7 +71,7 @@
   bmd = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs git branch -d
 
   # clean
-  cl = !git untracked | xargs git clean -f
+  cl = !git untracked | xargs -r git clean -f
   clf = clean -df
 
   # commit
