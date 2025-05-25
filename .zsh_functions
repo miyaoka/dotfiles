@@ -11,7 +11,7 @@ killp() {
 }
 
 # org/repo 形式または URL を受け取って ghq get する
-gg() {
+ghq-clone() {
   # 引数チェック：何も指定がなければ使い方を表示して終了
   if [ $# -lt 1 ]; then
     echo "Usage: repo-get <org/repo> | <git URL>" >&2
@@ -29,7 +29,8 @@ gg() {
 }
 
 # ghq で管理しているリポジトリをfzfで選択し、引数で指定したコマンドで実行する
-cc() {
+# 選択履歴を保存して次回は優先表示する
+ghq-select() {
   # 開くコマンド（第一引数があればそれを、なければ code）
   local opener="${1:-code}"
 
@@ -72,4 +73,3 @@ cc() {
   # 3) 引数で指定したコマンドで開く
   "$opener" "${ghq_root}/${rel}"
 }
-

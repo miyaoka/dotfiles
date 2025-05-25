@@ -11,6 +11,10 @@ alias g='git'
 # clone
 alias degit="tiged"
 
+# ghq
+alias gc='ghq-clone'
+alias gg='ghq-select'
+
 # gh
 alias ghb='gh browse'
 alias gho='gh browse'
