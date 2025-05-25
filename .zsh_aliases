@@ -8,12 +8,6 @@ alias .....="cd ../../../.."
 # git
 alias g='git'
 
-# ghq
-function qg (){
-  local repo=$(echo ${1} | sed s%https://github.com/%%)
-  ghq get "https://github.com/${repo}.git"
-}
-
 # clone
 alias degit="tiged"
 
@@ -69,9 +63,6 @@ alias nii='ni -i'
 
 # editor
 alias c='code'
-alias cr='cursor'
-alias cc='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} code $(ghq root)/{}'
-alias ccr='ghq list | fzf --preview "head -100 $(ghq root)/{}/package.json" | xargs -I {} cursor $(ghq root)/{}'
 
 # mise
 alias m='mise'
@@ -87,3 +78,10 @@ alias rmnn='rm -rf **/node_modules'
 alias d='deno'
 alias dt='deno task'
 alias dr='deno run'
+
+# deno script
+alias r='uni-run'
+
+# bun
+alias b='bun'
+alias bd='bun dev'

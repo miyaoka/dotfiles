@@ -1,12 +1,6 @@
-# brew
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-export BROWSER=wslview
+# zsh
 
-# starship
-export STARSHIP_CONFIG=~/.config/.starship.toml
-eval "$(starship init zsh)"
-
-# history
+## history
 export HISTFILE=~/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
@@ -16,17 +10,14 @@ setopt hist_ignore_dups       # 前回のイベントと重複する場合、履
 setopt hist_save_no_dups      # 履歴ファイルに書き出す際、新しいコマンドと重複する古いコマンドは切り捨てる
 setopt share_history          # 全てのセッションで履歴を共有する
 
+# brew
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+export BROWSER=wslview
+
+# starship
+export STARSHIP_CONFIG=~/.config/.starship.toml
+eval "$(starship init zsh)"
+
 # fzf
 export FZF_DEFAULT_OPTS='--border --height 70% --color=fg+:11 --reverse --exit-0 --exact  --ignore-case'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# pnpm
-export PNPM_HOME="/home/miyaoka/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# Add deno completions to search path
-if [[ ":$FPATH:" != *":/home/miyaoka/completions:"* ]]; then export FPATH="/home/miyaoka/completions:$FPATH"; fi

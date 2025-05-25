@@ -18,6 +18,7 @@ mkdir -p ~/.config/zsh
 ln -sf ${wd}/.zshrc ~/.config/zsh/.zshrc
 ln -sf ${wd}/.zsh_aliases ~/.config/zsh/.zsh_aliases
 ln -sf ${wd}/.zsh_exports ~/.config/zsh/.zsh_exports
+ln -sf ${wd}/.zsh_functions ~/.config/zsh/.zsh_functions
 
 ### starship
 ln -sf ${wd}/.starship.toml ~/.config/.starship.toml
