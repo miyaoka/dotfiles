@@ -14,6 +14,7 @@ alias degit="tiged"
 # ghq
 alias gc='ghq-clone'
 alias gg='ghq-select'
+alias cc='gg'
 
 # gh
 alias ghb='gh browse'
