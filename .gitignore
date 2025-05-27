@@ -1,2 +1,8 @@
 # cline
 .task.md
+
+*.local
+
+**/.claude/settings.local.json
+
+**/CLAUDE.local.md
