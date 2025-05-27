@@ -66,7 +66,7 @@
   # delete local branch
   bld = !git bl | fzf --header '[delete local branch]' | awk '{ print $2 }' | xargs -r git branch -D
   # delete remote branch
-  brd = !git br | fzf --header '[delete reteme branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs -r git push -d origin
+  brd = !git br | fzf --header '[delete remote branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs -r git push -d origin
   # delete merged branch
   bmd = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs -r git branch -d
 

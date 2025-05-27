@@ -15,7 +15,6 @@ ln -sf ${wd}/.gitignore ~/.config/git/ignore
 
 ### zsh
 mkdir -p ~/.config/zsh
-ln -sf ${wd}/.zshenv ~/.zshenv
 ln -sf ${wd}/.zshrc ~/.config/zsh/.zshrc
 ln -sf ${wd}/.zsh_aliases ~/.config/zsh/.zsh_aliases
 ln -sf ${wd}/.zsh_exports ~/.config/zsh/.zsh_exports
