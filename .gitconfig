@@ -64,20 +64,20 @@
   bld = !git bl | fzf --header '[delete local branch]' | awk '{ print $2 }' | xargs -r git branch -D
   # branch remote delete
   brd = !git br | fzf --header '[delete remote branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs -r git push -d origin
+  # branch local prune: リモートで削除されたブランチをローカルから削除
+  blp = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
+  # branch merged delete: 現在のブランチにマージ済みのローカルブランチを削除
+  bmd = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs -r git branch -d
 
   # ユーティリティ
   # ブランチ一覧（日付順）
   b = branch --sort=-authordate
-  # local
-  bl = !git fer refs/heads
-  # remote
-  br = !git fer refs/remotes | sed 's/origin\\///'
   # 日付付きで表示
-  fer = !git for-each-ref --sort=-committerdate --format='%(authordate:short) %(color:yellow)%(refname:short)%(color:reset) %(color:green)[%(authorname)]%(color:reset) %(subject)'
-  # branch local prune
-  blp = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
-  # branch merged delete
-  bmd = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs -r git branch -d
+  bd = !git for-each-ref --sort=-committerdate --format='%(authordate:short) %(color:yellow)%(refname:short)%(color:reset) %(color:green)[%(authorname)]%(color:reset) %(subject)'
+  # local
+  bl = !git bd refs/heads
+  # remote
+  br = !git bd refs/remotes | sed 's/origin\\///'
 
 # =============================================================================
 # コミット / commit
