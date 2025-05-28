@@ -135,17 +135,30 @@
   sta = stash apply
 
   # switch
+  # ブランチ切り替え（worktreeがあればcode起動、なければswitch）
+  sw = !branch=$(git bl | fzf --header '[switch or open worktree]' | awk '{print $2}') && [ -n \"$branch\" ] && (worktree_path=$(git worktree list | grep \"\\[$branch\\]\" | awk '{print $1}') && [ -n \"$worktree_path\" ] && code \"$worktree_path\" || git switch \"$branch\")
+  # 前回ブランチに戻る
   sww = switch -
-  # 最近switchした順のbranchから選択
+  # 最近switchした順のブランチから選択
   swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs -r git switch
+  # 新しいブランチを作成してswitch
   swc = switch -c
+  # mainブランチにswitch
   swm = switch main
+  # devブランチにswitch
   swd = switch dev
+  # fzf選択用の共通関数
   swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs -r git switch
-  # switch local branch
-  sw = !git bl | git swf
-  # switch remote branch
+  # リモートブランチからswitch
   swr = !git br | grep -v 'HEAD' | git swf
+
+  # worktree
+  # ワークツリー一覧表示
+  wl = worktree list
+  # ワークツリーを複数選択して削除
+  wr = !git worktree list | grep -v '(bare)' | sed '1d' | fzf -m --header '[remove worktree (multi-select with Tab)]' | awk '{print $1}' | xargs -r -I {} git worktree remove {}
+  # ワークツリー作成してcode起動
+  ws = !repo=$(basename $(pwd)) && branch=$(git bl | fzf --header '[create worktree and open in code]' | awk '{print $2}') && [ -n \"$branch\" ] && worktree_dir=\"../$repo.worktree/$branch\" && (git worktree add \"$worktree_dir\" \"$branch\" 2>/dev/null || echo \"Worktree already exists or creation failed\") && code \"$worktree_dir\"
   # remote最新にしてマージ済みブランチ削除
   up = !git ftp && git rho && git bmd
   mm = !git swm && git up
