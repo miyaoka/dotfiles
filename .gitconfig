@@ -47,34 +47,41 @@
 
 # alias
 [alias]
-  # add
+# =============================================================================
+# ステージング / add
+# =============================================================================
   a = !git unstaged | xargs -r git add && git s
   ap = !git add -p $(git unstaged)
   aa = !git add -A && git s
   aaa = !git aa && git cm 'WIP'
   aaaa = !git swc "wip-$(date +%s)" && git add -A && git cm "emergency" -n && git psu
 
-  # branch
-  # デフォルトで新しい順にする
-  b = branch --sort=-authordate
-  # 日付付きでリスト
-  fer = !git for-each-ref --sort=-committerdate --format='%(authordate:short) %(color:yellow)%(refname:short)%(color:reset) %(color:green)[%(authorname)]%(color:reset) %(subject)'
-  bl = !git fer refs/heads
-  br = !git fer refs/remotes | sed 's/origin\\///'
-  # prune local branch
-  blp = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
-  # delete local branch
+# =============================================================================
+# ブランチ管理 / branch
+# =============================================================================
+  # ブランチ削除
+  # branch local delete
   bld = !git bl | fzf --header '[delete local branch]' | awk '{ print $2 }' | xargs -r git branch -D
-  # delete remote branch
+  # branch remote delete
   brd = !git br | fzf --header '[delete remote branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs -r git push -d origin
-  # delete merged branch
+
+  # ユーティリティ
+  # ブランチ一覧（日付順）
+  b = branch --sort=-authordate
+  # local
+  bl = !git fer refs/heads
+  # remote
+  br = !git fer refs/remotes | sed 's/origin\\///'
+  # 日付付きで表示
+  fer = !git for-each-ref --sort=-committerdate --format='%(authordate:short) %(color:yellow)%(refname:short)%(color:reset) %(color:green)[%(authorname)]%(color:reset) %(subject)'
+  # branch local prune
+  blp = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
+  # branch merged delete
   bmd = !git branch --merged | egrep -v '\\*|master|main|dev' | xargs -r git branch -d
 
-  # clean
-  cl = !git untracked | xargs -r git clean -f
-  clf = clean -df
-
-  # commit
+# =============================================================================
+# コミット / commit
+# =============================================================================
   c = commit
   cv = commit -v
   cm = commit -m
@@ -82,95 +89,112 @@
   can = commit --amend --no-edit
   cav = commit --amend -v
 
-  # diff
+# =============================================================================
+# 差分表示 / diff
+# =============================================================================
   d = diff
   dc = diff --cached
   dcn = !git --no-pager diff --cached
   dn = diff --name-only
   um = !git --no-pager diff --name-only --diff-filter=U
 
-  # fetch
-  ft = fetch
-  ftp = fetch --prune
-
-  # log
+# =============================================================================
+# ログ表示 / log
+# =============================================================================
   l = log --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
   ll = !git l --stat
   lg = !git l --graph
   lm = !git l --merges
 
-  # push
+# =============================================================================
+# リモート操作 / fetch & push & pull
+# =============================================================================
+  ft = fetch
+  ftp = fetch --prune
+  pl = pull
   ps = push
   psu = push -u origin HEAD
-  # https://onk.hatenablog.jp/entry/2022/12/18/000000
   psf = push -f --force-with-lease --force-if-includes
 
-  # reset
+# =============================================================================
+# 変更の取り消し / reset
+# =============================================================================
+  # ファイル選択式reset
   r = !git staged | xargs -r git reset
   # reset all
   ra = reset
-  # reset modified file
-  rc = !git modified | xargs -r git checkout && git s
   rh = reset --hard
-  # reset-hard to origin
+  # reset to origin
   rho = !git cbn | sed 's/\\.*/origin\\/&/' | xargs -r git rh
-  rhh = reset --hard HEAD
+  # 1つ前にreset
   rr = reset @^1
-  # reset to target commit
-  rt = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs -r git diff --color=always' | awk '{ print $1 }' | xargs -r git reset && git s
-
-  # rebase
+  # コミット選択式reset
+  rrr = !git l | fzf --preview 'echo {} | awk \"{print \\$1 \\\"^ \\\" \\$1 }\" | xargs -r git diff --color=always' | awk '{ print $1 }' | xargs -r git reset && git s
+  
+# =============================================================================
+# 履歴の書き換え / rebase
+# =============================================================================
   rb = rebase
   rba = rebase --abort
   rbc = rebase --continue
   rbi = rebase -i
-  rbii = rebase -i HEAD~10  
   rbh = rebase HEAD
   rbo = rebase --onto
 
-  # stash
+# =============================================================================
+# 一時保存 / stash
+# =============================================================================
   st = stash
   stp = stash pop
   stl = stash list
   sta = stash apply
 
-  # switch
+# =============================================================================
+# ブランチ切り替え / switch
+# =============================================================================
   # ブランチ切り替え（worktreeがあればcode起動、なければswitch）
   sw = !branch=$(git bl | fzf --header '[switch or open worktree]' | awk '{print $2}') && [ -n \"$branch\" ] && (worktree_path=$(git worktree list | grep \"\\[$branch\\]\" | awk '{print $1}') && [ -n \"$worktree_path\" ] && code \"$worktree_path\" || git switch \"$branch\")
-  # 前回ブランチに戻る
+  # 直前にswitch
   sww = switch -
-  # 最近switchした順のブランチから選択
+  # 過去のcheckout履歴から選択してswitch
   swww = !git reflog | sed -n 's/.*checkout:.* to \\(.*\\)$/\\1/p' | awk '!seen[$0]++' | fzf | xargs -r git switch
-  # 新しいブランチを作成してswitch
+  # ブランチ作成してswitch
   swc = switch -c
-  # mainブランチにswitch
+  # remoteブランチからswitch
+  swr = !git br | grep -v 'HEAD' | fzf --exact --no-sort | awk '{ print $2 }' | xargs -r git switch
+  # ユーティリティ
   swm = switch main
-  # devブランチにswitch
   swd = switch dev
-  # fzf選択用の共通関数
-  swf = !fzf --exact --no-sort | awk '{ print $2 }' | xargs -r git switch
-  # リモートブランチからswitch
-  swr = !git br | grep -v 'HEAD' | git swf
 
-  # worktree
-  # ワークツリー一覧表示
+# =============================================================================
+# ワークツリー管理 / worktree
+# =============================================================================
   wl = worktree list
-  # ワークツリーを複数選択して削除
-  wr = !git worktree list | grep -v '(bare)' | sed '1d' | fzf -m --header '[remove worktree (multi-select with Tab)]' | awk '{print $1}' | xargs -r -I {} git worktree remove {}
-  # ワークツリー作成してcode起動
+  # worktree作成 or worktreeを開く
   ws = !repo=$(basename $(pwd)) && branch=$(git bl | fzf --header '[create worktree and open in code]' | awk '{print $2}') && [ -n \"$branch\" ] && worktree_dir=\"../$repo.worktree/$branch\" && (git worktree add \"$worktree_dir\" \"$branch\" 2>/dev/null || echo \"Worktree already exists or creation failed\") && code \"$worktree_dir\"
-  # remote最新にしてマージ済みブランチ削除
-  up = !git ftp && git rho && git bmd
-  mm = !git swm && git up
+  # worktree削除
+  wr = !git worktree list | grep -v '(bare)' | sed '1d' | fzf -m --header '[remove worktree (multi-select with Tab)]' | awk '{print $1}' | xargs -r -I {} git worktree remove {}
 
+# =============================================================================
+# 複合操作 / workflow
+# =============================================================================
+  # 最新のremote状態に更新して不要ブランチ削除
+  up = !git ftp && git rho && git blp && git bmd
 
-  # other
+# =============================================================================
+# その他 / other
+# =============================================================================
   s = status --short --branch
-  pl = pull
-  rl = reflog show -n 20
+  # 選択式clean
+  cl = !git untracked | xargs -r git clean -f
+  # clean all
+  clf = clean -df
 
-  # util  
+# =============================================================================
+# ユーティリティ / util
+# =============================================================================
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort | fzf
+  # current branch name
   cbn = branch --show-current # rev-parse --abbrev-ref HEAD
   staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
   unstaged = !git ls-files -m -o --exclude-standard | fzf -m --preview 'git diff --color=always {}'
