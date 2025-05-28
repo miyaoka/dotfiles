@@ -1,0 +1,12 @@
+[tools]
+bun = "latest"
+deno = "latest"
+fzf = "latest"
+node = "latest"
+pnpm = "latest"
+
+[settings]
+trusted_config_paths = [ 
+  '~/src/github.com/miyaoka/',
+  '~/src/github.com/studio-design/'
+ ]

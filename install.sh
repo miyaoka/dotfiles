@@ -22,3 +22,7 @@ ln -sf ${wd}/.zsh_functions ~/.config/zsh/.zsh_functions
 
 ### starship
 ln -sf ${wd}/.starship.toml ~/.config/.starship.toml
+
+### mise
+mkdir -p ~/.config/mise
+ln -sf ${wd}/mise/config.toml ~/.config/mise/config.toml
