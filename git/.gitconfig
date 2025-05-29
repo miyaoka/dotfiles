@@ -193,7 +193,7 @@
 # =============================================================================
 # ユーティリティ / util
 # =============================================================================
-  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort | fzf
+  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/[\\1] \\2/' | sort | fzf --preview 'echo {}' --preview-window=wrap
   # current branch name
   cbn = branch --show-current # rev-parse --abbrev-ref HEAD
   staged = !git diff --name-only --cached | fzf -m --preview 'git diff --color=always HEAD {}'
