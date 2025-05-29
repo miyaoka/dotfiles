@@ -21,7 +21,8 @@ ln -sf ${wd}/git/.gitconfig ~/.config/git/config
 ln -sf ${wd}/git/.gitignore ~/.config/git/ignore
 
 ### starship
-ln -sf ${wd}/starship/.starship.toml ~/.config/.starship.toml
+mkdir -p ~/.config/starship
+ln -sf ${wd}/starship/.starship.toml ~/.config/starship/.starship.toml
 
 ### mise
 mkdir -p ~/.config/mise

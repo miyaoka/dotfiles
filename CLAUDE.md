@@ -18,8 +18,8 @@
 - `zsh/.zshenv`をホームディレクトリにリンク
 - `zsh/`配下のファイルを`~/.config/zsh/`にリンク
 - `git/`配下のファイルを`~/.config/git/`にリンク
-- `starship/.starship.toml`を`~/.config/`にリンク
-- `mise/config.toml`を`~/.config/mise/`にリンク
+- `starship/`配下のファイルをを`~/.config/starship/`にリンク
+- `mise/`配下のファイルをを`~/.config/mise/`にリンク
 
 ## ファイル構成
 
@@ -27,7 +27,7 @@
 - `git/` - Git設定ファイル群
 - `zsh/` - Zsh設定ファイル群
 - `starship/` - Starship設定ファイル群
-- `mise/config.toml` - miseランタイム管理ツール設定
+- `mise/` - miseランタイム管理ツール設定
 
 ## 設定内容
 

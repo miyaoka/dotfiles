@@ -15,7 +15,7 @@ export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 export BROWSER=wslview
 
 # starship
-export STARSHIP_CONFIG=~/.config/.starship.toml
+export STARSHIP_CONFIG=~/.config/starship/.starship.toml
 eval "$(starship init zsh)"
 
 # fzf
