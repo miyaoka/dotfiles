@@ -31,8 +31,8 @@ ghq-clone() {
 # ghq で管理しているリポジトリをfzfで選択し、引数で指定したコマンドで実行する
 # 選択履歴を保存して次回は優先表示する
 ghq-select() {
-  # 開くコマンド（第一引数があればそれを、なければ code）
-  local opener="${1:-code}"
+  # 開くコマンド（第一引数があればそれを、なければ $EDITOR）
+  local opener="${1:-${EDITOR}}"
 
   # 選択履歴保存先
   local histfile="$HOME/.config/.ghq_fzf_history"
