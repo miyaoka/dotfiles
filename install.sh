@@ -22,7 +22,7 @@ ln -sf ${wd}/git/.gitignore ~/.config/git/ignore
 
 ### starship
 mkdir -p ~/.config/starship
-ln -sf ${wd}/starship/.starship.toml ~/.config/starship/.starship.toml
+ln -sf ${wd}/starship/starship.toml ~/.config/starship/starship.toml
 
 ### mise
 mkdir -p ~/.config/mise
