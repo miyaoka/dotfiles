@@ -13,6 +13,8 @@ style = 'yellow'
 [directory]
 fish_style_pwd_dir_length = 1
 repo_root_style = 'yellow bold'
+truncate_to_repo = false
+truncation_length = 3
 
 [nodejs]
 disabled = false
