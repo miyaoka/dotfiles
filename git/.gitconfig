@@ -173,7 +173,7 @@
 # =============================================================================
   wl = worktree list
   # worktree作成 or worktreeを開く
-  ws = !repo=$(basename $(pwd)) && branch=$(git bl | fzf --header '[create worktree and open in code]' | awk '{print $2}') && [ -n \"$branch\" ] && worktree_dir=\"../$repo.worktree/$branch\" && (git worktree add \"$worktree_dir\" \"$branch\" 2>/dev/null || echo \"Worktree already exists or creation failed\") && $EDITOR \"$worktree_dir\"
+  ws = !repo=$(basename $(pwd)) && branch=$(git bl | fzf --header '[create worktree and open in code]' | awk '{print $2}') && [ -n \"$branch\" ] && worktree_dir=\"../$repo.w/$branch\" && (git worktree add \"$worktree_dir\" \"$branch\" 2>/dev/null || echo \"Worktree already exists or creation failed\") && $EDITOR \"$worktree_dir\"
   # worktree削除
   wr = !git worktree list | grep -v '(bare)' | sed '1d' | fzf -m --header '[remove worktree (multi-select with Tab)]' | awk '{print $1}' | xargs -r -I {} git worktree remove {}
 
