@@ -114,7 +114,7 @@
   pl = pull
   ps = push
   psu = push -u origin HEAD
-  psf = push -f --force-with-lease --force-if-includes
+  psf = push --force-with-lease --force-if-includes
 
 # =============================================================================
 # 変更の取り消し / reset
