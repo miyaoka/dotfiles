@@ -62,6 +62,13 @@ ghq-select() {
     # プレビューに README.md の最初の200行を表示
     --preview="head -n200 ${ghq_root}/{}/README.md 2>/dev/null || echo 'No README.md'"
   )
+  
+  # タイトルを設定
+  if [ "$frequency_mode" = true ]; then
+    fzf_opts+=(--header="ghq repositories (frequency order)")
+  else
+    fzf_opts+=(--header="ghq repositories (recent order)")
+  fi
 
   # 1) 選択結果を rel に代入
   rel=$(
