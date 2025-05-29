@@ -30,8 +30,17 @@ ghq-clone() {
 
 # ghq で管理しているリポジトリをfzfで選択し、引数で指定したコマンドで実行する
 # 選択履歴を保存して次回は優先表示する
+# -f オプションで頻度順表示
 ghq-select() {
-  # 開くコマンド（第一引数があればそれを、なければ $EDITOR）
+  local frequency_mode=false
+  
+  # -f オプションチェック
+  if [[ "$1" == "-f" ]]; then
+    frequency_mode=true
+    shift
+  fi
+  
+  # 開くコマンド（引数があればそれを、なければ $EDITOR）
   local opener="${1:-${EDITOR}}"
 
   # 選択履歴保存先
@@ -51,15 +60,22 @@ ghq-select() {
     # プレビューサイズ設定
     --preview-window=right:40%
     # プレビューに README.md の最初の200行を表示
-    --preview="head -n200 ${ghq_root}/{1}/README.md 2>/dev/null || echo 'No README.md'"
+    --preview="head -n200 ${ghq_root}/{}/README.md 2>/dev/null || echo 'No README.md'"
   )
 
   # 1) 選択結果を rel に代入
   rel=$(
     # サブシェル開始：履歴と ghq list を結合
     (
-      # ヒストリーファイルがあれば、新しいものから逆順に出力
-      [ -f "$histfile" ] && tac "$histfile"
+      if [ -f "$histfile" ]; then
+        if [ "$frequency_mode" = true ]; then
+          # 頻度順（使用回数の多い順）で出力
+          sort "$histfile" | uniq -c | sort -nr | awk '{print $2}'
+        else
+          # 新しいものから逆順に出力
+          tac "$histfile"
+        fi
+      fi
       # ghq 管理下のリポジトリを相対パスで一覧表示
       ghq list
     ) |
@@ -73,5 +89,16 @@ ghq-select() {
   echo "$rel" >> "$histfile"
 
   # 3) 引数で指定したコマンドで開く
-  "$opener" "${ghq_root}/${rel}"
+  abs="${ghq_root}/${rel}"
+  if [ -d "$abs" ]; then
+    "$opener" "$abs"
+  else
+    echo "Repository not found: $rel"
+    echo "Removing from history..."
+    # 履歴から削除
+    if [ -f "$histfile" ]; then
+      grep -v "^${rel}$" "$histfile" > "${histfile}.tmp" && mv "${histfile}.tmp" "$histfile"
+    fi
+    return 1
+  fi
 }
