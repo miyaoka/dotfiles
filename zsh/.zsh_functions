@@ -48,6 +48,8 @@ ghq-select() {
   local -a fzf_opts=(
     # 最新を上に表示
     --reverse
+    # プレビューサイズ設定
+    --preview-window=right:40%
     # プレビューに README.md の最初の200行を表示
     --preview="head -n200 ${ghq_root}/{1}/README.md 2>/dev/null || echo 'No README.md'"
   )
