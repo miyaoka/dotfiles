@@ -60,10 +60,10 @@
 # ブランチ管理 / branch
 # =============================================================================
   # ブランチ削除
-  # branch local delete
+  # branch local delete (-Dで強制削除)
   bld = !git bl | fzf --header '[delete local branch]' | awk '{ print $2 }' | xargs -r git branch -D
-  # branch remote delete
-  brd = !git br | fzf --header '[delete remote branch]' | awk '{ print $2 }' | sed -r 's/([^\\/]+)\\/(.+)/\\1 \\2/g' | xargs -r git push -d origin
+  # branch remote delete (確認付き)
+  brd = !branch=$(git br | fzf --header '[delete remote branch]' | awk '{print $2}') && test -n \"$branch\" && printf \"Delete remote branch %s? (y/N) \" \"$branch\" && read confirm && test \"$confirm\" = \"y\" && git push -d origin \"$branch\"
   # branch local prune: リモートで削除されたブランチをローカルから削除
   blp = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
   # branch merged delete: 現在のブランチにマージ済みのローカルブランチを削除
@@ -182,13 +182,17 @@
   up = !git ftp && git rho && git blp && git bmd
 
 # =============================================================================
+# ファイル削除 / clean
+# =============================================================================
+  # 選択式clean (復元不可能なため確認付き)
+  cl = !files=$(git untracked) && test -n \"$files\" && echo \"Delete these untracked files:\" && echo \"$files\" && printf \"Continue? (y/N) \" && read confirm && test \"$confirm\" = \"y\" && echo \"$files\" | xargs -r git clean -f
+  # clean all (復元不可能なため確認付き)
+  cla = !printf \"Delete all untracked files and directories? (y/N) \" && read confirm && test \"$confirm\" = \"y\" && git clean -df
+
+# =============================================================================
 # その他 / other
 # =============================================================================
   s = status --short --branch
-  # 選択式clean
-  cl = !git untracked | xargs -r git clean -f
-  # clean all
-  clf = clean -df
 
 # =============================================================================
 # ユーティリティ / util
