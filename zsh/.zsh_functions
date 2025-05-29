@@ -61,6 +61,9 @@ ghq-select() {
     --preview-window=right:40%
     # プレビューに README.md の最初の200行を表示
     --preview="head -n200 ${ghq_root}/{}/README.md 2>/dev/null || echo 'No README.md'"
+    # github.com/ 以降の部分のみを表示（/区切りで2列目以降）
+    --with-nth="2.."
+    --delimiter="/"
   )
   
   # タイトルを設定
