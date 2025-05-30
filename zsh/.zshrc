@@ -1,19 +1,19 @@
-# dotfilesリポジトリのパスを取得
-DOTFILES_DIR="$(dirname "$(readlink ~/.zshenv)")"
+# 実行中スクリプトの実体ディレクトリを取得
+local _dotfiles_dir=${${(%):-%x}:A:h}
 
 # エイリアスの読み込み
-if [ -f "$DOTFILES_DIR/aliases.zsh" ]; then
-    source "$DOTFILES_DIR/aliases.zsh"
+if [ -f "$_dotfiles_dir/aliases.zsh" ]; then
+    source "$_dotfiles_dir/aliases.zsh"
 fi
 
 # 環境変数の読み込み
-if [ -f "$DOTFILES_DIR/exports.zsh" ]; then
-    source "$DOTFILES_DIR/exports.zsh"
+if [ -f "$_dotfiles_dir/exports.zsh" ]; then
+    source "$_dotfiles_dir/exports.zsh"
 fi
 
 # 関数の読み込み
-if [ -f "$DOTFILES_DIR/functions.zsh" ]; then
-    source "$DOTFILES_DIR/functions.zsh"
+if [ -f "$_dotfiles_dir/functions.zsh" ]; then
+    source "$_dotfiles_dir/functions.zsh"
 fi
 
 # for M1 mac
