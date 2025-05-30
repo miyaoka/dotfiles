@@ -11,9 +11,6 @@ ln -sf ${wd}/zsh/.zshenv ~/.zshenv
 ### zsh（zshenvでZDOTDIR設定）
 mkdir -p ~/.config/zsh
 ln -sf ${wd}/zsh/.zshrc ~/.config/zsh/.zshrc
-ln -sf ${wd}/zsh/.zsh_aliases ~/.config/zsh/.zsh_aliases
-ln -sf ${wd}/zsh/.zsh_exports ~/.config/zsh/.zsh_exports
-ln -sf ${wd}/zsh/.zsh_functions ~/.config/zsh/.zsh_functions
 
 ### git
 mkdir -p ~/.config/git

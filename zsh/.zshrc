@@ -1,16 +1,19 @@
+# dotfilesリポジトリのパスを取得
+DOTFILES_DIR="$(dirname "$(readlink ~/.zshenv)")"
+
 # エイリアスの読み込み
-if [ -f ~/.config/zsh/.zsh_aliases ]; then
-    source ~/.config/zsh/.zsh_aliases
+if [ -f "$DOTFILES_DIR/aliases.zsh" ]; then
+    source "$DOTFILES_DIR/aliases.zsh"
 fi
 
 # 環境変数の読み込み
-if [ -f ~/.config/zsh/.zsh_exports ]; then
-    source ~/.config/zsh/.zsh_exports
+if [ -f "$DOTFILES_DIR/exports.zsh" ]; then
+    source "$DOTFILES_DIR/exports.zsh"
 fi
 
 # 関数の読み込み
-if [ -f ~/.config/zsh/.zsh_functions ]; then
-    source ~/.config/zsh/.zsh_functions
+if [ -f "$DOTFILES_DIR/functions.zsh" ]; then
+    source "$DOTFILES_DIR/functions.zsh"
 fi
 
 # for M1 mac
