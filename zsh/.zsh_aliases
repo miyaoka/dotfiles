@@ -64,6 +64,7 @@ alias pnpx='pnpm dlx'
 
 # ni
 alias nii='ni -i'
+alias r='nr'
 
 # editor
 alias c='code'
@@ -84,7 +85,7 @@ alias dt='deno task'
 alias dr='deno run'
 
 # deno script
-alias r='uni-run'
+# alias r='uni-run'
 
 # bun
 alias b='bun'

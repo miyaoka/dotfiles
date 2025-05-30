@@ -153,15 +153,32 @@ zshaddhistory() {
   local cmd="${1%$'\n'}"
   cmd="${cmd#"${cmd%%[![:space:]]*}"}"
   
-  # 空のコマンドや2文字以下のコマンドは除外
-  if [[ -z "$cmd" || ${#cmd} -le 2 ]]; then
-    return 1
-  fi
   
   # 正規表現でマッチチェック
   if [[ "$cmd" =~ $_history_exclude_regex ]]; then
     return 1  # 履歴に追加しない
   fi
   
+  # 実行するコマンドを記録（エラー時の削除用）
+  _last_command="$cmd"
+  
   return 0  # 履歴に追加する
+}
+
+# コマンド実行後に呼ばれる - エラーの場合は履歴から削除
+precmd() {
+  # 前回のコマンドの終了ステータスを保存
+  local last_exit_status=$?
+  
+  # 前回のコマンドがエラーだった場合
+  if [[ $last_exit_status -ne 0 && -n "$_last_command" ]]; then
+    # 履歴ファイルから最後の行を削除（メモリには残す）
+    if [[ -w "$HISTFILE" && -f "$HISTFILE" ]]; then
+      # 一時ファイルを使って最後の行以外をコピー
+      head -n -1 "$HISTFILE" > "${HISTFILE}.tmp" && mv "${HISTFILE}.tmp" "$HISTFILE"
+    fi
+  fi
+  
+  # コマンド記録をクリア
+  _last_command=""
 }
