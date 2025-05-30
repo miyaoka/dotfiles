@@ -112,3 +112,56 @@ ghq-select() {
     return 1
   fi
 }
+
+# 履歴から除外するコマンド（基本名のみ）
+_excluded_commands=(
+  "ls"           # ls系コマンド
+  "ll"
+  "la"
+  "l"
+  "cd"           # ディレクトリ移動
+  "pwd"          # 現在ディレクトリ表示
+  "clear"        # 画面クリア
+  "cls"
+  "exit"         # 終了
+  "history"      # 履歴表示
+  "bg"           # バックグラウンド処理
+  "fg"
+  "jobs"
+  "ps"           # プロセス表示
+  "htop"
+  "top"
+  "man"          # マニュアル表示
+  "help"
+  "which"        # コマンドパス表示
+  "type"
+  "echo"         # 簡単な出力
+  "cat"          # ファイル表示
+  "less"
+  "more"
+  "head"
+  "tail"
+)
+
+# 配列を正規表現パターンに変換（引数ありパターンも自動生成）
+_history_exclude_regex=$(printf "|%s" "${_excluded_commands[@]}")
+_history_exclude_regex="^(${_history_exclude_regex:1})(\s.*)?$"
+
+# 履歴から除外するコマンドのフィルタリング
+zshaddhistory() {
+  # コマンドラインから先頭の空白と改行を除去
+  local cmd="${1%$'\n'}"
+  cmd="${cmd#"${cmd%%[![:space:]]*}"}"
+  
+  # 空のコマンドや2文字以下のコマンドは除外
+  if [[ -z "$cmd" || ${#cmd} -le 2 ]]; then
+    return 1
+  fi
+  
+  # 正規表現でマッチチェック
+  if [[ "$cmd" =~ $_history_exclude_regex ]]; then
+    return 1  # 履歴に追加しない
+  fi
+  
+  return 0  # 履歴に追加する
+}
