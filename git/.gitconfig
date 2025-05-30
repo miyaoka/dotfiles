@@ -154,7 +154,7 @@
 # =============================================================================
 # ブランチ切り替え / switch
 # =============================================================================
-  # ブランチ切り替え（worktreeがあればcode起動、なければswitch）
+  # ブランチ切り替え（worktreeなら$EDITORで開く、そうでなければswitch）
   sw = !branch=$(git bl | fzf --header '[switch or open worktree]' | awk '{print $2}') && [ -n \"$branch\" ] && (worktree_path=$(git worktree list | grep \"\\[$branch\\]\" | awk '{print $1}') && [ -n \"$worktree_path\" ] && $EDITOR \"$worktree_path\" || git switch \"$branch\")
   # 直前にswitch
   sww = switch -
