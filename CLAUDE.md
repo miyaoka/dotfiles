@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-このファイルはリポジトリでコードを扱う際にClaude Code（claude.ai/code）へガイダンスを提供する
+このファイルはリポジトリでコードを扱う際に Claude Code（claude.ai/code）へガイダンスを提供する
 
 ## リポジトリ概要
 
-シェル設定ファイルとセットアップスクリプトを含む個人用dotfilesリポジトリ。主な目的は、設定ファイルを適切なシステムディレクトリにシンボリックリンクを作成すること
+シェル設定ファイルとセットアップスクリプトを含む個人用 dotfiles リポジトリ。主な目的は、設定ファイルを適切なシステムディレクトリにシンボリックリンクを作成すること
 
 ## インストール
 
@@ -15,6 +15,7 @@
 ```
 
 このスクリプトは：
+
 - `zsh/.zshenv`をホームディレクトリにリンク
 - `zsh/`配下のファイルを`~/.config/zsh/`にリンク
 - `git/`配下のファイルを`~/.config/git/`にリンク
@@ -24,24 +25,39 @@
 ## ファイル構成
 
 - `install.sh` - シンボリックリンクを作成するメインインストールスクリプト
-- `git/` - Git設定ファイル群
-- `zsh/` - Zsh設定ファイル群
-- `starship/` - Starship設定ファイル群
-- `mise/` - miseランタイム管理ツール設定
+- `git/` - Git 設定ファイル群
+- `zsh/` - Zsh 設定ファイル群
+- `starship/` - Starship 設定ファイル群
+- `mise/` - mise ランタイム管理ツール設定
 
 ## 設定内容
 
-### zsh設定
-- `.zshenv` - ZDOTDIR設定でzsh設定ファイルを`~/.config/zsh/`に配置
-- `.zshrc` - メイン設定ファイル、他設定ファイルを読み込み
-- `.zsh_aliases` - コマンドエイリアス（git、パッケージマネージャー、ツール）
-- `.zsh_exports` - 環境変数設定
-- `.zsh_functions` - カスタムシェル関数
+### zsh 設定
 
-### git設定
+- `.zshenv` - ZDOTDIR 設定で zsh 設定ファイルを`~/.config/zsh/`に配置
+- `.zshrc` - メイン設定ファイル、他設定ファイルを読み込み
+- `config.zsh` - zsh コア設定（setopt、履歴管理）
+- `exports.zsh` - 環境変数設定
+- `aliases.zsh` - コマンドエイリアス（git、パッケージマネージャー、ツール）
+- `functions.zsh` - カスタムシェル関数
+- `tools.zsh` - 外部ツール初期化（brew、mise、starship、pnpm）
+
+### git 設定
+
 - `.gitconfig` - 豊富なエイリアスとワークフロー設定
-- `.gitignore` - グローバルignoreパターン
+- `.gitignore` - グローバル ignore パターン
 
 ### その他ツール
+
 - `starship` - プロンプト設定
 - `mise` - ランタイムバージョン管理ツール設定
+
+## ファイル読み込み順序
+
+`.zshrc` で以下の順序で設定ファイルを読み込む：
+
+1. `config.zsh` - zsh 基本設定
+2. `exports.zsh` - 環境変数
+3. `aliases.zsh` - エイリアス
+4. `functions.zsh` - 関数
+5. `tools.zsh` - 外部ツール初期化
