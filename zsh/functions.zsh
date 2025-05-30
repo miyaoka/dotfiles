@@ -112,3 +112,32 @@ ghq-select() {
   fi
 }
 
+# pushd スタックをfzfで選択して移動
+pushd-select() {
+  # スタックが空の場合は何もしない
+  if ! dirs -v | grep -q '^[[:space:]]*[0-9]'; then
+    echo "No directories in stack"
+    return 1
+  fi
+
+  # dirs -v の出力をfzfで選択
+  local selected
+  selected=$(dirs -v | fzf \
+    --reverse \
+    --height=50% \
+    --header="Directory stack" \
+    --preview="ls -la \$(echo {} | awk '{for(i=2;i<=NF;i++) printf \$i (i==NF?\"\":\" \")}' | sed 's|~|'\"$HOME\"'|')" \
+    --preview-window=right:40% \
+  ) || return
+
+  # 選択された行の番号を抽出
+  local stack_num
+  stack_num=$(echo "$selected" | awk '{print $1}')
+
+  # pushd +番号で移動
+  if [[ "$stack_num" =~ ^[0-9]+$ ]]; then
+    # pushdの結果を出力しない
+    pushd "+$stack_num" > /dev/null
+  fi
+}
+

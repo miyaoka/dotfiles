@@ -4,13 +4,31 @@
 setopt interactive_comments
 
 # history 設定
-export HISTSIZE=10000
-export SAVEHIST=10000
+export HISTSIZE=10000 # メモリ内履歴数
+export SAVEHIST=10000 # ファイル保存履歴数
+export HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"  # 履歴ファイルの場所を明示的に指定
+
 setopt hist_expire_dups_first # 履歴を切り詰める際に、重複する最も古いイベントから消す
 setopt hist_ignore_all_dups   # 履歴が重複した場合に古い履歴を削除する
-setopt hist_ignore_dups       # 前回のイベントと重複する場合、履歴に保存しない
 setopt hist_save_no_dups      # 履歴ファイルに書き出す際、新しいコマンドと重複する古いコマンドは切り捨てる
+setopt hist_reduce_blanks     # 履歴保存時に余分な空白を削除
+setopt hist_verify            # 履歴展開時に編集可能状態で表示（!!等）
+setopt inc_append_history     # コマンド実行時に即座に履歴追加
 setopt share_history          # 全てのセッションで履歴を共有する
+
+# 補完・入力関連
+setopt auto_menu              # TAB連打で補完候補を順次選択
+setopt auto_list              # 補完候補を自動表示
+setopt auto_param_slash       # ディレクトリ名補完時に末尾に/を追加
+setopt magic_equal_subst      # =以降でも補完有効（--prefix=/usr等）
+
+# ディレクトリ操作
+setopt auto_pushd             # cd時に自動でpushd
+setopt pushd_ignore_dups      # pushd時の重複ディレクトリを無視
+
+# グロブ・パターン
+setopt extended_glob          # 拡張glob（^、#等）を有効
+setopt glob_dots              # .で始まるファイルもglob対象
 
 # 履歴から除外するコマンド（基本名のみ）
 _excluded_commands=(
@@ -51,7 +69,6 @@ zshaddhistory() {
   # コマンドラインから先頭の空白と改行を除去
   local cmd="${1%$'\n'}"
   cmd="${cmd#"${cmd%%[![:space:]]*}"}"
-  
   
   # 正規表現でマッチチェック
   if [[ "$cmd" =~ $_history_exclude_regex ]]; then
