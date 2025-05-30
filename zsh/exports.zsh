@@ -1,7 +1,6 @@
 # zsh
 
 ## history
-export HISTFILE=~/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
 setopt hist_expire_dups_first # 履歴を切り詰める際に、重複する最も古いイベントから消す
