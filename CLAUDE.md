@@ -17,7 +17,7 @@
 このスクリプトは：
 
 - `zsh/.zshenv`をホームディレクトリにリンク
-- `zsh/`配下のファイルを`~/.config/zsh/`にリンク
+- `zsh/.zshrc`を`~/.config/zsh/`にリンク
 - `git/`配下のファイルを`~/.config/git/`にリンク
 - `starship/`配下のファイルをを`~/.config/starship/`にリンク
 - `mise/`配下のファイルをを`~/.config/mise/`にリンク
@@ -44,8 +44,9 @@
 
 ### git 設定
 
-- `.gitconfig` - 豊富なエイリアスとワークフロー設定
-- `.gitignore` - グローバル ignore パターン
+- `ignore` - グローバル ignore
+- `config` - グローバル config
+- `alias.conf` - エイリアスとワークフロー設定
 
 ### その他ツール
 
