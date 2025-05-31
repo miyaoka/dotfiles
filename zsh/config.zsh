@@ -65,6 +65,7 @@ _excluded_commands=(
   "more"
   "head"
   "tail"
+  ".."
 )
 
 # 配列を正規表現パターンに変換（引数ありパターンも自動生成）
