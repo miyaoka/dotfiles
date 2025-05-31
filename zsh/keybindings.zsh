@@ -37,5 +37,5 @@ zle -N _zle_fzf_dirs
 
 # キーバインド設定
 bindkey '^r' _zle_fzf_history  # Ctrl+r で履歴検索
-bindkey '\ed' _zle_fzf_dirs    # Alt+d でディレクトリ選択
+bindkey '^t' _zle_fzf_dirs    # Ctrl+d でディレクトリ選択
 
