@@ -23,8 +23,15 @@ setopt auto_param_slash       # ディレクトリ名補完時に末尾に/を�
 setopt magic_equal_subst      # =以降でも補完有効（--prefix=/usr等）
 
 # ディレクトリ操作
+# pushd/dirs: セッション固有の一時的なディレクトリスタック（ワークスペース内作業用）
 setopt auto_pushd             # cd時に自動でpushd
 setopt pushd_ignore_dups      # pushd時の重複ディレクトリを無視
+
+# cdr: 全セッション共有の永続的なディレクトリ履歴（プロジェクト間移動用）
+# 保存場所: $ZDOTDIR/.chpwd-recent-dirs、保持件数: DIRSTACKSIZE変数で設定（デフォルト20件）
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+DIRSTACKSIZE=50  # cdr履歴の保持件数を50件に変更
 
 # グロブ・パターン
 setopt extended_glob          # 拡張glob（^、#等）を有効

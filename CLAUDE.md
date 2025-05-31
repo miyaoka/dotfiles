@@ -40,6 +40,7 @@
 - `exports.zsh` - 環境変数設定
 - `aliases.zsh` - コマンドエイリアス（git、パッケージマネージャー、ツール）
 - `functions.zsh` - カスタムシェル関数
+- `keybindings.zsh` - キーバインド設定
 - `tools.zsh` - 外部ツール初期化（brew、mise、starship、pnpm）
 
 ### git 設定
@@ -61,4 +62,5 @@
 2. `exports.zsh` - 環境変数
 3. `aliases.zsh` - エイリアス
 4. `functions.zsh` - 関数
-5. `tools.zsh` - 外部ツール初期化
+5. `keybindings.zsh` - キーバインド
+6. `tools.zsh` - 外部ツール初期化

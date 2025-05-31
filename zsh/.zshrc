@@ -21,6 +21,11 @@ if [ -f "$_dotfiles_dir/functions.zsh" ]; then
     source "$_dotfiles_dir/functions.zsh"
 fi
 
+# キーバインドの読み込み
+if [ -f "$_dotfiles_dir/keybindings.zsh" ]; then
+    source "$_dotfiles_dir/keybindings.zsh"
+fi
+
 # 外部ツール初期化（遅延読み込み）
 if [ -f "$_dotfiles_dir/tools.zsh" ]; then
     source "$_dotfiles_dir/tools.zsh"

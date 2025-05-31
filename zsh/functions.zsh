@@ -112,32 +112,57 @@ ghq-select() {
   fi
 }
 
-# pushd スタックをfzfで選択して移動
-pushd-select() {
-  # スタックが空の場合は何もしない
-  if ! dirs -v | grep -q '^[[:space:]]*[0-9]'; then
-    echo "No directories in stack"
-    return 1
-  fi
+# 履歴選択（純粋関数）
+_select_history() {
+  history -rn 1 | awk '!seen[$0]++' | fzf \
+    --header="Command history" \
+    --query="$1"
+}
 
-  # dirs -v の出力をfzfで選択
+# ディレクトリ選択（純粋関数）
+# dirsの内容はcdrに含まれるが、dirsを優先表示することで現在セッションの移動履歴が上に来る
+_select_dirs() {
+  local work_paths
+  local history_paths
+  local merged_paths
+  
+  # work: 現在セッションの作業用ディレクトリスタック
+  work_paths=$(dirs -p)
+  
+  # history: 全セッション共有の移動履歴
+  history_paths=$(cdr -l 2>/dev/null | awk '{print $2}')
+  
+  # workとhistoryを結合して重複除去
+  merged_paths=$(
+    (
+      echo "$work_paths"
+      echo "$history_paths"
+    ) | awk 'NF && !seen[$0]++'
+  )
+  
+  # fzfで選択
+  echo -e "$merged_paths" | fzf \
+    --header="Directory navigation"
+}
+
+# 履歴をfzfで検索して実行（通常関数）
+fzf_history() {
   local selected
-  selected=$(dirs -v | fzf \
-    --reverse \
-    --height=50% \
-    --header="Directory stack" \
-    --preview="ls -la \$(echo {} | awk '{for(i=2;i<=NF;i++) printf \$i (i==NF?\"\":\" \")}' | sed 's|~|'\"$HOME\"'|')" \
-    --preview-window=right:40% \
-  ) || return
+  selected=$(_select_history)
+  
+  if [[ $? -eq 0 && -n "$selected" ]]; then
+    eval "$selected"
+  fi
+}
 
-  # 選択された行の番号を抽出
-  local stack_num
-  stack_num=$(echo "$selected" | awk '{print $1}')
-
-  # pushd +番号で移動
-  if [[ "$stack_num" =~ ^[0-9]+$ ]]; then
-    # pushdの結果を出力しない
-    pushd "+$stack_num" > /dev/null
+# ディレクトリ移動履歴をfzfで選択してcd（通常関数）
+fzf_dirs() {
+  local selected
+  selected=$(_select_dirs)
+  
+  if [[ $? -eq 0 && -n "$selected" ]]; then
+    # チルダを展開してcdする
+    eval "cd $selected"
   fi
 }
 
