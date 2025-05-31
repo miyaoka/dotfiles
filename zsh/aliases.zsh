@@ -31,8 +31,8 @@ alias g='git'
 alias degit="tiged"
 
 # gh
-alias ghb='gh browse'
-alias gho='gh browse'
+## カレントブランチでブラウザを開く
+alias gho='gh browse --branch $(git cbn)'
 alias ghp='gh pr list'
 ## author: me
 alias ghpm='gh pr list -A @me'
