@@ -34,3 +34,4 @@ ln -sf ${wd}/zsh/.zshrc ~/.config/zsh/.zshrc
 link_dir "git" ~/.config/git
 link_dir "starship" ~/.config/starship
 link_dir "mise" ~/.config/mise
+link_dir "tmux" ~/.config/tmux

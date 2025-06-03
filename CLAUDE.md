@@ -21,6 +21,7 @@ sh install.sh
 - `git/`配下のファイルを`~/.config/git/`にリンク
 - `starship/`配下のファイルをを`~/.config/starship/`にリンク
 - `mise/`配下のファイルをを`~/.config/mise/`にリンク
+- `tmux/`配下のファイルを`~/.config/tmux/`にリンク
 
 ## ファイル構成
 
@@ -29,6 +30,7 @@ sh install.sh
 - `zsh/` - Zsh 設定ファイル群
 - `starship/` - Starship 設定ファイル群
 - `mise/` - mise ランタイム管理ツール設定
+- `tmux/` - tmux 設定ファイル群
 
 ## 設定内容
 
@@ -48,6 +50,10 @@ sh install.sh
 - `ignore` - グローバル ignore
 - `config` - グローバル config
 - `alias.conf` - エイリアスとワークフロー設定
+
+### tmux 設定
+
+- `tmux.conf` - tmux メイン設定ファイル（キーバインド、外観、マウス操作など）
 
 ### その他ツール
 
