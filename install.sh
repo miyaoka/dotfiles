@@ -1,5 +1,5 @@
 #!/bin/sh
-wd=$(pwd)
+wd="$(pwd)/.config"
 
 # フォルダ内のファイルを指定先にリンクする関数
 link_dir() {

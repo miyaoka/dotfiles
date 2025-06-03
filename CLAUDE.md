@@ -17,11 +17,7 @@ sh install.sh
 このスクリプトは：
 
 - `zsh/.zshenv`をホームディレクトリにリンク
-- `zsh/.zshrc`を`~/.config/zsh/`にリンク
-- `git/`配下のファイルを`~/.config/git/`にリンク
-- `starship/`配下のファイルをを`~/.config/starship/`にリンク
-- `mise/`配下のファイルをを`~/.config/mise/`にリンク
-- `tmux/`配下のファイルを`~/.config/tmux/`にリンク
+- `.config`配下のファイルを`~/.config`にリンク
 
 ## ファイル構成
 
