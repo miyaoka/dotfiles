@@ -18,8 +18,8 @@ alias dd="pushd-select"
 
 # ghq
 alias gc='ghq-clone'
-alias gg='ghq-select'
-alias cc='gg'
+alias cc='ghq-edit'
+alias ccd='ghq-cd'
 
 # -----------------------------------------------------------------
 # tools

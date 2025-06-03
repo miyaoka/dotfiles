@@ -27,7 +27,7 @@ ghq-clone() {
   fi
 }
 
-# ghq で管理しているリポジトリをfzfで選択し、引数で指定したコマンドで実行する
+# ghq で管理しているリポジトリをfzfで選択し、パスをechoする
 # 選択履歴を保存して次回は優先表示する
 # -f オプションで頻度順表示
 ghq-select() {
@@ -38,9 +38,6 @@ ghq-select() {
     frequency_mode=true
     shift
   fi
-  
-  # 開くコマンド（引数があればそれを、なければ $EDITOR）
-  local opener="${1:-${EDITOR}}"
 
   # 選択履歴保存先
   local histfile="$HOME/.config/.ghq_fzf_history"
@@ -97,10 +94,10 @@ ghq-select() {
   # 2) 履歴に追記
   echo "$rel" >> "$histfile"
 
-  # 3) 引数で指定したコマンドで開く
+  # 3) 選択したパスをechoする
   abs="${ghq_root}/${rel}"
   if [ -d "$abs" ]; then
-    "$opener" "$abs"
+    echo "$abs"
   else
     echo "Repository not found: $rel"
     echo "Removing from history..."
@@ -109,6 +106,26 @@ ghq-select() {
       grep -v "^${rel}$" "$histfile" > "${histfile}.tmp" && mv "${histfile}.tmp" "$histfile"
     fi
     return 1
+  fi
+}
+
+# ghq-selectの結果でエディタを開く
+ghq-edit() {
+  local selected
+  selected=$(ghq-select "$@")
+  
+  if [[ $? -eq 0 && -n "$selected" ]]; then
+    ${EDITOR:-code} "$selected"
+  fi
+}
+
+# ghq-selectの結果でcdする
+ghq-cd() {
+  local selected
+  selected=$(ghq-select "$@")
+  
+  if [[ $? -eq 0 && -n "$selected" ]]; then
+    cd "$selected"
   fi
 }
 
