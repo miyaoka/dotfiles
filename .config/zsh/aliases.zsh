@@ -90,8 +90,7 @@ alias ml='mise ls'
 alias msu='mise self-update'
 
 # rm
-alias rmn='rm -rf node_modules'
-alias rmnn='rm -rf **/node_modules'
+alias rmn='rm -rf **/node_modules'
 
 # deno
 alias d='deno'
@@ -107,3 +106,4 @@ alias bd='bun dev'
 
 # claude
 alias @='claude'
+alias @@='claude --dangerously-skip-permissions'
