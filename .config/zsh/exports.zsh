@@ -1,5 +1,8 @@
 # 環境変数設定
 
+# XDG
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # brew
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 export BROWSER=wslview
