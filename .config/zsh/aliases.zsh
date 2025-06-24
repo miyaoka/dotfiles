@@ -105,5 +105,6 @@ alias b='bun'
 alias bd='bun dev'
 
 # claude
+alias claude="/home/miyaoka/.config/claude/local/claude"
 alias @='claude'
 alias @@='claude --dangerously-skip-permissions'
