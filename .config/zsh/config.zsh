@@ -72,37 +72,47 @@ _excluded_commands=(
 _history_exclude_regex=$(printf "|%s" "${_excluded_commands[@]}")
 _history_exclude_regex="^(${_history_exclude_regex:1})(\s.*)?$"
 
-# 履歴から除外するコマンドのフィルタリング
+# 履歴制御: メモリには残すがファイル保存を選択的に行う
 zshaddhistory() {
   # コマンドラインから先頭の空白と改行を除去
   local cmd="${1%$'\n'}"
   cmd="${cmd#"${cmd%%[![:space:]]*}"}"
   
-  # 正規表現でマッチチェック
+  # 除外対象コマンド（ls, cd等）の場合
   if [[ "$cmd" =~ $_history_exclude_regex ]]; then
-    return 1  # 履歴に追加しない
+    _exclude_from_file=1  # ファイル削除フラグ設定
+  else
+    # 通常コマンドの場合
+    _exclude_from_file=0
+    _is_normal_command=1  # エラー時ファイル削除チェック対象フラグ
   fi
   
-  # 実行するコマンドを記録（エラー時の削除用）
-  _last_command="$cmd"
-  
-  return 0  # 履歴に追加する
+  # 全てのコマンドをメモリ＋ファイルに一旦追加
+  # （後でprecmdにて条件に応じてファイルから削除）
+  return 0
 }
 
-# コマンド実行後に呼ばれる - エラーの場合は履歴から削除
+# コマンド実行後処理: ファイルからの選択的削除
 precmd() {
-  # 前回のコマンドの終了ステータスを保存
   local last_exit_status=$?
   
-  # 前回のコマンドがエラーだった場合
-  if [[ $last_exit_status -ne 0 && -n "$_last_command" ]]; then
-    # 履歴ファイルから最後の行を削除（メモリには残す）
-    if [[ -w "$HISTFILE" && -f "$HISTFILE" ]]; then
-      # 一時ファイルを使って最後の行以外をコピー
-      head -n -1 "$HISTFILE" > "${HISTFILE}.tmp" && mv "${HISTFILE}.tmp" "$HISTFILE"
-    fi
+  # ファイルから削除する条件判定
+  local should_remove_from_file=0
+  
+  # 除外対象コマンド（ls, cd等）は常にファイルから削除
+  if [[ $_exclude_from_file -eq 1 ]]; then
+    should_remove_from_file=1
+  # 通常コマンドでエラー終了した場合もファイルから削除
+  elif [[ $last_exit_status -ne 0 && $_is_normal_command -eq 1 ]]; then
+    should_remove_from_file=1
   fi
   
-  # コマンド記録をクリア
-  _last_command=""
+  # ファイルから最後の行を削除（メモリには残る）
+  if [[ $should_remove_from_file -eq 1 && -w "$HISTFILE" && -f "$HISTFILE" ]]; then
+    head -n -1 "$HISTFILE" > "${HISTFILE}.tmp" && mv "${HISTFILE}.tmp" "$HISTFILE"
+  fi
+  
+  # 次回用にフラグをクリア
+  _exclude_from_file=0
+  _is_normal_command=0
 }
