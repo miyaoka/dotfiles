@@ -66,3 +66,34 @@ sh install.sh
 4. `functions.zsh` - 関数
 5. `keybindings.zsh` - キーバインド
 6. `tools.zsh` - 外部ツール初期化
+
+## クロスプラットフォーム対応方針
+
+このdotfilesはLinux、macOS、BSD系環境で動作するよう設計されている
+
+### 環境依存コマンドの回避
+
+以下のコマンドは環境により動作が異なるため使用禁止：
+
+- `head -n -1` → `sed '$d'` を使用（最後の行削除）
+- `tail -r` → `tac` または環境判定で代替（逆順出力）
+- `grep -P` → 基本正規表現または `rg` を使用
+- `date -d` → `date -j` との違いを考慮
+- `readlink -f` → 環境判定で `realpath` と使い分け
+
+### 環境判定パターン
+
+```zsh
+# 逆順出力の例（functions.zsh の revcat 関数）
+if command -v tac >/dev/null 2>&1; then          # GNU coreutils
+  tac "$@"
+elif tail -r /dev/null >/dev/null 2>&1; then     # BSD tail
+  tail -r "$@"
+else                                             # POSIX代替
+  awk '{ buf[NR]=$0 } END { for (i=NR;i>0;i--) print buf[i] }' "$@"
+fi
+```
+
+### POSIX準拠の推奨
+
+環境依存を避けるため、可能な限りPOSIX準拠コマンドを使用する
