@@ -109,7 +109,8 @@ precmd() {
   
   # ファイルから最後の行を削除（メモリには残る）
   if [[ $should_remove_from_file -eq 1 && -w "$HISTFILE" && -f "$HISTFILE" ]]; then
-    head -n -1 "$HISTFILE" > "${HISTFILE}.tmp" && mv "${HISTFILE}.tmp" "$HISTFILE"
+    # mac/BSD環境でも動作するようにhead -n -1ではなくsed '$d'を使用
+    sed '$d' "$HISTFILE" > "${HISTFILE}.tmp" && mv "${HISTFILE}.tmp" "$HISTFILE"
   fi
   
   # 次回用にフラグをクリア
