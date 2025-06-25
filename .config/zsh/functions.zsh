@@ -1,5 +1,17 @@
 # カスタム関数
 
+# ファイル内容を逆順出力
+# 環境によりtacかtail -rを使う
+revcat() {
+  if command -v tac >/dev/null 2>&1; then          # GNU coreutils 環境
+    tac "$@"
+  elif tail -r /dev/null >/dev/null 2>&1; then     # BSD tail -r が使える環境
+    tail -r "$@"
+  else                                             # どちらも無い場合は awk で代替
+    awk '{ buf[NR]=$0 } END { for (i=NR;i>0;i--) print buf[i] }' "$@"
+  fi
+}
+
 # port番号でプロセスをkillする
 killp() {
   if [ -z "$1" ]; then
@@ -79,7 +91,7 @@ ghq-select() {
           sort "$histfile" | uniq -c | sort -nr | awk '{print $2}'
         else
           # 新しいものから逆順に出力
-          tac "$histfile"
+          revcat "$histfile"
         fi
       fi
       # ghq 管理下のリポジトリを相対パスで一覧表示
