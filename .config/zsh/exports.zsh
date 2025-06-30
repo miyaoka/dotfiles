@@ -1,8 +1,8 @@
 # 環境変数設定
 
-# XDG
-export XDG_CONFIG_HOME="$HOME/.config"
-export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME/claude"
+# CONFIG DIR
+# export XDG_CONFIG_HOME="$HOME/.config"
+# export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME/claude"
 
 # brew
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
