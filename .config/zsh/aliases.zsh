@@ -74,7 +74,6 @@ alias psu='pnpm self-update'
 alias puil='pnpm up -i --latest'
 alias pau='pnpm audit'
 alias pou='pnpm outdated'
-alias pnpx='pnpm dlx'
 
 # ni
 alias nii='ni -i'
@@ -103,8 +102,12 @@ alias dr='deno run'
 # bun
 alias b='bun'
 alias bd='bun dev'
+alias npx='bunx'
 
 # claude
 alias claude="/home/miyaoka/.claude/local/claude"
 alias @='claude'
 alias @@='claude --dangerously-skip-permissions'
+
+# oh-my-logo
+alias logo="npx oh-my-logo@latest --filled"
