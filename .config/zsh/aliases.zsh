@@ -105,7 +105,6 @@ alias bd='bun dev'
 alias npx='bunx'
 
 # claude
-alias claude="/home/miyaoka/.claude/local/claude"
 alias @='claude'
 alias @@='claude --dangerously-skip-permissions'
 
