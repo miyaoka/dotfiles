@@ -106,7 +106,9 @@ alias npx='bunx'
 
 # claude
 alias @='claude'
-alias @@='claude --dangerously-skip-permissions'
+alias @@='claude-session-resume'
+alias @@o='claude-session-open'
+alias @@@='claude --dangerously-skip-permissions'
 
 # oh-my-logo
 alias logo="npx oh-my-logo@latest --filled"
