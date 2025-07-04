@@ -67,12 +67,12 @@ claude-session-select() {
     #    - .timestamp: メッセージのタイムスタンプ
     #    - .message.content: メッセージ内容を以下の処理で整形
     #      - gsub("[\\\\\\n\\r]"; " "): バックスラッシュと改行文字を空白に置換
-    #      - .[0:80]: 最初の80文字を取得（一覧表示用のプレビュー）
+    #      - .[0:50]: 最初の50文字を取得（一覧表示用のプレビュー）
     #    - .sessionId: セッションID
     # 3. @tsvでタブ区切り形式に変換
     jq -r --arg file "$file" '
       '"$JQ_USER_FILTER"' |
-      [.timestamp, (.message.content | gsub("[\\\\\\n\\r]"; " ") | .[0:80]), .sessionId] | 
+      [.timestamp, (.message.content | gsub("[\\\\\\n\\r]"; " ") | .[0:50]), .sessionId] | 
       @tsv
     ' "$file" 2>/dev/null
   done | \
@@ -85,7 +85,7 @@ claude-session-select() {
     if [ -f "$PROJECT_PATH/${sessionId}.jsonl" ]; then
       # ISO 8601形式の日時をローカルタイムに変換
       local local_time=$(date -d "$timestamp" "+%m/%d %H:%M" 2>/dev/null || date -r "$timestamp" "+%m/%d %H:%M" 2>/dev/null || echo "$timestamp")
-      printf "%s\t%s\t%s\n" "$local_time" "$preview" "$sessionId"
+      printf "%s  %s\t%s\n" "$local_time" "$preview" "$sessionId"
     fi
   done | \
   # プレビューウィンドウに選択中のセッションの会話履歴を表示
@@ -93,16 +93,16 @@ claude-session-select() {
   # 2. whileループでタイムスタンプをdateコマンドでローカルタイムに変換
   # 3. [HH:MM] 形式で時刻を表示し、その後にメッセージ内容を表示
   fzf --delimiter=$'\t' \
-    --with-nth=1,2 \
+    --with-nth=1 \
     --header="Sessions in: $TARGET_DIR" \
     --preview='
-      session_id=$(echo {} | cut -f3)
+      session_id=$(echo {} | cut -f2)
       file="'$PROJECT_PATH'/${session_id}.jsonl"
       if [ -f "$file" ]; then
         jq -r "
           select(.sessionId == \"$session_id\") |
           $JQ_USER_FILTER |
-          .timestamp + \"\\t\" + (.message.content | gsub(\"[\\\\\\\\\\\\\\n\\r]\"; \" \") | .[0:200])
+          .timestamp + \"\\t\" + (.message.content | gsub(\"[\\\\\\\\\\\\\\n\\r]\"; \" \") | .[0:50])
         " "$file" 2>/dev/null | while IFS=$'"'"'\t'"'"' read -r ts msg; do
           local_time=$(date -d "$ts" "+%H:%M" 2>/dev/null || date -r "$ts" "+%H:%M" 2>/dev/null || echo "$ts")
           echo "[$local_time] $msg"
@@ -110,7 +110,7 @@ claude-session-select() {
       fi
     ' \
     --preview-window=right:50%:wrap \
-    --bind 'enter:become(echo {3})'
+    --bind 'enter:become(echo {2})'
 }
 
 # claude-session-resume - claude-session-selectで選択したセッションIDでClaudeをresume起動
