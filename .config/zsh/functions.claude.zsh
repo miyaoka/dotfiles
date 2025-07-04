@@ -18,10 +18,13 @@ claude-session-select() {
   # 1. type == "user" and .sessionId and .message
   #    - typeがuserで、sessionIdとmessageフィールドが存在するものを選択
   # 
-  # 2. message.role == "user" and (.message.content | type) == "string"
+  # 2. isSidechain != true
+  #    - Claudeのツール使用時に自動生成されるサイドチェーンメッセージを除外
+  # 
+  # 3. message.role == "user" and (.message.content | type) == "string"
   #    - message.roleがuserで、contentが文字列型のものを選択
   # 
-  # 3. 以下の自動生成メッセージを除外：
+  # 4. 以下の自動生成メッセージを除外：
   #    - "Caveat:" で始まる警告メッセージ
   #    - "<command-name>" を含むコマンド実行の自動挿入メッセージ
   #    - "<local-command-stdout>" を含むコマンド出力の自動挿入メッセージ
@@ -30,6 +33,7 @@ claude-session-select() {
   #    - "[Request interrupted" を含むリクエスト中断メッセージ
   export JQ_USER_FILTER='
   select(.type == "user" and .sessionId and .message) |
+  select(.isSidechain != true) |
   select(.message.role == "user" and (.message.content | type) == "string") |
   select(.message.content | 
     (startswith("Caveat:") | not) and
