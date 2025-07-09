@@ -112,3 +112,6 @@ alias @@@='claude --dangerously-skip-permissions'
 
 # oh-my-logo
 alias logo="npx oh-my-logo@latest --filled"
+
+# difit
+alias dp=difit-pr

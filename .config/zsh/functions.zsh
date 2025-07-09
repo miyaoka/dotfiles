@@ -195,3 +195,7 @@ fzf_dirs() {
   fi
 }
 
+# ghでprをfzfで選択してdifitで開く
+difit-pr() {
+  gh pr list -L 1000 --json createdAt,title,author,url,number --jq '.[] | "\(.createdAt | split("T")[0])\t\(.author.login)\t\(.title)\t\(.url)"' | fzf --delimiter=$'\t' --preview 'gh pr view {4}' --with-nth=1,2,3 | cut -f4 | xargs bunx difit --pr
+}
