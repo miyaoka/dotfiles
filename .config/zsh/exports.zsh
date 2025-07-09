@@ -16,7 +16,17 @@ export BROWSER=wslview
 
 
 # fzf
-export FZF_DEFAULT_OPTS='--border --height 70% --color=fg+:11 --reverse --exit-0 --exact  --ignore-case --tiebreak=index'
+export FZF_DEFAULT_OPTS='
+  --border
+  --height 70%
+  --color=fg+:11
+  --reverse
+  --exit-0
+  --exact
+  --ignore-case
+  --tiebreak=index
+  --bind shift-tab:toggle-all
+'
 
 # vscode
 export EDITOR=code
