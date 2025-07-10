@@ -13,13 +13,18 @@ alias h="history"
 # 自作function
 # -----------------------------------------------------------------
 
-# cd
-alias dd="pushd-select"
-
 # ghq
 alias gc='ghq-clone'
 alias cc='ghq-edit'
 alias ccd='ghq-cd'
+
+# difit
+alias dp="difit-pr"
+
+# aliasをリストから選択してコマンドラインに挿入
+#（引数をつけて実行できるように末尾に空白を入れておく）
+alias z@='print -z "$(zsh_alias) "' 
+alias g@='print -z "$(git_alias) "' 
 
 # -----------------------------------------------------------------
 # tools
@@ -114,6 +119,3 @@ alias @@@='claude --dangerously-skip-permissions'
 
 # oh-my-logo
 alias logo="npx oh-my-logo@latest --filled"
-
-# difit
-alias dp=difit-pr

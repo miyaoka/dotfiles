@@ -81,3 +81,49 @@ bunx-latest() {
   command bunx "$cmd" "$@"
 }
 
+# ==== alias選択関数群 ====
+
+
+# aliasの一覧をfzfで表示し、previewで展開内容を表示
+zsh_alias() {
+  local selected
+  selected=$(alias | sed "s/'\\\\''/'/g" | fzf \
+    --header="Alias list" \
+    --delimiter='=' \
+    --preview='
+      # alias名を取得
+      alias_name={1}
+      # 値を取得（2番目以降のフィールド）
+      alias_value={2..}
+      
+      echo "[$alias_name]"
+      # 前後のクォートを除去
+      echo "$alias_value" | sed "s/^'"'"'//;s/'"'"'$//"
+    ' \
+    --preview-window='up:3:wrap' | cut -d= -f1)
+  
+  # 選択されたalias名を返す
+  [[ -n "$selected" ]] && echo "$selected"
+}
+
+
+# gitのalias一覧をfzfで表示し、previewで展開内容を表示
+git_alias() {
+  local selected
+  selected=$(git config --get-regexp '^alias\.' | sed 's/^alias\.//' | fzf \
+    --header="Git alias list" \
+    --delimiter=' ' \
+    --preview='
+      # alias名を取得
+      alias_name={1}
+      # 値を取得（2番目以降のフィールド）
+      alias_value={2..}
+      
+      echo "[git $alias_name]"
+      echo "$alias_value"
+    ' \
+    --preview-window='up:3:wrap' | cut -d' ' -f1)
+  
+  # 選択されたalias名を返す（git付き）
+  [[ -n "$selected" ]] && echo "git ${selected}"
+}
