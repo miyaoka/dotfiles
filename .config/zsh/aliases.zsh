@@ -103,6 +103,8 @@ alias dr='deno run'
 alias b='bun'
 alias bd='bun dev'
 alias npx='bunx'
+alias x='bunx'
+alias xl='bunx-latest'
 
 # claude
 alias @='claude'

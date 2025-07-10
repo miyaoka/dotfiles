@@ -67,3 +67,17 @@ fzf_dirs() {
 difit-pr() {
   gh pr list -L 1000 --json createdAt,title,author,url,number --jq '.[] | "\(.createdAt | split("T")[0])\t\(.author.login)\t\(.title)\t\(.url)"' | fzf --delimiter=$'\t' --preview 'gh pr view {4}' --with-nth=1,2,3 | cut -f4 | xargs bunx difit --pr
 }
+
+# bunxに自動で@latestを付けるラッパー関数
+bunx-latest() {
+  local cmd="$1"
+  shift
+  
+  # バージョン指定がない場合は@latestを付ける
+  if [[ "$cmd" != *"@"* ]]; then
+    cmd="${cmd}@latest"
+  fi
+  
+  command bunx "$cmd" "$@"
+}
+
