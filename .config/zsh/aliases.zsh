@@ -109,7 +109,7 @@ alias b='bun'
 alias bd='bun dev'
 alias npx='bunx'
 alias x='bunx'
-alias xl='bunx-latest'
+alias xx='bunx-latest'
 
 # claude
 alias @='claude'
