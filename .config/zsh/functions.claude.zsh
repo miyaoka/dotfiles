@@ -66,14 +66,14 @@ claude-session-select() {
     # 2. 各メッセージから4つの値を配列に格納：
     #    - .timestamp: メッセージのタイムスタンプ
     #    - .message.content: メッセージ内容を以下の処理で整形
-    #      - gsub("[\\\\\\n\\r]"; " "): バックスラッシュと改行文字を空白に置換
+    #      - gsub("[\\n\\r\\\\]"; " "): 改行文字とバックスラッシュを空白に置換
     #      - .[0:50]: 最初の50文字を取得（一覧表示用のプレビュー）
     #    - .sessionId: セッションID
     #    - .gitBranch: ブランチ名（存在しない場合は"-"）
     # 3. @tsvでタブ区切り形式に変換
     jq -r --arg file "$file" '
       '"$JQ_USER_FILTER"' |
-      [.timestamp, (.message.content | gsub("[\\\\\\n\\r]"; " ") | .[0:50]), .sessionId, (.gitBranch // "-")] | 
+      [.timestamp, (.message.content | gsub("[\\n\\r\\\\]"; " ") | .[0:50]), .sessionId, (.gitBranch // "-")] | 
       @tsv
     ' "$file" 2>/dev/null
   done | \
@@ -105,7 +105,7 @@ claude-session-select() {
         jq -r "
           select(.sessionId == \"$session_id\") |
           $JQ_USER_FILTER |
-          .timestamp + \"\\t\" + (.message.content | gsub(\"[\\\\\\\\\\\\\\n\\r]\"; \" \") | .[0:50])
+          .timestamp + \"\\t\" + (.message.content | gsub(\"[\\n\\r\\\\\\\\]\"; \" \") | .[0:50])
         " "$file" 2>/dev/null | while IFS=$'"'"'\t'"'"' read -r ts msg; do
           local_time=$(date -d "$ts" "+%H:%M" 2>/dev/null || date -r "$ts" "+%H:%M" 2>/dev/null || echo "$ts")
           echo "[$local_time] $msg"
