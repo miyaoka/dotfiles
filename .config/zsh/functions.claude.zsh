@@ -63,16 +63,17 @@ claude-session-select() {
   while read -r file; do
     # jqでJSONLファイルを処理：
     # 1. JQ_USER_FILTERでユーザーメッセージのみを抽出
-    # 2. 各メッセージから3つの値を配列に格納：
+    # 2. 各メッセージから4つの値を配列に格納：
     #    - .timestamp: メッセージのタイムスタンプ
     #    - .message.content: メッセージ内容を以下の処理で整形
     #      - gsub("[\\\\\\n\\r]"; " "): バックスラッシュと改行文字を空白に置換
     #      - .[0:50]: 最初の50文字を取得（一覧表示用のプレビュー）
     #    - .sessionId: セッションID
+    #    - .gitBranch: ブランチ名（存在しない場合は"-"）
     # 3. @tsvでタブ区切り形式に変換
     jq -r --arg file "$file" '
       '"$JQ_USER_FILTER"' |
-      [.timestamp, (.message.content | gsub("[\\\\\\n\\r]"; " ") | .[0:50]), .sessionId] | 
+      [.timestamp, (.message.content | gsub("[\\\\\\n\\r]"; " ") | .[0:50]), .sessionId, (.gitBranch // "-")] | 
       @tsv
     ' "$file" 2>/dev/null
   done | \
@@ -80,12 +81,14 @@ claude-session-select() {
   awk -F'\t' '!seen[$3]++ {print}' | \
   # タイムスタンプで逆順ソート（最新のものが上に）
   sort -r | \
-  while IFS=$'\t' read -r timestamp preview sessionId; do
+  while IFS=$'\t' read -r timestamp preview sessionId gitBranch; do
     # セッションIDのファイルが存在するかチェック
     if [ -f "$PROJECT_PATH/${sessionId}.jsonl" ]; then
       # ISO 8601形式の日時をローカルタイムに変換
       local local_time=$(date -d "$timestamp" "+%m/%d %H:%M" 2>/dev/null || date -r "$timestamp" "+%m/%d %H:%M" 2>/dev/null || echo "$timestamp")
-      printf "%s  %s\t%s\n" "$local_time" "$preview" "$sessionId"
+      # ブランチ名を整形
+      local branch_display=$(printf "%-8s" "${gitBranch:0:8}")
+      printf "%s %s %s\t%s\n" "$local_time" "$branch_display" "$preview" "$sessionId"
     fi
   done | \
   # プレビューウィンドウに選択中のセッションの会話履歴を表示
@@ -98,7 +101,7 @@ claude-session-select() {
     --preview='
       session_id=$(echo {} | cut -f2)
       file="'$PROJECT_PATH'/${session_id}.jsonl"
-      if [ -f "$file" ]; then
+      if [ -f "$file" ]; then        
         jq -r "
           select(.sessionId == \"$session_id\") |
           $JQ_USER_FILTER |
