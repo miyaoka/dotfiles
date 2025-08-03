@@ -113,9 +113,10 @@ alias xx='bunx-latest'
 
 # claude
 alias @='claude'
+alias @v='claude --verbose'
 alias @@='claude-session-resume'
 alias @@o='claude-session-open'
-alias @@@='claude --dangerously-skip-permissions'
+# alias @@@='claude --dangerously-skip-permissions'
 
 # oh-my-logo
-alias logo="npx oh-my-logo@latest --filled"
+alias logo="bunx oh-my-logo@latest --filled"
