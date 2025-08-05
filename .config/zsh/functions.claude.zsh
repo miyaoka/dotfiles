@@ -2,6 +2,27 @@
 
 readonly CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
 
+# ISO 8601形式の日時を指定フォーマットに変換
+# 使用例: convert-iso-date "2025-08-05T02:12:52.335Z" "+%m/%d %H:%M"
+convert-iso-date() {
+  local timestamp="$1"
+  local format="${2:-+%m/%d %H:%M}"
+  
+  # WSL/Linux: date -d で処理
+  if date -d "$timestamp" "$format" 2>/dev/null; then
+    return 0
+  fi
+  
+  # macOS: date -j -f で処理
+  # ISO 8601形式の秒以下を削除してから処理
+  if date -j -f "%Y-%m-%dT%H:%M:%S" "${timestamp%%.*}" "$format" 2>/dev/null; then
+    return 0
+  fi
+  
+  # フォールバック: 元の値を返す
+  echo "$timestamp"
+}
+
 # claude-session-select - Claude会話セッションを選択してsessionIdを返す
 claude-session-select() {
   # 引数があればそれを使用、なければpwdを使用
@@ -85,7 +106,7 @@ claude-session-select() {
     # セッションIDのファイルが存在するかチェック
     if [ -f "$PROJECT_PATH/${sessionId}.jsonl" ]; then
       # ISO 8601形式の日時をローカルタイムに変換
-      local local_time=$(date -d "$timestamp" "+%m/%d %H:%M" 2>/dev/null || date -r "$timestamp" "+%m/%d %H:%M" 2>/dev/null || echo "$timestamp")
+      local local_time=$(convert-iso-date "$timestamp")
       # ブランチ名を整形
       local branch_display=$(printf "%-8s" "${gitBranch:0:8}")
       printf "%s %s %s\t%s\n" "$local_time" "$branch_display" "$preview" "$sessionId"
