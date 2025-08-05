@@ -12,7 +12,18 @@ export PATH="$HOME/.bun/bin:$PATH"
 
 # brew
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-export BROWSER=wslview
+
+# ブラウザ
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+  # WSL環境
+  export BROWSER="explorer.exe"
+elif [[ "$(uname)" == "Darwin" ]]; then
+  # macOS環境
+  export BROWSER="open"
+else
+  # その他Linux環境
+  export BROWSER="xdg-open"
+fi
 
 
 # fzf
