@@ -63,9 +63,21 @@ fzf_dirs() {
   fi
 }
 
-# ghでprをfzfで選択してdifitで開く
+# 現在ブランチのprをdifitで開く
 difit-pr() {
-  gh pr list -L 1000 --json createdAt,title,author,url,number --jq '.[] | "\(.createdAt | split("T")[0])\t\(.author.login)\t\(.title)\t\(.url)"' | fzf --delimiter=$'\t' --preview 'gh pr view {4}' --with-nth=1,2,3 | cut -f4 | xargs bunx difit --pr
+  # 現在のブランチ名を取得
+  local current_branch=$(git branch --show-current)
+  
+  # ghコマンドでPRを検索（現在ブランチのPR）
+  local pr_url=$(gh pr view "$current_branch" --json url -q .url 2>/dev/null)
+  
+  if [[ -n "$pr_url" ]]; then
+    # PRが存在する場合、URLを指定してdifitを実行
+    bunx difit --pr "$pr_url"
+  else
+    echo "No PR found for branch: $current_branch"
+    return 1
+  fi
 }
 
 # bunxに自動で@latestを付けるラッパー関数
