@@ -3,9 +3,6 @@
 # -----------------------------------------------------------------
 alias ll='ls -alG'
 alias ..='cd ..'
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
 
 alias h="history"
 
@@ -47,38 +44,12 @@ alias ghpf='gh pr list | fzf | awk "{ print \$1 }"'
 alias ghpw="ghpf | xargs gh pr view --web"
 alias ghpc="ghpf | xargs gh pr checkout"
 
-# yarn
-alias y='yarn'
-alias ya='yarn add'
-alias yad='yarn add -D'
-alias yr='yarn remove'
-alias yg='yarn global'
-alias yga='yarn global add'
-alias ygr='yarn global remove'
-alias yw='yarn why'
-alias yu='yarn upgrade'
-alias yui='yarn upgrade-interactive'
-alias yuil='yarn upgrade-interactive --latest'
-
-alias yd='yarn dev'
-alias ydo='yarn dev --open'
-alias yb='yarn build'
-
 # pnpm
 alias p='pnpm'
 alias pi='pnpm i'
 alias pa='pnpm add'
 alias pad='pnpm add -D'
-alias pr='pnpm remove'
-alias pw='pnpm why'
 alias pui='pnpm up -i'
-alias pd='pnpm run dev'
-alias pdo='pnpm run dev --open'
-alias pb='pnpm run build'
-alias psu='pnpm self-update'
-alias puil='pnpm up -i --latest'
-alias pau='pnpm audit'
-alias pou='pnpm outdated'
 
 # ni
 alias nii='ni -i'
@@ -89,9 +60,6 @@ alias c='code'
 
 # mise
 alias m='mise'
-alias mu='mise up'
-alias ml='mise ls'
-alias msu='mise self-update'
 
 # rm
 alias rmn='rm -rf **/node_modules'
@@ -106,7 +74,6 @@ alias dr='deno run'
 
 # bun
 alias b='bun'
-alias bd='bun dev'
 alias npx='bunx'
 alias x='bunx'
 alias xx='bunx-latest'
@@ -116,7 +83,6 @@ alias @='claude'
 alias @v='claude --verbose'
 alias @@='claude-session-resume'
 alias @@o='claude-session-open'
-# alias @@@='claude --dangerously-skip-permissions'
 
 # oh-my-logo
 alias logo="bunx oh-my-logo@latest --filled"
