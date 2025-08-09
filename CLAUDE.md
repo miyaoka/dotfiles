@@ -14,19 +14,19 @@
 sh install.sh
 ```
 
-このスクリプトは：
-
-- `zsh/.zshenv`をホームディレクトリにリンク
-- `.config`配下のファイルを`~/.config`にリンク
+このスクリプトは `home/` ディレクトリ内の全ファイルをホームディレクトリに再帰的にシンボリックリンクを作成
 
 ## ファイル構成
 
 - `install.sh` - シンボリックリンクを作成するメインインストールスクリプト
-- `git/` - Git 設定ファイル群
-- `zsh/` - Zsh 設定ファイル群
-- `starship/` - Starship 設定ファイル群
-- `mise/` - mise ランタイム管理ツール設定
-- `tmux/` - tmux 設定ファイル群
+- `home/` - ホームディレクトリに配置するファイル群
+  - `.zshenv` - ホーム直下に配置（ZDOTDIR 設定）
+  - `.config/` - ~/.config/ に配置
+    - `git/` - Git 設定ファイル群
+    - `zsh/` - Zsh 設定ファイル群
+    - `starship/` - Starship 設定ファイル群
+    - `mise/` - mise ランタイム管理ツール設定
+    - `tmux/` - tmux 設定ファイル群
 
 ## 設定内容
 
@@ -69,7 +69,7 @@ sh install.sh
 
 ## クロスプラットフォーム対応方針
 
-このdotfilesはLinux、macOS、BSD系環境で動作するよう設計されている
+この dotfiles は Linux、macOS、BSD 系環境で動作するよう設計されている
 
 ### 環境依存コマンドの回避
 
@@ -94,6 +94,6 @@ else                                             # POSIX代替
 fi
 ```
 
-### POSIX準拠の推奨
+### POSIX 準拠の推奨
 
-環境依存を避けるため、可能な限りPOSIX準拠コマンドを使用する
+環境依存を避けるため、可能な限り POSIX 準拠コマンドを使用する
