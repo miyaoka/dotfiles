@@ -4,9 +4,6 @@
 # export XDG_CONFIG_HOME="$HOME/.config"
 # export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME/claude"
 
-# claude
-export PATH="$HOME/.claude/local:$PATH"
-
 # bun
 export PATH="$HOME/.bun/bin:$PATH"
 
