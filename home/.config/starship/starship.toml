@@ -1,5 +1,6 @@
 # グローバル設定
-command_timeout = 2000  # 2秒でタイムアウト
+# gh pr view の実行に平均500ms程度かかるため、デフォルトの500msから延長
+command_timeout = 1000
 
 [package]
 disabled = true
