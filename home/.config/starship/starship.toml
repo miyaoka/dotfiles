@@ -1,3 +1,6 @@
+# グローバル設定
+command_timeout = 2000  # 2秒でタイムアウト
+
 [package]
 disabled = true
 
@@ -48,15 +51,8 @@ time_format = "%R"
 
 # GitHub PR番号とタイトルを表示するカスタムモジュール
 [custom.github_pr]
-description = "Display GitHub PR number and title"
-command = '''
-if command -v gh &> /dev/null && git rev-parse --git-dir &> /dev/null; then
-  pr_info=$(gh pr view --json number,title --jq '"#\(.number) \(.title)"' 2>/dev/null)
-  if [ -n "$pr_info" ]; then
-    echo "$pr_info"
-  fi
-fi
-'''
+description = "Display GitHub PR number and title with cache"
+command = "bun ~/.config/starship/scripts/github-pr/index.ts"
 when = "git rev-parse --git-dir"
 format = "[$output]($style) "
 style = "bold blue"
