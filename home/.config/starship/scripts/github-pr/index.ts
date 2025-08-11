@@ -12,7 +12,8 @@ function displayPRInfo(prInfo: PRInfo | null): void {
   // ターミナルハイパーリンク形式で表示
   // OSC 8エスケープシーケンス: \x1b]8;;URL\x1b\\表示テキスト\x1b]8;;\x1b\\
   const link = `\x1b]8;;${prInfo.url}\x1b\\#${prInfo.number}\x1b]8;;\x1b\\`;
-  const formatted = `${link} ${prInfo.title}`;
+  const draftPrefix = prInfo.isDraft ? "[draft] " : "";
+  const formatted = `${draftPrefix}${link} ${prInfo.title}`;
   console.log(formatted);
 }
 
