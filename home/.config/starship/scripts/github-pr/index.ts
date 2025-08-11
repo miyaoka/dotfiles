@@ -14,7 +14,7 @@ function displayPRInfo(prInfo: PRInfo | null): void {
   const link = `\x1b]8;;${prInfo.url}\x1b\\#${prInfo.number}\x1b]8;;\x1b\\`;
   const draftPrefix = prInfo.isDraft ? "[draft] " : "";
   const statePrefix = prInfo.state !== "OPEN" ? `[${prInfo.state}] ` : "";
-  const formatted = `${statePrefix}${draftPrefix}${link} ${prInfo.title}`;
+  const formatted = `${statePrefix}${draftPrefix}${link} ${prInfo.title} @${prInfo.author.login}`;
   console.log(formatted);
 }
 
