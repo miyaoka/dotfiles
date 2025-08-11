@@ -27,6 +27,9 @@ truncation_length = 3
 disabled = false
 format = "[⬢ $version](bold green) "
 
+[bun]
+style="purple"
+
 [git_branch]
 format = "[$branch]($style)${custom.github_pr} "
 symbol = "🌱 "
