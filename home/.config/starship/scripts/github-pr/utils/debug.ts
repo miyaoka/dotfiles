@@ -1,7 +1,7 @@
 import { writeFileSync } from "fs";
 
 // デバッグモード
-const DEBUG = true; //process.env.STARSHIP_PR_DEBUG === "1";
+const DEBUG = process.env.STARSHIP_PR_DEBUG === "1";
 const DEBUG_LOG = "/tmp/starship_pr_debug.log";
 
 export function debug(message: string) {
