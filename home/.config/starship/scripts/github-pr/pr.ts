@@ -10,6 +10,7 @@ export type PRInfo = {
   title: string;
   url: string;
   isDraft: boolean;
+  state: "OPEN" | "CLOSED" | "MERGED";
 };
 
 /**
@@ -19,7 +20,7 @@ async function fetchPRFromAPI(branch: string): Promise<PRInfo | null> {
   debug(`Fetching new PR info for ${branch}`);
 
   const result = await tryCatchAsync(() =>
-    $`gh pr view --json number,title,url,isDraft`.quiet().nothrow()
+    $`gh pr view --json number,title,url,isDraft,state`.quiet().nothrow()
   );
 
   if (result.error) {
