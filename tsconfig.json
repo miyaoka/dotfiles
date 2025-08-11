@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "types": ["bun-types"],
-    "module": "ESNext",
-    "moduleResolution": "bundler"
-  },
-  "include": ["home/.config/**/*.ts"]
-}
