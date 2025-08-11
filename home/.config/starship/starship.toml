@@ -1,3 +1,7 @@
+# グローバル設定
+# gh pr view の実行に平均500ms程度かかるため、デフォルトの500msから延長
+command_timeout = 1000
+
 [package]
 disabled = true
 
@@ -24,7 +28,7 @@ disabled = false
 format = "[⬢ $version](bold green) "
 
 [git_branch]
-format = "[$branch]($style) "
+format = "[$branch]($style)${custom.github_pr} "
 symbol = "🌱 "
 
 [git_status]
@@ -45,3 +49,11 @@ deleted = "-$count "
 disabled = false
 format = '[\[$time\]](green) '
 time_format = "%R"
+
+# GitHub PR番号とタイトルを表示するカスタムモジュール
+[custom.github_pr]
+description = "Display GitHub PR number and title with cache"
+command = "bun ~/.config/starship/scripts/github-pr/index.ts"
+when = "git rev-parse --git-dir"
+format = "[$output]($style) "
+style = "blue"
