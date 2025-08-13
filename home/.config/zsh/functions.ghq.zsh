@@ -41,7 +41,7 @@ ghq-select() {
   fi
 
   # 選択履歴保存先
-  local histfile="$HOME/.config/.ghq_fzf_history"
+  local histfile="$HOME/.cache/.ghq_fzf_history"
   # ghq root
   local ghq_root
   ghq_root=$(ghq root | head -n1) || return
