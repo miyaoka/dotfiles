@@ -1,7 +1,3 @@
-# グローバル設定
-# gh pr view の実行に平均500ms程度かかるため、デフォルトの500msから延長
-command_timeout = 1000
-
 [package]
 disabled = true
 
@@ -60,3 +56,4 @@ command = "bunx github:miyaoka/github-pr-info"
 when = "git rev-parse --git-dir"
 format = "[$output]($style) "
 style = "blue"
+ignore_timeout = true
