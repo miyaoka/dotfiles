@@ -24,5 +24,13 @@ accessible_prompter: disabled
 spinner: enabled
 # Aliases allow you to create nicknames for gh commands
 aliases:
-  co: pr checkout
+  # alias一覧
+  a: alias list
+  # リポジトリのページを開く
+  o: browse
+  # pr一覧
   pl: pr list
+  # prを選択してをcheckout
+  sw: pr checkout
+  # 現在のprのページを開く
+  po: pr view --web
