@@ -27,10 +27,10 @@ aliases:
   # alias一覧
   a: alias list
   # リポジトリのページを開く
-  o: browse
+  oo: browse
   # pr一覧
-  pl: pr list
+  pl: pr list --limit 50
   # prを選択してをcheckout
   sw: pr checkout
   # 現在のprのページを開く
-  po: pr view --web
+  o: pr view --web

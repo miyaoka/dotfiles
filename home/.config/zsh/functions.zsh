@@ -139,3 +139,24 @@ git_alias() {
   # 選択されたalias名を返す（git付き）
   [[ -n "$selected" ]] && echo "git ${selected}"
 }
+
+
+# https://github.com/cli/cli/issues/6089#issuecomment-1220250908
+# .zshrc gh pr list command extended with fzf, see the man page (man fzf) for an explanation of the arguments.
+function gp {
+	[[ ! "$(git rev-parse --is-inside-work-tree)" ]] && return 1
+	GH_COMMAND='gh pr list -L 50 \
+  --json number,author,updatedAt,title \
+  --template "
+	{{- tablerow (\"PR\" | color \"blue+b\") (\"LAST UPDATE\" | color \"blue+b\") (\"AUTHOR\" | color \"blue+b\") (\"TITLE\" | color \"blue+b\") -}}
+	{{- range . -}}
+		{{- tablerow (printf \"#%v\" .number | color \"green+h\") (timeago .updatedAt | color \"gray+h\") (.author.login | color \"cyan+h\") .title -}}
+	{{- end -}}" \
+  --search'
+	FZF_DEFAULT_COMMAND="$GH_COMMAND ${1:-\"\"}" \
+		GH_FORCE_TTY=100% fzf --ansi --header-lines=1 \
+		--header $'CTRL+o - Browser | CTRL+s - Switch' \
+		--prompt 'Search Open PRs >' \
+		--bind 'ctrl-o:execute-silent(gh pr view {1} --web)' \
+		--bind 'ctrl-s:become(gh pr checkout {1})'
+}
