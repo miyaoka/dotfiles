@@ -10,3 +10,4 @@ trusted_config_paths = [
   '~/src/github.com/miyaoka/',
   '~/src/github.com/studio-design/'
  ]
+idiomatic_version_file_enable_tools = []
