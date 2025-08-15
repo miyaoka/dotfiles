@@ -31,11 +31,21 @@ _zle_fzf_dirs() {
   zle clear-screen
 }
 
+# git quicksave実行（zle用）
+_zle_git_quicksave() {
+  # コマンドラインが空の場合のみ実行
+  if [[ -z "$BUFFER" ]]; then
+    BUFFER="git qs"
+    zle accept-line
+  fi
+}
+
 # zle関数を登録
 zle -N _zle_fzf_history
 zle -N _zle_fzf_dirs
+zle -N _zle_git_quicksave
 
 # キーバインド設定
 bindkey '^r' _zle_fzf_history  # Ctrl+r で履歴検索
 bindkey '^t' _zle_fzf_dirs    # Ctrl+d でディレクトリ選択
-
+bindkey '^s' _zle_git_quicksave # Ctrl+s で git quicksave

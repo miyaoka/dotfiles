@@ -3,6 +3,9 @@
 # 対話シェルでも # をコメントにする
 setopt interactive_comments
 
+# ターミナルのフロー制御を無効化（Ctrl+S/Ctrl+Qをキーバインドで使えるようにする）
+stty -ixon
+
 # history 設定
 export HISTSIZE=10000 # メモリ内履歴数
 export SAVEHIST=10000 # ファイル保存履歴数
