@@ -148,7 +148,7 @@ function git-discard-files() {
     {
       git ls-files -m | while read -r f; do echo -e "\033[33m[M]\033[0m $f"; done
       git ls-files -o --exclude-standard | while read -r f; do echo -e "\033[31m[U]\033[0m $f"; done
-    } | sort
+    }
   )
   
   # fzfで選択（色付き表示、ファイル名だけ抽出）
