@@ -15,6 +15,9 @@ alias gc='ghq-clone'
 alias cc='ghq-edit'
 alias ccd='ghq-cd'
 
+#git
+alias gd="git-discard-files"
+
 # difit
 alias dp="difit-pr"
 
