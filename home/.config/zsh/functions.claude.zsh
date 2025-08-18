@@ -33,7 +33,7 @@ claude-session-select() {
   # 親プロセスの変数を参照できない。exportすることで環境変数として子プロセスでも利用可能になる
   # 注意：この環境変数は関数実行時に設定され、現在のシェルセッションに残る
   #
-  # このフィルタは実際のユーザー入力のみを抽出し、システムメッセージや自動生成されたメッセージを除外する
+  # このフィルタはユーザー入力とslash commandを抽出し、不要なシステムメッセージを除外する
   # 
   # フィルタ条件の詳細：
   # 1. type == "user" and .sessionId and .message
@@ -47,18 +47,18 @@ claude-session-select() {
   # 
   # 4. 以下の自動生成メッセージを除外：
   #    - "Caveat:" で始まる警告メッセージ
-  #    - "<command-name>" を含むコマンド実行の自動挿入メッセージ
   #    - "<local-command-stdout>" を含むコマンド出力の自動挿入メッセージ
   #    - "tool_use_id" を含むツール使用に関する自動メッセージ
   #    - "tool_result" を含むツール結果に関する自動メッセージ
   #    - "[Request interrupted" を含むリクエスト中断メッセージ
+  # 
+  # 注：<command-name>を含むslash commandのログは含める
   export JQ_USER_FILTER='
   select(.type == "user" and .sessionId and .message) |
   select(.isSidechain != true) |
   select(.message.role == "user" and (.message.content | type) == "string") |
   select(.message.content | 
     (startswith("Caveat:") | not) and
-    (contains("<command-name>") | not) and
     (contains("<local-command-stdout>") | not) and
     (contains("tool_use_id") | not) and
     (contains("tool_result") | not) and
@@ -83,10 +83,11 @@ claude-session-select() {
   find "$PROJECT_PATH" -name "*.jsonl" -type f | \
   while read -r file; do
     # jqでJSONLファイルを処理：
-    # 1. JQ_USER_FILTERでユーザーメッセージのみを抽出
+    # 1. JQ_USER_FILTERでユーザーメッセージとslash commandを抽出
     # 2. 各メッセージから4つの値を配列に格納：
     #    - .timestamp: メッセージのタイムスタンプ
     #    - .message.content: メッセージ内容を以下の処理で整形
+    #      - <command-name>タグがある場合はその内容を抽出して使用
     #      - gsub("[\\n\\r\\\\]"; " "): 改行文字とバックスラッシュを空白に置換
     #      - .[0:50]: 最初の50文字を取得（一覧表示用のプレビュー）
     #    - .sessionId: セッションID
@@ -94,7 +95,18 @@ claude-session-select() {
     # 3. @tsvでタブ区切り形式に変換
     jq -r --arg file "$file" '
       '"$JQ_USER_FILTER"' |
-      [.timestamp, (.message.content | gsub("[\\n\\r\\\\]"; " ") | .[0:50]), .sessionId, (.gitBranch // "-")] | 
+      [
+        .timestamp,
+        (
+          if .message.content | contains("<command-name>") then
+            .message.content | capture("<command-name>(?<cmd>[^<]+)</command-name>") | .cmd
+          else
+            .message.content | gsub("[\\n\\r\\\\]"; " ") | .[0:50]
+          end
+        ),
+        .sessionId,
+        (.gitBranch // "-")
+      ] | 
       @tsv
     ' "$file" 2>/dev/null
   done | \
@@ -113,7 +125,7 @@ claude-session-select() {
     fi
   done | \
   # プレビューウィンドウに選択中のセッションの会話履歴を表示
-  # 1. jqでメッセージを抽出し、改行を空白に置換して最初の200文字を取得
+  # 1. jqでメッセージを抽出し、slash commandの場合はコマンド名を表示
   # 2. whileループでタイムスタンプをdateコマンドでローカルタイムに変換
   # 3. [HH:MM] 形式で時刻を表示し、その後にメッセージ内容を表示
   fzf --delimiter=$'\t' \
@@ -126,7 +138,13 @@ claude-session-select() {
         jq -r "
           select(.sessionId == \"$session_id\") |
           $JQ_USER_FILTER |
-          .timestamp + \"\\t\" + (.message.content | gsub(\"[\\n\\r\\\\\\\\]\"; \" \") | .[0:50])
+          .timestamp + \"\\t\" + (
+            if .message.content | contains(\"<command-name>\") then
+              .message.content | capture(\"<command-name>(?<cmd>[^<]+)</command-name>\") | .cmd
+            else
+              .message.content | gsub(\"[\\n\\r\\\\\\\\]\"; \" \") | .[0:50]
+            end
+          )
         " "$file" 2>/dev/null | while IFS=$'"'"'\t'"'"' read -r ts msg; do
           local_time=$(date -d "$ts" "+%H:%M" 2>/dev/null || date -r "$ts" "+%H:%M" 2>/dev/null || echo "$ts")
           echo "[$local_time] $msg"
