@@ -151,6 +151,12 @@ function git-discard-files() {
     }
   )
   
+  # discard対象のファイルがない場合は早期リターン
+  if [[ -z "$colored_files" ]]; then
+    echo "No files to discard"
+    return 0
+  fi
+  
   # fzfで選択（色付き表示、ファイル名だけ抽出）
   files=$(echo "$colored_files" | \
     fzf -m --ansi \
