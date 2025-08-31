@@ -77,7 +77,6 @@ alias dr='deno run'
 
 # bun
 alias b='bun'
-alias npx='bunx'
 alias x='bunx'
 alias xx='bunx-latest'
 
