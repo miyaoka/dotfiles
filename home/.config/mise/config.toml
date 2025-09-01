@@ -2,6 +2,7 @@
 bun = "latest"
 deno = "latest"
 fzf = "latest"
+ni = "latest"
 node = "latest"
 pnpm = "latest"
 

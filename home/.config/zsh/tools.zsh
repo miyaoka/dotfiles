@@ -6,7 +6,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # mise
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(mise activate zsh)"
 
 # starship
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
