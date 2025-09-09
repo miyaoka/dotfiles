@@ -1,8 +1,7 @@
 # user
 [user]
-	name = Masaya Kazama
+	name = miyaoka
 	email = miyaokamiyao@gmail.com
-	username = miyaoka
 [core]
 	editor = $EDITOR -w
 	ignorecase = false
