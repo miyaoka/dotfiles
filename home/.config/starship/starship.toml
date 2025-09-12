@@ -8,6 +8,8 @@ disabled = true
 full_symbol = '🔋'
 charging_symbol = '🔌'
 discharging_symbol = '⚡'
+unknown_symbol = '⏸️ ' # macの充電保留中
+empty_symbol = '🪫'
 
 [[battery.display]]
 threshold = 100
