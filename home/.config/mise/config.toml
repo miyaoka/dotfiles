@@ -2,9 +2,8 @@
 bun = "latest"
 deno = "latest"
 fzf = "latest"
-ni = "latest"
 node = "latest"
-pnpm = "latest"
+pnpm = "10.17"
 
 [settings]
 trusted_config_paths = [ 
