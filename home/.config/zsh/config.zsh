@@ -40,83 +40,83 @@ DIRSTACKSIZE=50  # cdr履歴の保持件数を50件に変更
 setopt extended_glob          # 拡張glob（^、#等）を有効
 setopt glob_dots              # .で始まるファイルもglob対象
 
-# 履歴から除外するコマンド（基本名のみ）
-_excluded_commands=(
-  "ls"           # ls系コマンド
-  "ll"
-  "la"
-  "l"
-  "cd"           # ディレクトリ移動
-  "pwd"          # 現在ディレクトリ表示
-  "clear"        # 画面クリア
-  "cls"
-  "exit"         # 終了
-  "history"      # 履歴表示
-  "bg"           # バックグラウンド処理
-  "fg"
-  "jobs"
-  "ps"           # プロセス表示
-  "htop"
-  "top"
-  "man"          # マニュアル表示
-  "help"
-  "which"        # コマンドパス表示
-  "type"
-  "echo"         # 簡単な出力
-  "cat"          # ファイル表示
-  "less"
-  "more"
-  "head"
-  "tail"
-  ".."
-)
+# # 履歴から除外するコマンド（基本名のみ）
+# _excluded_commands=(
+#   "ls"           # ls系コマンド
+#   "ll"
+#   "la"
+#   "l"
+#   "cd"           # ディレクトリ移動
+#   "pwd"          # 現在ディレクトリ表示
+#   "clear"        # 画面クリア
+#   "cls"
+#   "exit"         # 終了
+#   "history"      # 履歴表示
+#   "bg"           # バックグラウンド処理
+#   "fg"
+#   "jobs"
+#   "ps"           # プロセス表示
+#   "htop"
+#   "top"
+#   "man"          # マニュアル表示
+#   "help"
+#   "which"        # コマンドパス表示
+#   "type"
+#   "echo"         # 簡単な出力
+#   "cat"          # ファイル表示
+#   "less"
+#   "more"
+#   "head"
+#   "tail"
+#   ".."
+# )
 
-# 配列を正規表現パターンに変換（引数ありパターンも自動生成）
-_history_exclude_regex=$(printf "|%s" "${_excluded_commands[@]}")
-_history_exclude_regex="^(${_history_exclude_regex:1})(\s.*)?$"
+# # 配列を正規表現パターンに変換（引数ありパターンも自動生成）
+# _history_exclude_regex=$(printf "|%s" "${_excluded_commands[@]}")
+# _history_exclude_regex="^(${_history_exclude_regex:1})(\s.*)?$"
 
-# 履歴制御: メモリには残すがファイル保存を選択的に行う
-zshaddhistory() {
-  # コマンドラインから先頭の空白と改行を除去
-  local cmd="${1%$'\n'}"
-  cmd="${cmd#"${cmd%%[![:space:]]*}"}"
+# # 履歴制御: メモリには残すがファイル保存を選択的に行う
+# zshaddhistory() {
+#   # コマンドラインから先頭の空白と改行を除去
+#   local cmd="${1%$'\n'}"
+#   cmd="${cmd#"${cmd%%[![:space:]]*}"}"
   
-  # 除外対象コマンド（ls, cd等）の場合
-  if [[ "$cmd" =~ $_history_exclude_regex ]]; then
-    _exclude_from_file=1  # ファイル削除フラグ設定
-  else
-    # 通常コマンドの場合
-    _exclude_from_file=0
-    _is_normal_command=1  # エラー時ファイル削除チェック対象フラグ
-  fi
+#   # 除外対象コマンド（ls, cd等）の場合
+#   if [[ "$cmd" =~ $_history_exclude_regex ]]; then
+#     _exclude_from_file=1  # ファイル削除フラグ設定
+#   else
+#     # 通常コマンドの場合
+#     _exclude_from_file=0
+#     _is_normal_command=1  # エラー時ファイル削除チェック対象フラグ
+#   fi
   
-  # 全てのコマンドをメモリ＋ファイルに一旦追加
-  # （後でprecmdにて条件に応じてファイルから削除）
-  return 0
-}
+#   # 全てのコマンドをメモリ＋ファイルに一旦追加
+#   # （後でprecmdにて条件に応じてファイルから削除）
+#   return 0
+# }
 
-# コマンド実行後処理: ファイルからの選択的削除
-precmd() {
-  local last_exit_status=$?
+# # コマンド実行後処理: ファイルからの選択的削除
+# precmd() {
+#   local last_exit_status=$?
   
-  # ファイルから削除する条件判定
-  local should_remove_from_file=0
+#   # ファイルから削除する条件判定
+#   local should_remove_from_file=0
   
-  # 除外対象コマンド（ls, cd等）は常にファイルから削除
-  if [[ $_exclude_from_file -eq 1 ]]; then
-    should_remove_from_file=1
-  # 通常コマンドでエラー終了した場合もファイルから削除
-  elif [[ $last_exit_status -ne 0 && $_is_normal_command -eq 1 ]]; then
-    should_remove_from_file=1
-  fi
+#   # 除外対象コマンド（ls, cd等）は常にファイルから削除
+#   if [[ $_exclude_from_file -eq 1 ]]; then
+#     should_remove_from_file=1
+#   # 通常コマンドでエラー終了した場合もファイルから削除
+#   elif [[ $last_exit_status -ne 0 && $_is_normal_command -eq 1 ]]; then
+#     should_remove_from_file=1
+#   fi
   
-  # ファイルから最後の行を削除（メモリには残る）
-  if [[ $should_remove_from_file -eq 1 && -w "$HISTFILE" && -f "$HISTFILE" ]]; then
-    # mac/BSD環境でも動作するようにhead -n -1ではなくsed '$d'を使用
-    sed '$d' "$HISTFILE" > "${HISTFILE}.tmp" && mv "${HISTFILE}.tmp" "$HISTFILE"
-  fi
+#   # ファイルから最後の行を削除（メモリには残る）
+#   if [[ $should_remove_from_file -eq 1 && -w "$HISTFILE" && -f "$HISTFILE" ]]; then
+#     # mac/BSD環境でも動作するようにhead -n -1ではなくsed '$d'を使用
+#     sed '$d' "$HISTFILE" > "${HISTFILE}.tmp" && mv "${HISTFILE}.tmp" "$HISTFILE"
+#   fi
   
-  # 次回用にフラグをクリア
-  _exclude_from_file=0
-  _is_normal_command=0
-}
+#   # 次回用にフラグをクリア
+#   _exclude_from_file=0
+#   _is_normal_command=0
+# }
