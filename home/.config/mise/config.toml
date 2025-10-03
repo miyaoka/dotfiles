@@ -4,7 +4,8 @@ deno = "latest"
 fzf = "latest"
 gh = "latest"
 node = "latest"
-pnpm = "10.17"
+"npm:@antfu/ni" = "latest"
+pnpm = "latest"
 
 [settings]
 trusted_config_paths = [ 
