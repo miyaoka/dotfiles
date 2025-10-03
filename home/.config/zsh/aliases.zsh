@@ -36,16 +36,11 @@ alias g='git'
 alias degit="tiged"
 
 # gh
-## カレントブランチでブラウザを開く
-alias gho='gh browse --branch $(git cbn)'
-alias ghp='gh pr list'
+alias gp='gh pr list'
 ## author: me
-alias ghpm='gh pr list -A @me'
+alias gpa='gh pr list --author @me --json number,createdAt,title,url | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.url)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs open'
 ## review-requested: me
-alias ghpmr='gh pr list --search "review-requested:@me"'
-alias ghpf='gh pr list | fzf | awk "{ print \$1 }"'
-alias ghpw="ghpf | xargs gh pr view --web"
-alias ghpc="ghpf | xargs gh pr checkout"
+alias gpr='gh pr list --search "review-requested:@me" --json number,createdAt,title,url | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.url)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs open'
 
 # pnpm
 alias p='pnpm'
