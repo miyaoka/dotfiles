@@ -1,0 +1,8 @@
+#!/bin/sh
+# WSL環境でopenコマンドをwslviewにラップ
+
+if [ -n "$WSL_DISTRO_NAME" ]; then
+  exec wslview "$@"
+else
+  exec /usr/bin/open "$@"
+fi
