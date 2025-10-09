@@ -1,8 +1,5 @@
 # 環境変数設定
 
-# CONFIG DIR
-# export XDG_CONFIG_HOME="$HOME/.config"
-# export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME/claude"
 export PATH="$HOME/.local/bin:$PATH"
 
 # bun
@@ -10,6 +7,14 @@ export PATH="$HOME/.bun/bin:$PATH"
 
 # brew
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+
+# CONFIG DIR
+# export XDG_CONFIG_HOME="$HOME/.config"
+
+# codex
+export CODEX_HOME="$HOME/.config/codex"
+
+# export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME/claude"
 
 # ブラウザ
 if [[ -n "$WSL_DISTRO_NAME" ]]; then

@@ -81,5 +81,9 @@ alias @v='claude --verbose'
 alias @@='claude-session-resume'
 alias @@o='claude-session-open'
 
+# codex
+alias o='codex'
+alias oo='codex resume'
+
 # oh-my-logo
 alias logo="bunx oh-my-logo@latest --filled"
