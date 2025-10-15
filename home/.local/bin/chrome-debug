@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# wslからwindowsのchromeを起動する
+# https://qiita.com/hal_mkiin/items/d60dc50dadb2c26ad775
+
+# カラー定義
+RED='\033[31m'
+GREEN='\033[32m'
+CYAN='\033[36m'
+RESET='\033[0m'
+
+# WSL環境チェック
+if [ -z "$WSL_DISTRO_NAME" ]; then
+  echo "${RED}✗ This command is only for WSL environment${RESET}" >&2
+  exit 1
+fi
+
+# 既に起動しているかチェック (0.1秒タイムアウト)
+if curl -s --connect-timeout 0.1 http://localhost:9222/json/version > /dev/null 2>&1; then
+  echo "${GREEN}✓ Chrome debug session already running${RESET}"
+  exit 0
+fi
+
+echo "${CYAN}→ Starting Chrome debug session...${RESET}"
+
+CHROME_PATH="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
+
+"$CHROME_PATH" \
+  --remote-debugging-port=9222 \
+  --remote-debugging-address=0.0.0.0 \
+  --no-first-run \
+  --no-default-browser-check \
+  --disable-gpu \
+  --user-data-dir=C:\\temp\\chrome-debug > /dev/null 2>&1 &
+
+
+curl http://localhost:9222/json/version 2>/dev/null

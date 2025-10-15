@@ -80,6 +80,7 @@ alias @='claude'
 alias @v='claude --verbose'
 alias @@='claude-session-resume'
 alias @@o='claude-session-open'
+alias @c='chrome-debug'
 
 # codex
 alias o='codex'
