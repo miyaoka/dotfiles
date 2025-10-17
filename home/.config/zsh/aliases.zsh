@@ -38,9 +38,9 @@ alias degit="tiged"
 # gh
 alias gp='gh pr list'
 ## author: me
-alias gpa='gh pr list --author @me --json number,createdAt,title,url | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.url)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs open'
+alias gpa='gh pr list --author @me --json number,createdAt,title,headRefName | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.headRefName)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs git switch'
 ## review-requested: me
-alias gpr='gh pr list --search "review-requested:@me" --json number,createdAt,title,url | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.url)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs open'
+alias gpr='gh pr list --search "review-requested:@me" --json number,createdAt,title,headRefName | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.headRefName)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs git switch'
 
 # pnpm
 alias p='pnpm'
