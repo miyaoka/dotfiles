@@ -38,9 +38,9 @@ alias degit="tiged"
 # gh
 alias ghp='gh pr list'
 ## pr: author: me
-alias ghpa='gh pr list --author @me --json number,createdAt,title,headRefName | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.headRefName)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs git switch'
+alias ghpa='gh pr list --author @me --json number,createdAt,title,headRefName | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.headRefName)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs -I {} sh -c "git fetch && git switch {}"'
 ## pr: review-requested: me
-alias ghpr='gh pr list --search "review-requested:@me" --json number,createdAt,title,headRefName | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.headRefName)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs git switch'
+alias ghpr='gh pr list --search "review-requested:@me" --json number,createdAt,title,headRefName | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.headRefName)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs -I {} sh -c "git fetch && git switch {}"'
 ## issue: author: me
 alias ghi='gh issue list --author @me --json number,createdAt,title | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\"" | fzf | cut -f1 | xargs -I {} gh issue view {} --web'
 
