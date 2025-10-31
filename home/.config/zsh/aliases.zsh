@@ -37,6 +37,7 @@ alias degit="tiged"
 
 # gh
 alias ghp='gh pr list'
+alias ghb="gh browse"
 ## pr: author: me
 alias ghpa='gh pr list --author @me --json number,createdAt,title,headRefName | jq -r ".[] | \"\(.number)\t\(.createdAt | fromdateiso8601 | strflocaltime(\"%Y-%m-%d %H:%M\"))\t\(.title)\t\(.headRefName)\"" | fzf --with-nth=1..3 --delimiter=$'\''\t'\'' | cut -f4 | xargs -I {} sh -c "git fetch && git switch {}"'
 ## pr: review-requested: me
