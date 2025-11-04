@@ -5,6 +5,7 @@ fzf = "latest"
 gh = "latest"
 node = "latest"
 "npm:@antfu/ni" = "latest"
+"npm:@biomejs/biome" = "latest"
 pnpm = "latest"
 
 [settings]
