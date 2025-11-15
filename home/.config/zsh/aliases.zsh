@@ -55,6 +55,7 @@ alias pui='pnpm up -i'
 # ni
 alias nii='ni -i'
 alias r='nr'
+alias rp='nr -p'
 
 # editor
 alias c='code'
