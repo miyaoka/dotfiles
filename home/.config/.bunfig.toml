@@ -1,0 +1,2 @@
+[install]
+minimumReleaseAge = 259200  # 3日（秒単位）
