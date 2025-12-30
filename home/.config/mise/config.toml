@@ -5,6 +5,7 @@ fzf = "latest"
 gh = "latest"
 node = "latest"
 "npm:@antfu/ni" = "latest"
+"npm:@anthropic-ai/claude-code" = "2.0.69"
 "npm:@biomejs/biome" = "latest"
 pnpm = "latest"
 
