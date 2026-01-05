@@ -62,6 +62,7 @@ alias c='code'
 
 # mise
 alias m='mise'
+alias mo='mise outdated --bump'
 
 # rm
 alias rmn='rm -rf **/node_modules'
