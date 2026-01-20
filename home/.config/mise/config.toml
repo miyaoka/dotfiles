@@ -1,12 +1,16 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+
 [tools]
 bun = "latest"
 deno = "latest"
 fzf = "latest"
 gh = "latest"
+ghq = "latest"
 node = "latest"
+pnpm = "latest"
+"github:d-kuro/gwq" = "latest"
 "npm:@antfu/ni" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
-pnpm = "latest"
 
 [settings]
 trusted_config_paths = [ 
