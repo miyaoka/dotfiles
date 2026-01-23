@@ -11,6 +11,7 @@ pnpm = "latest"
 "github:d-kuro/gwq" = "latest"
 "npm:@antfu/ni" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
+"npm:difit" = "latest"
 
 [settings]
 trusted_config_paths = [ 

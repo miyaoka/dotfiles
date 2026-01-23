@@ -67,11 +67,6 @@ alias mo='mise outdated --bump'
 # rm
 alias rmn='rm -rf **/node_modules'
 
-# deno
-alias d='deno'
-alias dt='deno task'
-alias dr='deno run'
-
 # deno script
 # alias r='uni-run'
 
@@ -93,3 +88,6 @@ alias oo='codex resume'
 
 # oh-my-logo
 alias logo="bunx oh-my-logo@latest --filled"
+
+# difit
+alias d='difit'
