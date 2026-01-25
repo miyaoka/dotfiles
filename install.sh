@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# 初回セットアップスクリプト
-# Homebrew で git をインストールし、mise で管理するツールをインストール
+# brew と mise を更新し、管理下のツールをインストール/更新
 
 set -e # エラー時に終了
 
@@ -13,15 +12,15 @@ NC='\033[0m' # No Color
 
 # ログ出力関数
 log_info() {
-  printf "${GREEN}[INFO]${NC} %s\n" "$1"
+  printf "${GREEN}%s${NC}\n" "$1"
 }
 
 log_warn() {
-  printf "${YELLOW}[WARN]${NC} %s\n" "$1"
+  printf "${YELLOW}%s${NC}\n" "$1"
 }
 
 log_error() {
-  printf "${RED}[ERROR]${NC} %s\n" "$1"
+  printf "${RED}%s${NC}\n" "$1"
 }
 
 # Homebrew のインストール確認
@@ -32,22 +31,25 @@ check_brew() {
     echo '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
     exit 1
   fi
-  log_info "Homebrew が見つかりました: $(brew --version | head -n1)"
 }
 
-# brew ツールのインストール
+# brew ツールのインストールまたは更新
 install_brew_tool() {
   local tool=$1
   local formula=${2:-$tool} # 第2引数がなければ第1引数を使用
 
-  if command -v "$tool" >/dev/null 2>&1; then
-    log_info "$tool は既にインストールされています"
-  else
-    log_info "$formula をインストール中..."
-    if brew install "$formula"; then
-      log_info "$formula のインストールが完了しました"
+  log_info "$tool をインストール中..."
+  if brew list "$formula" >/dev/null 2>&1; then
+    if brew outdated "$formula" | grep -q "$formula"; then
+      brew upgrade "$formula"
     else
-      log_error "$formula のインストールに失敗しました"
+      log_info "$tool is up to date"
+    fi
+  else
+    if brew install "$formula"; then
+      log_info "$tool のインストールが完了しました"
+    else
+      log_error "$tool のインストールに失敗しました"
       return 1
     fi
   fi
@@ -55,12 +57,10 @@ install_brew_tool() {
 
 # mise のインストール
 install_mise() {
+  log_info "mise をインストール中..."
   if command -v mise >/dev/null 2>&1; then
-    log_info "mise は既にインストールされています: $(mise --version)"
-    log_info "mise を更新中..."
     mise self-update
   else
-    log_info "mise をインストール中..."
     curl https://mise.run | sh
     log_info "mise のインストールが完了しました"
   fi
@@ -68,16 +68,11 @@ install_mise() {
 
 # メイン処理
 main() {
-  log_info "セットアップを開始します"
-
-  # Homebrew の確認
+  echo "=== brew ==="
   check_brew
-
-  # Homebrew の更新
-  log_info "Homebrew を更新中..."
+  log_info "Homebrew をインストール中..."
   brew update
 
-  # brew ツールをインストール
   BREW_TOOLS=(
     "git:git"
   )
@@ -87,17 +82,15 @@ main() {
     install_brew_tool "$tool" "$formula"
   done
 
-  # mise のインストール
+  echo ""
+  echo "=== mise ==="
   install_mise
 
-  # mise で管理するツールをインストール
   log_info "mise で管理するツールをインストール中..."
   mise install
 
-  log_info "全てのツールのインストールが完了しました"
-
-  # インストール済みツールの確認
-  log_info "インストール済みツールのバージョン:"
+  echo ""
+  log_info "インストール完了"
   command -v git >/dev/null 2>&1 && echo "  git: $(git --version)"
   command -v mise >/dev/null 2>&1 && echo "  mise: $(mise --version)"
 }
