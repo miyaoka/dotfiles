@@ -9,23 +9,21 @@
 必要なツールをインストール：
 
 ```bash
-sh setup.sh
+./setup.sh
 ```
 
-このスクリプトは Homebrew を使用して以下のツールをインストール：
+このスクリプトは以下を実行：
 
-- git
-- gh (GitHub CLI)
-- ghq (リポジトリ管理)
-- mise (ランタイムバージョン管理)
-- starship (プロンプト)
+- Homebrew で git をインストール
+- mise を公式インストーラーでインストール
+- mise で管理するツールをインストール（gh, ghq, starship, shfmt, lefthook など）
 
 ### 設定ファイルの同期
 
 シンボリックリンクを作成して設定ファイルを同期：
 
 ```bash
-sh sync.sh
+./sync.sh
 ```
 
 このスクリプトは `home/` ディレクトリ内の全ファイルをホームディレクトリに再帰的にシンボリックリンクを作成
