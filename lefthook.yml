@@ -1,0 +1,6 @@
+pre-commit:
+  commands:
+    shfmt:
+      glob: "*.{sh,zsh}"
+      run: shfmt -i 2 -w {staged_files}
+      stage_fixed: true
