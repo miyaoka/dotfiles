@@ -62,6 +62,9 @@ alias c='code'
 
 # mise
 alias m='mise'
+alias mi='mise install'
+alias mu='mise up'
+alias msu='mise self-update'
 alias mo='mise outdated --bump'
 
 # rm
