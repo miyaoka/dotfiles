@@ -59,7 +59,8 @@ install_brew_tool() {
 install_mise() {
   log_info "mise をインストール中..."
   if command -v mise >/dev/null 2>&1; then
-    mise self-update
+    # self-update は GitHub API を使うためレート制限で失敗することがある
+    mise self-update || log_warn "mise self-update に失敗しました（続行します）"
   else
     curl https://mise.run | sh
     log_info "mise のインストールが完了しました"

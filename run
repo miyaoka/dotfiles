@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# scripts/ 配下のスクリプトを選択実行
+
+scripts_dir="$(dirname "$0")/scripts"
+
+# 引数があれば直接実行（例: ./run install）
+if [ -n "$1" ]; then
+  "$scripts_dir/$1.sh"
+# fzf があれば選択 UI を表示
+elif command -v fzf >/dev/null 2>&1; then
+  script=$(ls "$scripts_dir"/*.sh | fzf --prompt="script> ")
+  [ -n "$script" ] && "$script"
+# fzf がなければ sync + install を実行
+else
+  echo "fzf が見つかりません。初回 sync + install を実行します。"
+  echo ""
+  "$scripts_dir/sync.sh"
+  "$scripts_dir/install.sh"
+fi

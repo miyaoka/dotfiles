@@ -4,7 +4,8 @@
 # ~/.config 配下のリンク先が存在しないシンボリックリンクを削除（それ以外は手動削除）
 # 新規追加・削除のみを差分表示
 
-src_dir="$(pwd)/home"
+script_dir="$(cd "$(dirname "$0")/.." && pwd)"
+src_dir="$script_dir/home"
 dest_dir="$HOME"
 
 # homeディレクトリ内の全ファイル・ディレクトリを処理
