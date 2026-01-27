@@ -5,9 +5,6 @@ export PATH="$HOME/.local/bin:$PATH"
 # bun
 export PATH="$HOME/.bun/bin:$PATH"
 
-# brew
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-
 # CONFIG DIR
 # export XDG_CONFIG_HOME="$HOME/.config"
 
