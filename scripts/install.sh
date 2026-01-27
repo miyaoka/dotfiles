@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # brew と mise を更新し、管理下のツールをインストール/更新
 
