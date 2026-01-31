@@ -15,10 +15,8 @@ alias gc='ghq-clone'
 alias cc='ghq-edit'
 alias ccd='ghq-cd'
 
-#git
-alias gd="git-discard-files"
-
 # difit
+alias d='difit'
 alias dp="difit-pr"
 
 # aliasをリストから選択してコマンドラインに挿入
@@ -31,9 +29,6 @@ alias g@='print -z "$(git_alias) "'
 # -----------------------------------------------------------------
 # git
 alias g='git'
-
-# clone
-alias degit="tiged"
 
 # gh
 alias ghp='gh pr list'
@@ -55,7 +50,6 @@ alias pui='pnpm up -i'
 # ni
 alias nii='ni -i'
 alias r='nr'
-alias rp='nr -p'
 
 # editor
 alias c='code'
@@ -74,13 +68,8 @@ alias mtu='mise-tracked-usage'
 # rm
 alias rmn='rm -rf **/node_modules'
 
-# deno script
-# alias r='uni-run'
-
 # bun
 alias b='bun'
-alias x='bunx'
-alias xx='bunx-latest'
 
 # claude
 alias @='claude'
@@ -95,6 +84,3 @@ alias oo='codex resume'
 
 # oh-my-logo
 alias logo="bunx oh-my-logo@latest --filled"
-
-# difit
-alias d='difit'
