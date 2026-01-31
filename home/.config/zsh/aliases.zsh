@@ -23,8 +23,8 @@ alias dp="difit-pr"
 
 # aliasをリストから選択してコマンドラインに挿入
 #（引数をつけて実行できるように末尾に空白を入れておく）
-alias z@='print -z "$(zsh_alias) "' 
-alias g@='print -z "$(git_alias) "' 
+alias z@='print -z "$(zsh_alias) "'
+alias g@='print -z "$(git_alias) "'
 
 # -----------------------------------------------------------------
 # tools
@@ -66,6 +66,10 @@ alias mi='mise install'
 alias mu='mise up'
 alias msu='mise self-update'
 alias mo='mise outdated --bump'
+## tracked-config (~/.local/state/mise/tracked-configs/): mise が認識している config ファイルの一覧
+alias mtc='mise config ls --tracked-configs'
+## tracked-config: ツール@バージョンを選択し、どの config で使われているか表示
+alias mtu='mise-tracked-usage'
 
 # rm
 alias rmn='rm -rf **/node_modules'

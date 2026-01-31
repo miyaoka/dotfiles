@@ -22,13 +22,13 @@ _select_dirs() {
   local work_paths
   local history_paths
   local merged_paths
-  
+
   # work: 現在セッションの作業用ディレクトリスタック
   work_paths=$(dirs -p)
-  
+
   # history: 全セッション共有の移動履歴
   history_paths=$(cdr -l 2>/dev/null | awk '{print $2}')
-  
+
   # workとhistoryを結合して重複除去
   merged_paths=$(
     (
@@ -36,7 +36,7 @@ _select_dirs() {
       echo "$history_paths"
     ) | awk 'NF && !seen[$0]++'
   )
-  
+
   # fzfで選択
   echo -e "$merged_paths" | fzf \
     --header="Directory navigation"
@@ -46,7 +46,7 @@ _select_dirs() {
 fzf_history() {
   local selected
   selected=$(_select_history)
-  
+
   if [[ $? -eq 0 && -n "$selected" ]]; then
     eval "$selected"
   fi
@@ -56,7 +56,7 @@ fzf_history() {
 fzf_dirs() {
   local selected
   selected=$(_select_dirs)
-  
+
   if [[ $? -eq 0 && -n "$selected" ]]; then
     # チルダを展開してcdする
     eval "cd $selected"
@@ -67,10 +67,10 @@ fzf_dirs() {
 difit-pr() {
   # 現在のブランチ名を取得
   local current_branch=$(git branch --show-current)
-  
+
   # ghコマンドでPRを検索（現在ブランチのPR）
   local pr_url=$(gh pr view "$current_branch" --json url -q .url 2>/dev/null)
-  
+
   if [[ -n "$pr_url" ]]; then
     # PRが存在する場合、URLを指定してdifitを実行
     bunx difit --pr "$pr_url"
@@ -84,17 +84,16 @@ difit-pr() {
 bunx-latest() {
   local cmd="$1"
   shift
-  
+
   # バージョン指定がない場合は@latestを付ける
   if [[ "$cmd" != *"@"* ]]; then
     cmd="${cmd}@latest"
   fi
-  
+
   command bunx "$cmd" "$@"
 }
 
 # ==== alias選択関数群 ====
-
 
 # aliasの一覧をfzfで表示し、previewで展開内容を表示
 zsh_alias() {
@@ -113,11 +112,10 @@ zsh_alias() {
       echo "$alias_value" | sed "s/^'"'"'//;s/'"'"'$//"
     ' \
     --preview-window='up:3:wrap' | cut -d= -f1)
-  
+
   # 選択されたalias名を返す
   [[ -n "$selected" ]] && echo "$selected"
 }
-
 
 # gitのalias一覧をfzfで表示し、previewで展開内容を表示
 git_alias() {
@@ -135,7 +133,7 @@ git_alias() {
       echo "$alias_value"
     ' \
     --preview-window='up:3:wrap' | cut -d' ' -f1)
-  
+
   # 選択されたalias名を返す（git付き）
   [[ -n "$selected" ]] && echo "git ${selected}"
 }
@@ -150,38 +148,38 @@ function git-discard-files() {
       git ls-files -o --exclude-standard | while read -r f; do echo -e "\033[31m[U]\033[0m $f"; done
     }
   )
-  
+
   # discard対象のファイルがない場合は早期リターン
   if [[ -z "$colored_files" ]]; then
     echo "No files to discard"
     return 0
   fi
-  
+
   # fzfで選択（色付き表示、ファイル名だけ抽出）
-  files=$(echo "$colored_files" | \
+  files=$(echo "$colored_files" |
     fzf -m --ansi \
       --preview 'f=$(echo {} | sed "s/^.*\] //"); (git diff --color=always "$f" | grep . || cat "$f")' \
-      --header 'Select files to discard' | \
+      --header 'Select files to discard' |
     sed 's/^.*\] //')
-  
+
   [[ -z "$files" ]] && return 0
-  
+
   # 影響を受けるファイルを表示
   echo "The following files will be discarded:"
   echo "----"
   echo "$files" | while read -r file; do
     if git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
-      echo "\033[33m[M]\033[0m $file"  # 黄色
+      echo "\033[33m[M]\033[0m $file" # 黄色
     else
-      echo "\033[31m[U]\033[0m $file"  # 赤色
+      echo "\033[31m[U]\033[0m $file" # 赤色
     fi
   done
   echo "----"
-  
+
   # 確認
   echo "Continue?"
   read confirm
-  
+
   # 実行
   echo "$files" | while read -r file; do
     if git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
@@ -199,8 +197,8 @@ function git-discard-files() {
 # https://github.com/cli/cli/issues/6089#issuecomment-1220250908
 # .zshrc gh pr list command extended with fzf, see the man page (man fzf) for an explanation of the arguments.
 function gp {
-	[[ ! "$(git rev-parse --is-inside-work-tree)" ]] && return 1
-	GH_COMMAND='gh pr list -L 50 \
+  [[ ! "$(git rev-parse --is-inside-work-tree)" ]] && return 1
+  GH_COMMAND='gh pr list -L 50 \
   --json number,author,updatedAt,title \
   --template "
 	{{- tablerow (\"PR\" | color \"blue+b\") (\"LAST UPDATE\" | color \"blue+b\") (\"AUTHOR\" | color \"blue+b\") (\"TITLE\" | color \"blue+b\") -}}
@@ -208,10 +206,33 @@ function gp {
 		{{- tablerow (printf \"#%v\" .number | color \"green+h\") (timeago .updatedAt | color \"gray+h\") (.author.login | color \"cyan+h\") .title -}}
 	{{- end -}}" \
   --search'
-	FZF_DEFAULT_COMMAND="$GH_COMMAND ${1:-\"\"}" \
-		GH_FORCE_TTY=100% fzf --ansi --header-lines=1 \
-		--header $'CTRL+o - Browser | CTRL+s - Switch' \
-		--prompt 'Search Open PRs >' \
-		--bind 'ctrl-o:execute-silent(gh pr view {1} --web)' \
-		--bind 'ctrl-s:become(gh pr checkout {1})'
+  FZF_DEFAULT_COMMAND="$GH_COMMAND ${1:-\"\"}" \
+    GH_FORCE_TTY=100% fzf --ansi --header-lines=1 \
+    --header $'CTRL+o - Browser | CTRL+s - Switch' \
+    --prompt 'Search Open PRs >' \
+    --bind 'ctrl-o:execute-silent(gh pr view {1} --web)' \
+    --bind 'ctrl-s:become(gh pr checkout {1})'
+}
+
+# mise: tracked config からツールを選択し、使用している config を表示
+mise-tracked-usage() {
+  # 各 tracked config のディレクトリで mise ls --json を実行し、source があるエントリを収集
+  local data=$(mise config ls --tracked-configs | while read -r config; do
+    local dir=$(dirname "$config")
+    mise ls --json -C "$dir" 2>/dev/null | jq -r '
+      to_entries[] |
+      .key as $tool |
+      .value[] |
+      select(has("source")) |
+      "\(.source.path)\t\($tool)@\(.version)"
+    '
+  done | sort -u)
+
+  # ツール@バージョンのユニークリストを fzf で選択（preview で使用 config を表示）
+  local selected=$(echo "$data" | cut -f2 | sort -u | fzf --header="mise-tracked-usage" --preview="echo \"$data\" | grep -F {} | cut -f1 | sed \"s|$HOME|~|g\"")
+  [[ -z "$selected" ]] && return
+
+  # 選択されたツール@バージョンを使用している config を表示
+  echo "\033[36m$selected\033[0m"
+  echo "$data" | grep -F "$selected" | cut -f1 | sed "s|$HOME|~|g"
 }
