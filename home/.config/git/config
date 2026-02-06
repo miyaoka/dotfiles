@@ -7,8 +7,6 @@
 	ignorecase = false
 [credential]
 	helper = cache
-[ghq]
-  root = ~/src
 
 # recommended https://blog.gitbutler.com/how-git-core-devs-configure-git/
 [column]

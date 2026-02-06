@@ -18,8 +18,8 @@ starship = "latest"
 
 [settings]
 trusted_config_paths = [ 
-  '~/src/github.com/miyaoka/',
-  '~/src/github.com/studio-design/',
+  '~/ghq/github.com/miyaoka/',
+  '~/ghq/github.com/studio-design/',
   '~/worktrees/github.com/miyaoka',
   '~/worktrees/github.com/studio-design/',
  ]
