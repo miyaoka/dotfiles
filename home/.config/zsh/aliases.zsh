@@ -57,9 +57,10 @@ alias c='code'
 # mise
 alias m='mise'
 alias mi='mise install'
+alias ml='mise ls'
+alias mo='mise outdated --bump'
 alias mu='mise up'
 alias msu='mise self-update'
-alias mo='mise outdated --bump'
 ## tracked-config (~/.local/state/mise/tracked-configs/): mise が認識している config ファイルの一覧
 alias mtc='mise config ls --tracked-configs'
 ## tracked-config: ツール@バージョンを選択し、どの config で使われているか表示
