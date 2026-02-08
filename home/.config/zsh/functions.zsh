@@ -214,6 +214,59 @@ function gp {
     --bind 'ctrl-s:become(gh pr checkout {1})'
 }
 
+# Renovate の open PR を CI 結果付きで一覧表示
+# 引数: なし=自分の全リポジトリ, owner=指定ownerの全リポジトリ, owner/repo=特定リポジトリ
+gh-renovate-prs() {
+  local scope
+  if [[ -z "$1" ]]; then
+    local owner
+    owner=$(gh api user --jq '.login') || return
+    scope="owner:$owner"
+  elif [[ "$1" == */* ]]; then
+    scope="repo:$1"
+  else
+    scope="owner:$1"
+  fi
+
+  gh api graphql \
+    -f searchQuery="author:app/renovate $scope is:pr is:open" \
+    -f query='
+      query($searchQuery: String!) {
+        search(query: $searchQuery, type: ISSUE, first: 100) {
+          nodes {
+            ... on PullRequest {
+              url
+              title
+              commits(last: 1) {
+                nodes {
+                  commit {
+                    statusCheckRollup {
+                      state
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }' \
+    --jq '.data.search.nodes[] |
+      [
+        (.commits.nodes[0].commit.statusCheckRollup.state // "NONE"),
+        .url,
+        .title
+      ] | @tsv' |
+    sort |
+    while IFS=$'\t' read -r state url title; do
+      case "$state" in
+      SUCCESS) printf '\033[32m%-10s\033[0m %s  %s\n' "pass" "$url" "$title" ;;
+      PENDING) printf '\033[33m%-10s\033[0m %s  %s\n' "pending" "$url" "$title" ;;
+      NONE) printf '\033[90m%-10s\033[0m %s  %s\n' "no checks" "$url" "$title" ;;
+      *) printf '\033[31m%-10s\033[0m %s  %s\n' "fail" "$url" "$title" ;;
+      esac
+    done
+}
+
 # mise: tracked config からツールを選択し、使用している config を表示
 mise-tracked-usage() {
   # 各 tracked config のディレクトリで mise ls --json を実行し、source があるエントリを収集
