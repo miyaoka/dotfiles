@@ -214,9 +214,10 @@ function gp {
     --bind 'ctrl-s:become(gh pr checkout {1})'
 }
 
-# Renovate の open PR を CI 結果付きで一覧表示
+# Renovate の open PR を GraphQL で取得（共通ヘルパー）
+# 出力: TSV (state, url, repo, title)
 # 引数: なし=自分の全リポジトリ, owner=指定ownerの全リポジトリ, owner/repo=特定リポジトリ
-gh-renovate-prs() {
+_gh-renovate-prs-query() {
   local scope
   if [[ -z "$1" ]]; then
     local owner
@@ -237,6 +238,7 @@ gh-renovate-prs() {
             ... on PullRequest {
               url
               title
+              repository { nameWithOwner }
               commits(last: 1) {
                 nodes {
                   commit {
@@ -254,10 +256,16 @@ gh-renovate-prs() {
       [
         (.commits.nodes[0].commit.statusCheckRollup.state // "NONE"),
         .url,
+        .repository.nameWithOwner,
         .title
-      ] | @tsv' |
+      ] | @tsv'
+}
+
+# Renovate の open PR を CI 結果付きで一覧表示
+gh-renovate-prs() {
+  _gh-renovate-prs-query "$1" |
     sort |
-    while IFS=$'\t' read -r state url title; do
+    while IFS=$'\t' read -r state url repo title; do
       case "$state" in
       SUCCESS) printf '\033[32m%-10s\033[0m %s  %s\n' "pass" "$url" "$title" ;;
       PENDING) printf '\033[33m%-10s\033[0m %s  %s\n' "pending" "$url" "$title" ;;
@@ -265,6 +273,25 @@ gh-renovate-prs() {
       *) printf '\033[31m%-10s\033[0m %s  %s\n' "fail" "$url" "$title" ;;
       esac
     done
+}
+
+# Renovate の CI pass PR を fzf で複数選択してマージ
+gh-renovate-merge() {
+  local selected
+  selected=$(_gh-renovate-prs-query "$1" |
+    awk -F'\t' '$1 == "SUCCESS"' |
+    fzf -m --with-nth=3,4 \
+      --delimiter='\t' \
+      --header="Select PRs to merge (TAB to multi-select)" \
+      --preview='echo {2}' |
+    cut -f2)
+
+  [[ -z "$selected" ]] && return
+
+  echo "$selected" | while read -r url; do
+    echo "Merging: $url"
+    gh pr merge "$url" --merge || echo "\033[31mFailed: $url\033[0m"
+  done
 }
 
 # mise: tracked config からツールを選択し、使用している config を表示
