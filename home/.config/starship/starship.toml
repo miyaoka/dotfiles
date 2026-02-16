@@ -54,6 +54,7 @@ time_format = "%R"
 # GitHub PR番号とタイトルを表示するカスタムモジュール
 [custom.github_pr]
 description = "Display GitHub PR number and title with cache"
+shell = ["sh", "--norc"]
 command = "bunx github:miyaoka/github-pr-info"
 when = "git rev-parse --git-dir"
 format = "[$output]($style) "
