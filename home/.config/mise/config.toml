@@ -17,6 +17,7 @@ starship = "latest"
 "npm:difit" = "latest"
 rust = "latest"
 helix = "latest"
+"cargo:mdserve" = "latest"
 
 [settings]
 trusted_config_paths = [ 

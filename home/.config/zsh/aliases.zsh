@@ -85,3 +85,6 @@ alias oo='codex resume'
 
 # oh-my-logo
 alias logo="bunx oh-my-logo@latest --filled"
+
+# mdserve
+alias md="mdserve --open"
