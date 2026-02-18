@@ -2,7 +2,6 @@
 
 [tools]
 bun = "latest"
-deno = "latest"
 fzf = "latest"
 gh = "latest"
 ghq = "latest"
@@ -20,10 +19,10 @@ helix = "latest"
 "cargo:mdserve" = "latest"
 
 [settings]
-trusted_config_paths = [ 
+trusted_config_paths = [
   '~/ghq/github.com/miyaoka/',
   '~/ghq/github.com/studio-design/',
   '~/worktrees/github.com/miyaoka',
   '~/worktrees/github.com/studio-design/',
- ]
+]
 idiomatic_version_file_enable_tools = []
