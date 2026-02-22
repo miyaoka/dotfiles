@@ -16,10 +16,10 @@ starship = "latest"
 "npm:difit" = "latest"
 rust = "latest"
 helix = "latest"
-"cargo:mdserve" = "latest"
 yazi = "latest"
 "github:trasta298/keifu" = "latest"
 "github:laishulu/macism" = { version = "latest", os = ["macos"] }
+"github:jfernandez/mdserve" = { version = "latest", bin = "mdserve" }
 
 [settings]
 trusted_config_paths = [
