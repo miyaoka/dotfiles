@@ -4,8 +4,6 @@
 alias ll='ls -alG'
 alias ..='cd ..'
 
-alias h="history"
-
 # -----------------------------------------------------------------
 # 自作function
 # -----------------------------------------------------------------
@@ -88,3 +86,12 @@ alias logo="bunx oh-my-logo@latest --filled"
 
 # mdserve
 alias md="mdserve --open"
+
+# helix
+alias h="hx"
+
+# yazi
+alias y="yazi"
+
+# keifu
+alias k="keifu"
