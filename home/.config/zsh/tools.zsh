@@ -16,6 +16,23 @@ fi
 # mise
 eval "$(mise activate zsh)"
 
+# ブラウザ・エディタ
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+  # WSL環境
+  export BROWSER="explorer.exe"
+  export EDITOR="code -w"
+elif [[ "$(uname)" == "Darwin" ]]; then
+  # macOS環境
+  export BROWSER="open"
+  export EDITOR=hx
+  # シェル起動時にIMEをオフ（複数ペイン同時起動時の競合回避のため遅延実行）
+  { sleep 0.5 && macism com.apple.keylayout.ABC } &!
+else
+  # その他Linux環境
+  export BROWSER="xdg-open"
+  export EDITOR=hx
+fi
+
 # starship
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 eval "$(starship init zsh)"

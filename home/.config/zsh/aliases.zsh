@@ -88,10 +88,10 @@ alias logo="bunx oh-my-logo@latest --filled"
 alias md="mdserve --open"
 
 # helix
-alias h="hx"
+alias x="hx"
 
 # yazi
-alias y="yazi"
+alias l="yazi"
 
 # keifu
 alias k="keifu"

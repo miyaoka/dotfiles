@@ -2,3 +2,7 @@ theme = "monokai"
 
 [editor.file-picker]
 hidden = false
+
+[keys.normal]
+q = ":quit"
+b = ":buffer-close"
