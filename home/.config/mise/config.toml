@@ -17,6 +17,8 @@ starship = "latest"
 rust = "latest"
 helix = "latest"
 "cargo:mdserve" = "latest"
+yazi = "latest"
+"github:trasta298/keifu" = "latest"
 
 [settings]
 trusted_config_paths = [
