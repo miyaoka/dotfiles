@@ -1,1 +1,22 @@
 theme = Monokai Pro
+
+font-feature = "-calt"
+font-feature = "-dlig"
+font-feature = "-liga"
+
+window-width = 220
+window-height = 76
+
+background = #000
+background-opacity = 0.9
+background-blur = 32
+
+# Scrollback
+scrollback-limit = 50000
+
+# Splits
+unfocused-split-opacity = 0.5
+split-divider-color = #fff
+
+# Working directory
+working-directory = "/Users/miyaoka/ghq/github.com/miyaoka/dotfiles"

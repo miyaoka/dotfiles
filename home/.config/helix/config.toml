@@ -1,0 +1,4 @@
+theme = "monokai"
+
+[editor.file-picker]
+hidden = false
