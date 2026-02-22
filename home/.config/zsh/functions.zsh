@@ -262,7 +262,7 @@ _gh-renovate-prs-query() {
 }
 
 # Renovate の open PR を CI 結果付きで一覧表示
-gh-renovate-prs() {
+renovate-prs() {
   _gh-renovate-prs-query "$1" |
     sort |
     while IFS=$'\t' read -r state url repo title; do
@@ -276,7 +276,7 @@ gh-renovate-prs() {
 }
 
 # Renovate の CI pass PR を fzf で複数選択してマージ
-gh-renovate-merge() {
+renovate-merge() {
   local selected
   selected=$(_gh-renovate-prs-query "$1" |
     awk -F'\t' '$1 == "SUCCESS"' |
