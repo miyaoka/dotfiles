@@ -13,16 +13,19 @@ export CODEX_HOME="$HOME/.config/codex"
 
 # export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME/claude"
 
-# ブラウザ
+# ブラウザ・エディタ
 if [[ -n "$WSL_DISTRO_NAME" ]]; then
   # WSL環境
   export BROWSER="explorer.exe"
+  export EDITOR="code -w"
 elif [[ "$(uname)" == "Darwin" ]]; then
   # macOS環境
   export BROWSER="open"
+  export EDITOR=hx
 else
   # その他Linux環境
   export BROWSER="xdg-open"
+  export EDITOR=hx
 fi
 
 
@@ -39,5 +42,3 @@ export FZF_DEFAULT_OPTS='
   --bind shift-tab:toggle-all
 '
 
-# vscode
-export EDITOR=code
