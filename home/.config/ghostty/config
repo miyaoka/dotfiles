@@ -8,8 +8,6 @@ window-width = 220
 window-height = 76
 
 background = #000
-background-opacity = 0.9
-background-blur = 32
 
 # Scrollback
 scrollback-limit = 50000
