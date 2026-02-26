@@ -1,20 +1,28 @@
 theme = Monokai Pro
 
+# font
 font-feature = "-calt"
 font-feature = "-dlig"
 font-feature = "-liga"
 
+# window
+window-padding-x = 16
+window-padding-y = 0,20
 window-width = 220
 window-height = 76
 
 background = #000
 
-# Scrollback
-scrollback-limit = 50000
 
 # Splits
-unfocused-split-opacity = 0.5
+unfocused-split-opacity = 0.8
 split-divider-color = #fff
 
 # Working directory
 working-directory = "/Users/miyaoka/ghq/github.com/miyaoka/dotfiles"
+window-inherit-working-directory = true
+
+# keybind
+keybind = super+n=new_tab
+keybind = super+shift+n=new_window
+

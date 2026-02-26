@@ -20,6 +20,10 @@ yazi = "latest"
 "github:trasta298/keifu" = "latest"
 "github:laishulu/macism" = { version = "latest", os = ["macos"] }
 "github:jfernandez/mdserve" = { version = "latest", bin = "mdserve" }
+"npm:@openai/codex" = "latest"
+colima = "latest"
+docker-cli = "latest"
+lima = "latest"
 
 [settings]
 trusted_config_paths = [
