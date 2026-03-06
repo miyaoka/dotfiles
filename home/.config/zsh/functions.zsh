@@ -282,8 +282,7 @@ renovate-merge() {
     awk -F'\t' '$1 == "SUCCESS"' |
     fzf -m --with-nth=3,4 \
       --delimiter='\t' \
-      --header="Select PRs to merge (TAB to multi-select)" \
-      --preview='echo {2}' |
+      --header="Select PRs to merge (TAB to multi-select)" |
     cut -f2)
 
   [[ -z "$selected" ]] && return
