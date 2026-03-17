@@ -72,14 +72,9 @@ alias b='bun'
 
 # claude
 alias @='claude'
-alias @v='claude --verbose'
 alias @@='claude-session-resume'
 alias @@o='claude-session-open'
-alias @c='chrome-debug'
-
-# codex
-alias o='codex'
-alias oo='codex resume'
+alias @r='claude --resume'
 
 # oh-my-logo
 alias logo="bunx oh-my-logo@latest --filled"
@@ -95,3 +90,6 @@ alias l="yazi"
 
 # keifu
 alias k="keifu"
+
+# gozd
+alias z="gozd"
