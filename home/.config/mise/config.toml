@@ -31,5 +31,6 @@ trusted_config_paths = [
   '~/ghq/github.com/studio-design/',
   '~/worktrees/github.com/miyaoka',
   '~/worktrees/github.com/studio-design/',
+  '~/.local/share/gozd/',
 ]
 idiomatic_version_file_enable_tools = []
