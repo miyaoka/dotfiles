@@ -66,6 +66,7 @@ alias mtu='mise-tracked-usage'
 
 # rm
 alias rmn='rm -rf **/node_modules'
+alias rmd='rm -rf **/dist'
 
 # bun
 alias b='bun'
