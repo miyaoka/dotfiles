@@ -11,7 +11,7 @@ pnpm = "latest"
 shfmt = "latest"
 starship = "latest"
 "npm:@antfu/ni" = "latest"
-"npm:@anthropic-ai/claude-code" = { version = "latest", postinstall = "chmod +x $MISE_TOOL_INSTALL_PATH/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/*/rg" }
+"npm:@anthropic-ai/claude-code" = "latest"
 "npm:difit" = "latest"
 rust = "latest"
 helix = "latest"
