@@ -25,6 +25,7 @@ docker-cli = "latest"
 lima = "latest"
 gcloud = "latest"
 docker-compose = "latest"
+"github:k1LoW/mo" = "latest"
 
 [settings]
 trusted_config_paths = [
