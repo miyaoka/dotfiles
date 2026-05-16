@@ -6,18 +6,23 @@ readonly CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
 # @ <enter> <enter> で opus medium・新規セッション起動
 @() {
   local selected
+  # effort ゲージ: low [▰▱▱▱▱] / medium [▰▰▱▱▱] / high [▰▰▰▱▱] / xhigh [▰▰▰▰▱] / max [▰▰▰▰▰]
+  # 色: low=灰 / medium=緑 / high=黄 / xhigh=橙 / max=赤太字 (寒色→暖色のグラデーション)
+  local C_LOW=$'\e[38;5;244m' C_MED=$'\e[38;5;35m' C_HI=$'\e[38;5;220m' C_XHI=$'\e[38;5;208m' C_MAX=$'\e[1;38;5;196m' C_RST=$'\e[0m'
   selected=$(printf '%s\n' \
-    "opus medium"$'\t'"通常実装 / 設定編集 / 長い会話継続" \
-    "opus high"$'\t'"設計判断 / 難バグ / 多ファイルrefactor" \
-    "opus low"$'\t'"確認のみ / 1行修正 / リネーム" \
-    "sonnet high"$'\t'"[cap節約] 通常実装 (auto mode不可)" \
-    "sonnet medium"$'\t'"[cap節約] 軽い作業 (auto mode不可)" \
-    "sonnet low"$'\t'"[cap節約] 確認のみ (auto mode不可)" | \
-    fzf --prompt="profile> " --height=12 --reverse --no-sort \
-        --delimiter=$'\t' --with-nth=1,2) || return 1
+    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"opus medium"$'\t'"通常実装 / 設定編集 / 長い会話継続" \
+    "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"opus high"$'\t'"設計判断 / 難バグ / 多ファイルrefactor" \
+    "${C_XHI}[▰▰▰▰▱]${C_RST}"$'\t'"opus xhigh"$'\t'"長時間の自律コーディング / 繰り返しツール呼び出し / 探索的多段タスク" \
+    "${C_MAX}[▰▰▰▰▰]${C_RST}"$'\t'"opus max"$'\t'"最終手段 / セキュリティ判断 / xhighで詰まった難問のみ (高コスト)" \
+    "${C_LOW}[▰▱▱▱▱]${C_RST}"$'\t'"opus low"$'\t'"確認のみ / 1行修正 / リネーム" \
+    "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"sonnet high"$'\t'"[cap節約] 通常実装 (auto mode不可)" \
+    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"sonnet medium"$'\t'"[cap節約] 軽い作業 (auto mode不可)" \
+    "${C_LOW}[▰▱▱▱▱]${C_RST}"$'\t'"sonnet low"$'\t'"[cap節約] 確認のみ (auto mode不可)" | \
+    fzf --ansi --prompt="profile> " --height=12 --reverse --no-sort \
+        --delimiter=$'\t' --with-nth=1,2,3) || return 1
 
   local profile
-  profile=$(echo "$selected" | cut -d$'\t' -f1)
+  profile=$(echo "$selected" | cut -d$'\t' -f2)
 
   local args=()
   case "$profile" in
@@ -27,6 +32,8 @@ readonly CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
     "opus low")      args+=(--model opus --effort low) ;;
     "opus medium")   args+=(--model opus --effort medium) ;;
     "opus high")     args+=(--model opus --effort high) ;;
+    "opus xhigh")    args+=(--model opus --effort xhigh) ;;
+    "opus max")      args+=(--model opus --effort max) ;;
   esac
 
   local mode
