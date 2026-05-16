@@ -2,6 +2,24 @@
 
 readonly CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
 
+# @ - effort と new/resume を fzf で選んで claude を起動
+# @ <enter> <enter> <enter> でデフォルト effort・新規セッション起動
+@() {
+  local effort
+  effort=$(printf "default\nlow\nmedium\nhigh\nxhigh\nmax" | \
+    fzf --prompt="effort> " --height=10 --reverse --no-sort) || return 1
+
+  local mode
+  mode=$(printf "new\nresume" | \
+    fzf --prompt="mode> " --height=10 --reverse --no-sort) || return 1
+
+  local args=()
+  [[ "$effort" != "default" ]] && args+=(--effort "$effort")
+  [[ "$mode" == "resume" ]] && args+=(--resume)
+
+  claude "${args[@]}"
+}
+
 # ISO 8601形式の日時を指定フォーマットに変換
 # 使用例: convert-iso-date "2025-08-05T02:12:52.335Z" "+%m/%d %H:%M"
 convert-iso-date() {

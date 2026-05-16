@@ -72,7 +72,7 @@ alias rmd='rm -rf **/dist'
 alias b='bun'
 
 # claude
-alias @='claude'
+# @ は functions.claude.zsh の関数（effort と new/resume を fzf で選択）
 alias @@='claude-session-resume'
 alias @@o='claude-session-open'
 alias @r='claude --resume'
