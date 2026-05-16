@@ -2,19 +2,36 @@
 
 readonly CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
 
-# @ - effort と new/resume を fzf で選んで claude を起動
-# @ <enter> <enter> <enter> でデフォルト effort・新規セッション起動
+# @ - profile（model + effort 組み合わせ）と new/resume を fzf で選んで claude を起動
+# @ <enter> <enter> で opus medium・新規セッション起動
 @() {
-  local effort
-  effort=$(printf "default\nlow\nmedium\nhigh\nxhigh\nmax" | \
-    fzf --prompt="effort> " --height=10 --reverse --no-sort) || return 1
+  local selected
+  selected=$(printf '%s\n' \
+    "opus medium"$'\t'"通常実装 / 設定編集 / 長い会話継続" \
+    "opus high"$'\t'"設計判断 / 難バグ / 多ファイルrefactor" \
+    "opus low"$'\t'"確認のみ / 1行修正 / リネーム" \
+    "sonnet high"$'\t'"[cap節約] 通常実装 (auto mode不可)" \
+    "sonnet medium"$'\t'"[cap節約] 軽い作業 (auto mode不可)" \
+    "sonnet low"$'\t'"[cap節約] 確認のみ (auto mode不可)" | \
+    fzf --prompt="profile> " --height=12 --reverse --no-sort \
+        --delimiter=$'\t' --with-nth=1,2) || return 1
+
+  local profile
+  profile=$(echo "$selected" | cut -d$'\t' -f1)
+
+  local args=()
+  case "$profile" in
+    "sonnet high")   args+=(--model sonnet --effort high) ;;
+    "sonnet medium") args+=(--model sonnet --effort medium) ;;
+    "sonnet low")    args+=(--model sonnet --effort low) ;;
+    "opus low")      args+=(--model opus --effort low) ;;
+    "opus medium")   args+=(--model opus --effort medium) ;;
+    "opus high")     args+=(--model opus --effort high) ;;
+  esac
 
   local mode
   mode=$(printf "new\nresume" | \
     fzf --prompt="mode> " --height=10 --reverse --no-sort) || return 1
-
-  local args=()
-  [[ "$effort" != "default" ]] && args+=(--effort "$effort")
   [[ "$mode" == "resume" ]] && args+=(--resume)
 
   claude "${args[@]}"
