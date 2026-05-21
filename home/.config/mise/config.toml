@@ -10,8 +10,6 @@ node = "latest"
 pnpm = "latest"
 shfmt = "latest"
 starship = "latest"
-"npm:@antfu/ni" = "latest"
-"npm:@anthropic-ai/claude-code" = "latest"
 "npm:difit" = "latest"
 rust = "latest"
 helix = "latest"
@@ -19,13 +17,15 @@ yazi = "latest"
 "github:trasta298/keifu" = "latest"
 "github:laishulu/macism" = { version = "latest", os = ["macos"] }
 "github:jfernandez/mdserve" = { version = "latest", bin = "mdserve" }
-"npm:@openai/codex" = "latest"
 colima = "latest"
 docker-cli = "latest"
 lima = "latest"
 gcloud = "latest"
 docker-compose = "latest"
 "github:k1LoW/mo" = "latest"
+claude-code = "latest"
+codex = "latest"
+ni = "latest"
 
 [settings]
 trusted_config_paths = [
