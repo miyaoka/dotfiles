@@ -3,17 +3,17 @@
 readonly CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
 
 # @ - profile（model + effort 組み合わせ）と new/resume を fzf で選んで claude を起動
-# @ <enter> <enter> で opus medium・新規セッション起動
+# @ <enter> <enter> で opus high・新規セッション起動
 @() {
   local selected
   # effort ゲージ: low [▰▱▱▱▱] / medium [▰▰▱▱▱] / high [▰▰▰▱▱] / xhigh [▰▰▰▰▱] / max [▰▰▰▰▰]
   # 色: low=灰 / medium=緑 / high=黄 / xhigh=橙 / max=赤太字 (寒色→暖色のグラデーション)
   local C_LOW=$'\e[38;5;244m' C_MED=$'\e[38;5;35m' C_HI=$'\e[38;5;220m' C_XHI=$'\e[38;5;208m' C_MAX=$'\e[1;38;5;196m' C_RST=$'\e[0m'
   selected=$(printf '%s\n' \
-    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"opus medium"$'\t'"通常実装 / 設定編集 / 長い会話継続" \
     "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"opus high"$'\t'"設計判断 / 難バグ / 多ファイルrefactor" \
     "${C_XHI}[▰▰▰▰▱]${C_RST}"$'\t'"opus xhigh"$'\t'"長時間の自律コーディング / 繰り返しツール呼び出し / 探索的多段タスク" \
     "${C_MAX}[▰▰▰▰▰]${C_RST}"$'\t'"opus max"$'\t'"最終手段 / セキュリティ判断 / xhighで詰まった難問のみ (高コスト)" \
+    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"opus medium"$'\t'"通常実装 / 設定編集 / 長い会話継続" \
     "${C_LOW}[▰▱▱▱▱]${C_RST}"$'\t'"opus low"$'\t'"確認のみ / 1行修正 / リネーム" \
     "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"sonnet high"$'\t'"[cap節約] 通常実装 (auto mode不可)" \
     "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"sonnet medium"$'\t'"[cap節約] 軽い作業 (auto mode不可)" \
