@@ -2,39 +2,26 @@
 
 readonly CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
 
-# @ - profile（model + effort 組み合わせ）と new/resume を fzf で選んで claude を起動
-# @ <enter> <enter> で opus high・新規セッション起動
+# @ - effort と new/resume を fzf で選んで claude を起動
+# @ <enter> <enter> で high・新規セッション起動
 @() {
   local selected
   # effort ゲージ: low [▰▱▱▱▱] / medium [▰▰▱▱▱] / high [▰▰▰▱▱] / xhigh [▰▰▰▰▱] / max [▰▰▰▰▰]
   # 色: low=灰 / medium=緑 / high=黄 / xhigh=橙 / max=赤太字 (寒色→暖色のグラデーション)
   local C_LOW=$'\e[38;5;244m' C_MED=$'\e[38;5;35m' C_HI=$'\e[38;5;220m' C_XHI=$'\e[38;5;208m' C_MAX=$'\e[1;38;5;196m' C_RST=$'\e[0m'
   selected=$(printf '%s\n' \
-    "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"opus high"$'\t'"設計判断 / 難バグ / 多ファイルrefactor" \
-    "${C_XHI}[▰▰▰▰▱]${C_RST}"$'\t'"opus xhigh"$'\t'"長時間の自律コーディング / 繰り返しツール呼び出し / 探索的多段タスク" \
-    "${C_MAX}[▰▰▰▰▰]${C_RST}"$'\t'"opus max"$'\t'"最終手段 / セキュリティ判断 / xhighで詰まった難問のみ (高コスト)" \
-    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"opus medium"$'\t'"通常実装 / 設定編集 / 長い会話継続" \
-    "${C_LOW}[▰▱▱▱▱]${C_RST}"$'\t'"opus low"$'\t'"確認のみ / 1行修正 / リネーム" \
-    "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"sonnet high"$'\t'"[cap節約] 通常実装 (auto mode不可)" \
-    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"sonnet medium"$'\t'"[cap節約] 軽い作業 (auto mode不可)" \
-    "${C_LOW}[▰▱▱▱▱]${C_RST}"$'\t'"sonnet low"$'\t'"[cap節約] 確認のみ (auto mode不可)" | \
-    fzf --ansi --prompt="profile> " --height=12 --reverse --no-sort \
+    "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"high"$'\t'"設計判断 / 難バグ / 多ファイルrefactor" \
+    "${C_XHI}[▰▰▰▰▱]${C_RST}"$'\t'"xhigh"$'\t'"長時間の自律コーディング / 繰り返しツール呼び出し / 探索的多段タスク" \
+    "${C_MAX}[▰▰▰▰▰]${C_RST}"$'\t'"max"$'\t'"最終手段 / セキュリティ判断 / xhighで詰まった難問のみ (高コスト)" \
+    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"medium"$'\t'"通常実装 / 設定編集 / 長い会話継続" \
+    "${C_LOW}[▰▱▱▱▱]${C_RST}"$'\t'"low"$'\t'"確認のみ / 1行修正 / リネーム" | \
+    fzf --ansi --prompt="effort> " --height=12 --reverse --no-sort \
         --delimiter=$'\t' --with-nth=1,2,3) || return 1
 
-  local profile
-  profile=$(echo "$selected" | cut -d$'\t' -f2)
+  local effort
+  effort=$(echo "$selected" | cut -d$'\t' -f2)
 
-  local args=()
-  case "$profile" in
-    "sonnet high")   args+=(--model sonnet --effort high) ;;
-    "sonnet medium") args+=(--model sonnet --effort medium) ;;
-    "sonnet low")    args+=(--model sonnet --effort low) ;;
-    "opus low")      args+=(--model opus --effort low) ;;
-    "opus medium")   args+=(--model opus --effort medium) ;;
-    "opus high")     args+=(--model opus --effort high) ;;
-    "opus xhigh")    args+=(--model opus --effort xhigh) ;;
-    "opus max")      args+=(--model opus --effort max) ;;
-  esac
+  local args=(--effort "$effort")
 
   local mode
   mode=$(printf "new\nresume" | \
