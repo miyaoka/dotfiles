@@ -26,6 +26,7 @@ docker-compose = "latest"
 claude-code = "latest"
 codex = "latest"
 ni = "latest"
+herdr = "latest"
 
 [settings]
 trusted_config_paths = [
