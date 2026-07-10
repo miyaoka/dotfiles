@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# brew と mise を更新し、管理下のツールをインストール/更新
+# mise を更新し、管理下のシステムパッケージとツールをインストール/更新
 
 set -e # エラー時に終了
 
@@ -23,38 +23,6 @@ log_error() {
   printf "${RED}%s${NC}\n" "$1"
 }
 
-# Homebrew のインストール確認
-check_brew() {
-  if ! command -v brew >/dev/null 2>&1; then
-    log_error "Homebrew がインストールされていません"
-    log_info "以下のコマンドでインストールしてください:"
-    echo '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-    exit 1
-  fi
-}
-
-# brew ツールのインストールまたは更新
-install_brew_tool() {
-  local tool=$1
-  local formula=${2:-$tool} # 第2引数がなければ第1引数を使用
-
-  log_info "$tool をインストール中..."
-  if brew list "$formula" >/dev/null 2>&1; then
-    if brew outdated "$formula" | grep -q "$formula"; then
-      brew upgrade "$formula"
-    else
-      log_info "$tool is up to date"
-    fi
-  else
-    if brew install "$formula"; then
-      log_info "$tool のインストールが完了しました"
-    else
-      log_error "$tool のインストールに失敗しました"
-      return 1
-    fi
-  fi
-}
-
 # mise のインストール
 install_mise() {
   log_info "mise をインストール中..."
@@ -69,24 +37,20 @@ install_mise() {
 
 # メイン処理
 main() {
-  echo "=== brew ==="
-  check_brew
-  log_info "Homebrew をインストール中..."
-  brew update
-
-  BREW_TOOLS=(
-    "git:git"
-  )
-
-  for tool_spec in "${BREW_TOOLS[@]}"; do
-    IFS=':' read -r tool formula <<<"$tool_spec"
-    install_brew_tool "$tool" "$formula"
-  done
-
-  echo ""
   echo "=== mise ==="
   install_mise
 
+  echo ""
+  echo "=== system packages ==="
+  # [bootstrap.packages] のパッケージを mise 内蔵の brew バックエンドで導入・更新
+  # （Homebrew 本体は不要。apply = 未導入の導入、upgrade = 導入済みの更新）
+  log_info "システムパッケージをインストール中..."
+  mise bootstrap packages apply --yes
+  log_info "システムパッケージを更新中..."
+  mise bootstrap packages upgrade --yes
+
+  echo ""
+  echo "=== tools ==="
   log_info "mise で管理するツールをインストール中..."
   mise install
 

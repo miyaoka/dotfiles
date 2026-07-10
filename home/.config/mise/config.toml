@@ -1,5 +1,10 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
+# mise 内蔵の brew バックエンドで導入するシステムパッケージ（Homebrew 本体は不要）
+# 導入: mise bootstrap packages apply / 更新: mise bootstrap packages upgrade
+[bootstrap.packages]
+"brew:git" = "latest"
+
 [tools]
 bun = "latest"
 fzf = "latest"
