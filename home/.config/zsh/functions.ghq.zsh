@@ -2,21 +2,37 @@
 GHQ_SELECT_HISTFILE="$HOME/.cache/.ghq_fzf_history"
 
 # org/repo 形式または URL を受け取って ghq get する
+# org のみ指定した場合は gh でその org のリポジトリ一覧を取得し fzf で選択する
 ghq-clone() {
   # 引数チェック：何も指定がなければ使い方を表示して終了
   if [ $# -lt 1 ]; then
-    echo "Usage: repo-get <org/repo> | <git URL>" >&2
+    echo "Usage: ghq-clone <org/repo> | <org> | <git URL>" >&2
     return 1
   fi
 
   local target="$1"
 
-  # 引数が URL (https://... or git@...) ならそのまま、そうでなければ github.com/<org/repo> とする
+  # 引数が URL (https://... or git@...) ならそのまま ghq get する
   if [[ "$target" =~ ^https?:// ]] || [[ "$target" =~ ^git@ ]]; then
     ghq get "$target"
-  else
-    ghq get "github.com/${target}"
+    return
   fi
+
+  # スラッシュを含まない場合は org 指定とみなし、リポジトリ一覧から fzf で選択
+  if [[ "$target" != */* ]]; then
+    local selected
+    selected=$(
+      # gh repo list は push が新しい順に返す
+      gh repo list "$target" --limit 200 --json nameWithOwner --jq '.[].nameWithOwner' |
+        fzf --reverse \
+          --header="repositories in ${target}" \
+          --preview-window=right:40% \
+          --preview="gh repo view {} 2>/dev/null"
+    ) || return # キャンセル時は関数を終了
+    target="$selected"
+  fi
+
+  ghq get "github.com/${target}"
 }
 
 # ファイル内容を逆順出力
