@@ -3,7 +3,6 @@
 	name = miyaoka
 	email = miyaokamiyao@gmail.com
 [core]
-	editor = $EDITOR
 	ignorecase = false
 [credential]
 	helper = cache

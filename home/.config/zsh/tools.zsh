@@ -20,17 +20,14 @@ eval "$(mise activate zsh)"
 if [[ -n "$WSL_DISTRO_NAME" ]]; then
   # WSL環境
   export BROWSER="explorer.exe"
-  export EDITOR="code -w"
 elif [[ "$(uname)" == "Darwin" ]]; then
   # macOS環境
   export BROWSER="open"
-  export EDITOR=gozd
   # シェル起動時にIMEをオフ（複数ペイン同時起動時の競合回避のため遅延実行）
   { sleep 0.5 && macism com.apple.keylayout.ABC } &!
 else
   # その他Linux環境
   export BROWSER="xdg-open"
-  export EDITOR=hx
 fi
 
 # starship
