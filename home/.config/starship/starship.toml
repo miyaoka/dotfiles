@@ -28,14 +28,6 @@ format = "[⬢ $version](bold green) "
 [bun]
 style="purple"
 
-# pnpm のバージョンを表示するカスタムモジュール（starship にビルトインの pnpm モジュールがないため）
-[custom.pnpm]
-description = "Show pnpm version when pnpm-lock.yaml exists"
-detect_files = ["pnpm-lock.yaml"]
-command = "pnpm --version"
-shell = ["sh", "--norc"]
-format = "[📦$output](bold yellow) "
-
 [git_branch]
 format = "[$branch]($style)${custom.github_pr} "
 symbol = "🌱 "
