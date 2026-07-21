@@ -32,6 +32,7 @@ claude-code = "latest"
 codex = "latest"
 ni = "latest"
 herdr = "latest"
+"github:miyaoka/gozd" = { version = "latest", prerelease = "true", postinstall = '"$MISE_TOOL_INSTALL_PATH/bin/gozd" sync-app' }
 
 [settings]
 trusted_config_paths = [
@@ -42,4 +43,4 @@ trusted_config_paths = [
   '~/.local/share/gozd/',
 ]
 idiomatic_version_file_enable_tools = []
-minimum_release_age_excludes = ["claude-code"]
+minimum_release_age_excludes = ["claude-code", "github:miyaoka/gozd"]
