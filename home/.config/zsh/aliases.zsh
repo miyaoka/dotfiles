@@ -77,6 +77,7 @@ alias b='bun'
 alias @@='claude-session-resume'
 alias @@o='claude-session-open'
 alias @r='claude --resume'
+alias @='claude'
 
 # oh-my-logo
 alias logo="bunx oh-my-logo@latest --filled"

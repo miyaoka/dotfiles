@@ -4,17 +4,17 @@ readonly CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
 
 # @ - effort と new/resume を fzf で選んで claude を起動
 # @ <enter> <enter> で high・新規セッション起動
-@() {
+claude-boot() {
   local selected
   # effort ゲージ: low [▰▱▱▱▱] / medium [▰▰▱▱▱] / high [▰▰▰▱▱] / xhigh [▰▰▰▰▱] / max [▰▰▰▰▰]
   # 色: low=灰 / medium=緑 / high=黄 / xhigh=橙 / max=赤太字 (寒色→暖色のグラデーション)
   local C_LOW=$'\e[38;5;244m' C_MED=$'\e[38;5;35m' C_HI=$'\e[38;5;220m' C_XHI=$'\e[38;5;208m' C_MAX=$'\e[1;38;5;196m' C_RST=$'\e[0m'
   selected=$(printf '%s\n' \
-    "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"high"$'\t'"設計判断 / 難バグ / 多ファイルrefactor" \
-    "${C_XHI}[▰▰▰▰▱]${C_RST}"$'\t'"xhigh"$'\t'"長時間の自律コーディング / 繰り返しツール呼び出し / 探索的多段タスク" \
-    "${C_MAX}[▰▰▰▰▰]${C_RST}"$'\t'"max"$'\t'"最終手段 / セキュリティ判断 / xhighで詰まった難問のみ (高コスト)" \
-    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"medium"$'\t'"通常実装 / 設定編集 / 長い会話継続" \
-    "${C_LOW}[▰▱▱▱▱]${C_RST}"$'\t'"low"$'\t'"確認のみ / 1行修正 / リネーム" | \
+    "${C_HI}[▰▰▰▱▱]${C_RST}"$'\t'"high" \
+    "${C_MED}[▰▰▱▱▱]${C_RST}"$'\t'"medium" \
+    "${C_XHI}[▰▰▰▰▱]${C_RST}"$'\t'"xhigh" \
+    "${C_MAX}[▰▰▰▰▰]${C_RST}"$'\t'"max" \
+    "${C_LOW}[▰▱▱▱▱]${C_RST}"$'\t'"low" | \
     fzf --ansi --prompt="effort> " --height=12 --reverse --no-sort \
         --delimiter=$'\t' --with-nth=1,2,3) || return 1
 
