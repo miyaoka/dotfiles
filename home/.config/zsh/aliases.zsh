@@ -96,3 +96,6 @@ alias k="keifu"
 
 # gozd
 alias z="gozd"
+
+# gcloud
+alias gca="gcloud auth login"
