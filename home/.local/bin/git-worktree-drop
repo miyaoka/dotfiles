@@ -1,0 +1,78 @@
+#!/bin/bash
+# worktree を $TMPDIR へ rename してから git worktree remove を呼び、実体は非同期に削除する。
+#
+# git worktree remove は worktree 配下の全エントリを unlink するため、依存ツリーや
+# ビルド成果物を抱えた worktree では件数に比例して待たされる。rename(2) はディレクトリ
+# エントリ 1 個の更新で済むので、先に退避すれば中身の量に関わらず一定時間で終わる。
+#
+# git は worktree の実体が無くても not-a-worktree / main worktree / locked / validate を
+# 判定する。パスの存在で分岐するのは dirty 判定と実削除だけなので、dirty 判定のみ
+# 呼び出し側で行う。判定内容は builtin/worktree.c の check_clean_worktree に対応する。
+
+set -uo pipefail
+
+if [ $# -eq 0 ]; then
+  echo "Usage: git-worktree-drop <worktree-path>..." >&2
+  exit 1
+fi
+
+trash_root="${TMPDIR:-/tmp}"
+
+# check_clean_worktree 相当。git が worktree の実体を見て行う判定をここで肩代わりする。
+is_clean() {
+  local worktree=$1
+
+  # validate_no_submodules 相当。git は clean な submodule でも削除を拒む。
+  # 先頭 '-' は未初期化を表し、git が問題にするのは展開済みのものだけ。
+  if [ -n "$(git -C "$worktree" submodule status 2>/dev/null | grep -v '^-')" ]; then
+    echo "git-worktree-drop: '$worktree' contains populated submodules" >&2
+    return 1
+  fi
+
+  if [ -n "$(git -C "$worktree" status --porcelain --ignore-submodules=none)" ]; then
+    echo "git-worktree-drop: '$worktree' contains modified or untracked files" >&2
+    return 1
+  fi
+}
+
+status=0
+trashes=()
+
+for worktree in "$@"; do
+  if [ ! -d "$worktree" ]; then
+    echo "git-worktree-drop: $worktree is not a directory" >&2
+    status=1
+    continue
+  fi
+
+  # rename(2) はファイルシステムを跨げず、跨ぐと mv はコピーへ落ちて速度の利点が消える
+  if [ "$(stat -f %d "$worktree")" != "$(stat -f %d "$trash_root")" ]; then
+    echo "git-worktree-drop: $trash_root and $worktree are on different filesystems" >&2
+    status=1
+    continue
+  fi
+
+  if ! is_clean "$worktree"; then
+    status=1
+    continue
+  fi
+
+  trash=$(mktemp -d "$trash_root/wt-trash.XXXXXX") || exit 1
+  mv "$worktree" "$trash/0" || exit 1
+
+  # 残る判定は git が行う。拒否されたら worktree を元の位置へ戻す。
+  if git worktree remove "$worktree"; then
+    trashes+=("$trash")
+  else
+    mv "$trash/0" "$worktree" || exit 1
+    rm -rf "$trash"
+    status=1
+  fi
+done
+
+# unlink は切り離したプロセスへ渡し、シェルは待たない
+if [ ${#trashes[@]} -gt 0 ]; then
+  nohup rm -rf "${trashes[@]}" >/dev/null 2>&1 &
+fi
+
+exit $status
