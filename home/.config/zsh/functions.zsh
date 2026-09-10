@@ -315,3 +315,40 @@ mise-tracked-usage() {
   echo "\033[36m$selected\033[0m"
   echo "$data" | grep -F "$selected" | cut -f1 | sed "s|$HOME|~|g"
 }
+
+# 指定名のディレクトリを $TMPDIR へ rename して非同期に削除する
+# unlink は配下のエントリ数に比例するが、rename(2) はディレクトリエントリ 1 個の更新で済み
+# 配下の件数に依存しない。実体の削除は切り離したプロセスへ渡し、シェルは待たない。
+rm-dirs-async() {
+  local name=$1
+  if [[ -z "$name" ]]; then
+    echo "Usage: rm-dirs-async <dirname>" >&2
+    return 1
+  fi
+
+  local trash_root="${TMPDIR:-/tmp}"
+
+  # rename(2) はファイルシステムを跨げず、跨ぐと mv はコピーへ落ちて速度の利点が消える
+  if [[ "$(stat -f %d .)" != "$(stat -f %d "$trash_root")" ]]; then
+    echo "rm-dirs-async: $trash_root and $PWD are on different filesystems" >&2
+    return 1
+  fi
+
+  local trash
+  trash=$(mktemp -d "$trash_root/rm-trash.XXXXXX") || return 1
+
+  # -prune で対象配下へ降りず、1 ディレクトリあたり rename 1 回に抑える。
+  # 入れ子は親ごと移動するので、降りると既に消えたパスを掴んで mv が失敗する。
+  # 平坦化するとパスが衝突する（どれも同名）ため連番へ rename する。
+  local dir
+  local count=0
+  while IFS= read -r -d '' dir; do
+    mv "$dir" "$trash/$count" || return 1
+    count=$((count + 1))
+  done < <(find . -name "$name" -type d -prune -print0)
+
+  echo "rm-dirs-async: moved $count $name"
+
+  # glob は中断した過去の実行が残した trash も回収する
+  nohup rm -rf "$trash_root"/rm-trash.* >/dev/null 2>&1 &!
+}

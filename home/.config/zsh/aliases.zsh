@@ -66,8 +66,9 @@ alias mtc='mise config ls --tracked-configs'
 alias mtu='mise-tracked-usage'
 
 # rm
-alias rmn='rm -rf **/node_modules'
-alias rmd='rm -rf **/dist'
+# functions.zsh の rm-dirs-async（$TMPDIR へ rename して非同期削除）
+alias rmn='rm-dirs-async node_modules'
+alias rmd='rm-dirs-async dist'
 
 # bun
 alias b='bun'
