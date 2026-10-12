@@ -32,6 +32,7 @@
     - `zsh/` - Zsh 設定ファイル群
     - `starship/` - Starship 設定ファイル群
     - `mise/` - mise ランタイム管理ツール設定
+      - `plugins/` - `config.toml` の `[plugins]` から参照するツールプラグイン
     - `tmux/` - tmux 設定ファイル群
 
 ## 設定内容
