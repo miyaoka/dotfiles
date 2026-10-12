@@ -5,6 +5,9 @@
 [bootstrap.packages]
 "brew:git" = "latest"
 
+[plugins]
+meltype = "~/.config/mise/plugins/meltype"
+
 [tools]
 bun = "latest"
 fzf = "latest"
@@ -34,6 +37,7 @@ ni = "latest"
 herdr = "latest"
 "github:miyaoka/gozd" = { version = "latest", prerelease = "true", postinstall = '"$MISE_TOOL_INSTALL_PATH/bin/gozd" sync-app' }
 "github:yusukebe/ax" = "latest"
+meltype = { version = "latest", os = ["macos/arm64"] }
 
 [settings]
 trusted_config_paths = [
