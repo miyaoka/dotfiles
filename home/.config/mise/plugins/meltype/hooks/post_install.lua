@@ -13,6 +13,8 @@ function PLUGIN:PostInstall(ctx)
     end
     cmd.exec("ditto -x -k " .. meltype.quote(zip) .. " " .. meltype.quote(ctx.rootPath))
     os.remove(zip)
+    -- 前のバージョンが残したジョブを外し、install.sh の失敗後にジョブがあることを起動成功の印として使う
+    cmd.exec("launchctl remove " .. meltype.launchd_label .. " || true")
     local script = ctx.rootPath .. "/" .. meltype.package_dir .. "/install.sh"
     local ok, err = pcall(cmd.exec, "bash " .. meltype.quote(script), { timeout = 120 })
     if ok then
