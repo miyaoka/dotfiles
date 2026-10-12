@@ -26,5 +26,5 @@ function PLUGIN:PostInstall(ctx)
         error(err)
     end
     log.warn(err)
-    log.warn("Meltype.app は配置済み。ログアウトしてログインし直し、入力メニューで Meltype を選ぶ")
+    log.warn("Meltype.app は配置済み。ログインし直した後、システム設定 → キーボード → 入力ソースの「+」→ 日本語 → Meltype で追加する")
 end
