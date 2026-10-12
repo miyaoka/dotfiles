@@ -28,8 +28,7 @@ local function bundle_version(app)
     return cmd.exec("/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' " .. plist)
 end
 
--- ~/Library/Input Methods の Meltype.app が、展開先 root の版と同じか
-function M.is_installed(root)
+function M.installed_version_matches(root)
     local installed = M.installed_app()
     if not file.exists(installed) then
         return false
@@ -50,7 +49,6 @@ function M.find_asset(release, name)
     return nil
 end
 
--- 版の mac.zip の URL と SHA-256 を返す
 function M.release_asset(version)
     local resp = http.get({ url = M.releases_url .. "/tags/v" .. version })
     if resp.status_code ~= 200 then
@@ -66,6 +64,11 @@ function M.release_asset(version)
         error("no sha256 digest for " .. name)
     end
     return { name = name, url = asset.browser_download_url, sha256 = sha256 }
+end
+
+function M.launchd_job_exists()
+    local ok = pcall(cmd.exec, "launchctl list " .. M.launchd_label)
+    return ok
 end
 
 return M

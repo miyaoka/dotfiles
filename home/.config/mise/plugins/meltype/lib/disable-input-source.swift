@@ -33,7 +33,7 @@ if isMeltype(current) {
     }
 }
 
-let sources = TISCreateInputSourceList(nil, true).takeRetainedValue() as! [TISInputSource]
+let sources = TISCreateInputSourceList(nil, false).takeRetainedValue() as! [TISInputSource]
 for source in sources where isMeltype(source) {
     let status = TISDisableInputSource(source)
     guard status == noErr else {

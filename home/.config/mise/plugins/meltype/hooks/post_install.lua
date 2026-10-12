@@ -18,9 +18,9 @@ function PLUGIN:PostInstall(ctx)
     if ok then
         return
     end
-    -- 初めて入れたときや更新直後は、macOS がログインし直すまで入力ソースを有効にせず、install.sh の起動・選択が失敗する。
+    -- 初めて入れたときや更新直後は、macOS がログインし直すまで入力ソースを有効にせず、install.sh の最後の選択が失敗する。
     -- ここで失敗させると mise が展開先を消し、配置済みの Meltype.app を mise uninstall で消せなくなる
-    if not meltype.is_installed(ctx.rootPath) then
+    if not (meltype.installed_version_matches(ctx.rootPath) and meltype.launchd_job_exists()) then
         error(err)
     end
     log.warn(err)
