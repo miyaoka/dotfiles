@@ -11,8 +11,14 @@
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [core]
 	ignorecase = false
-[credential]
-	helper = cache
+
+# github auth via gh (empty helper resets the system osxkeychain helper)
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
 
 # recommended https://blog.gitbutler.com/how-git-core-devs-configure-git/
 [column]
