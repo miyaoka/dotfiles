@@ -38,6 +38,7 @@ herdr = "latest"
 "github:miyaoka/gozd" = { version = "latest", prerelease = "true", postinstall = '"$MISE_TOOL_INSTALL_PATH/bin/gozd" sync-app' }
 "github:yusukebe/ax" = "latest"
 meltype = { version = "latest", os = ["macos/arm64"] }
+1password = "latest"
 
 [settings]
 trusted_config_paths = [
