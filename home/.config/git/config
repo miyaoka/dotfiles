@@ -2,6 +2,13 @@
 [user]
 	name = miyaoka
 	email = miyaokamiyao@gmail.com
+	signingkey = "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILrIlWQ2Y8sfupJfUQQmCgrUDiMXqGEXKkn/bX0kTOeU"
+
+# signing (1Password SSH key)
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [core]
 	ignorecase = false
 [credential]
@@ -14,6 +21,7 @@
   sort = -committerdate
 [tag]
   sort = version:refname
+  gpgSign = true
 [init]
 	defaultBranch = main
 [diff]
@@ -33,6 +41,7 @@
   autocorrect = prompt
 [commit]
   verbose = true
+  gpgSign = true
 [rerere]
 	enabled = true
   autoupdate = true
