@@ -35,7 +35,8 @@ claude-code = "latest"
 codex = "latest"
 ni = "latest"
 herdr = "latest"
-"github:miyaoka/gozd" = { version = "latest", prerelease = "true", postinstall = '"$MISE_TOOL_INSTALL_PATH/bin/gozd" sync-app' }
+# mise-versions.jdx.dev のミラーは公開直後の版を持たない。api_url が "https://api.github.com" と文字列一致するときだけミラーを使うので、:443 を付けて外す
+"github:miyaoka/gozd" = { version = "latest", prerelease = "true", api_url = "https://api.github.com:443", postinstall = '"$MISE_TOOL_INSTALL_PATH/bin/gozd" sync-app' }
 "github:yusukebe/ax" = "latest"
 meltype = { version = "latest", os = ["macos/arm64"] }
 1password = "latest"
