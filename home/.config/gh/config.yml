@@ -22,6 +22,8 @@ accessible_colors: disabled
 accessible_prompter: disabled
 # Whether to use a animated spinner as a progress indicator. If disabled, a textual progress indicator is used instead. Supported values: enabled, disabled
 spinner: enabled
+# Whether to request expiring, auto-refreshing OAuth tokens on sign-in. Supported values: enabled, disabled
+expiring_credentials: enabled
 # Aliases allow you to create nicknames for gh commands
 aliases:
   # alias一覧
