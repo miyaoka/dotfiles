@@ -42,18 +42,25 @@ for source in sources where isMeltype(source) {
     }
 }
 
-// Meltype のインストーラーは AppleEnabledInputSources に直接書き込む。
-// ログインし直すまで macOS が Meltype を有効にしないため、TIS から無効にできない項目が残る
-guard let defaults = UserDefaults(suiteName: "com.apple.HIToolbox") else {
-    fputs("com.apple.HIToolbox を開けません\n", stderr)
-    exit(1)
-}
-let enabled = defaults.array(forKey: "AppleEnabledInputSources") as? [[String: Any]] ?? []
-let remaining = enabled.filter {
-    ($0["Bundle ID"] as? String) != prefix &&
-    !($0["Input Mode"] as? String ?? "").hasPrefix(prefix)
-}
-if remaining.count != enabled.count {
-    defaults.set(remaining, forKey: "AppleEnabledInputSources")
-    defaults.synchronize()
+// Meltype のインストーラーは有効な入力ソースの一覧に直接書き込む。
+// ログインし直すまで macOS が Meltype を有効にしないため、TIS から無効にできない項目が残る。
+// macOS はサードパーティの入力ソースを別の一覧にも持ち、Meltype は両方に入りうる
+let enabledLists = [
+    "com.apple.HIToolbox": "AppleEnabledInputSources",
+    "com.apple.inputsources": "AppleEnabledThirdPartyInputSources",
+]
+for (suite, key) in enabledLists {
+    guard let defaults = UserDefaults(suiteName: suite) else {
+        fputs("\(suite) を開けません\n", stderr)
+        exit(1)
+    }
+    let enabled = defaults.array(forKey: key) as? [[String: Any]] ?? []
+    let remaining = enabled.filter {
+        ($0["Bundle ID"] as? String) != prefix &&
+        !($0["Input Mode"] as? String ?? "").hasPrefix(prefix)
+    }
+    if remaining.count != enabled.count {
+        defaults.set(remaining, forKey: key)
+        defaults.synchronize()
+    }
 }
