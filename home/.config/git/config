@@ -13,12 +13,13 @@
 	ignorecase = false
 
 # github auth via gh (empty helper resets the system osxkeychain helper)
+# mise shim path: GUI apps spawn git without mise on PATH
 [credential "https://github.com"]
 	helper =
-	helper = !gh auth git-credential
+	helper = !~/.local/share/mise/shims/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper =
-	helper = !gh auth git-credential
+	helper = !~/.local/share/mise/shims/gh auth git-credential
 
 # recommended https://blog.gitbutler.com/how-git-core-devs-configure-git/
 [column]
