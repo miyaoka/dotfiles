@@ -37,10 +37,10 @@ ni = "latest"
 herdr = "latest"
 # mise-versions.jdx.dev のミラーは公開直後の版を持たない。api_url が "https://api.github.com" と文字列一致するときだけミラーを使うので、:443 を付けて外す
 "github:miyaoka/gozd" = { version = "latest", prerelease = "true", api_url = "https://api.github.com:443", postinstall = '"$MISE_TOOL_INSTALL_PATH/bin/gozd" sync-app' }
-"github:miyaoka/tugime" = { version = "latest", api_url = "https://api.github.com:443", postinstall = '"$MISE_TOOL_INSTALL_PATH/install.sh" "$MISE_TOOL_INSTALL_PATH/tugime.app"' }
 "github:yusukebe/ax" = "latest"
 meltype = { version = "latest", os = ["macos/arm64"] }
 1password = "latest"
+"packslip:github.com/miyaoka/tugime" = { version = "latest", workflow = "release.yml@refs/heads/main", postinstall = '"$MISE_TOOL_INSTALL_PATH/install.sh" "$MISE_TOOL_INSTALL_PATH/tugime.app"' }
 
 [settings]
 trusted_config_paths = [
@@ -51,4 +51,4 @@ trusted_config_paths = [
   '~/.local/share/gozd/',
 ]
 idiomatic_version_file_enable_tools = []
-minimum_release_age_excludes = ["claude-code", "github:miyaoka/gozd", "github:miyaoka/tugime"]
+minimum_release_age_excludes = ["claude-code", "github:miyaoka/gozd", "packslip:github.com/miyaoka/tugime"]
