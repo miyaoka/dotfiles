@@ -51,4 +51,7 @@ trusted_config_paths = [
   '~/.local/share/gozd/',
 ]
 idiomatic_version_file_enable_tools = []
+lockfile_platforms = ["macos-arm64"]
+# 2026.10.19 で既定になった generate は、lockfile_platforms が現在のプラットフォームだけのとき、npm: のツールの install が "missing lockfile entry" で失敗する
+lockfile_mode = "merge"
 minimum_release_age_excludes = ["claude-code", "github:miyaoka/gozd", "packslip:github.com/miyaoka/tugime"]
